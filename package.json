@@ -1,6 +1,6 @@
 {
   "name": "@noisedeck/handfish",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Handfish Design System - UI components and styles for Noisemaker-based applications",
   "type": "module",
   "main": "src/index.js",
@@ -15,7 +15,7 @@
     "dist/"
   ],
   "scripts": {
-    "dev": "npx serve examples -p 3000",
+    "dev": "npx serve . -p 3000",
     "build": "echo 'No build step required - ES modules'"
   },
   "keywords": [

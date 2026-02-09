@@ -1,42 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handfish Design System - Component Preview</title>
-    
-    <!-- Import Handfish styles -->
+    <title>Handfish Design System</title>
     <link rel="stylesheet" href="../src/styles/index.css">
-    
     <style>
-        /* Demo-specific styles */
         body {
             padding: 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
-
-        .demo-header {
-            margin-bottom: 3rem;
-        }
-
+        .demo-header { margin-bottom: 3rem; }
         .demo-header h1 {
             font-size: var(--hf-size-2xl);
             font-weight: var(--hf-weight-bold);
             color: var(--hf-color-7);
             margin: 0 0 0.5rem 0;
         }
-
         .demo-header p {
             font-size: var(--hf-size-base);
             color: var(--hf-color-5);
             margin: 0;
         }
-
-        .demo-section {
-            margin-bottom: 3rem;
-        }
-
+        .demo-section { margin-bottom: 3rem; }
         .demo-section h2 {
             font-size: var(--hf-size-lg);
             font-weight: var(--hf-weight-semibold);
@@ -47,20 +34,17 @@
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--hf-border);
         }
-
         .demo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
         }
-
         .demo-item {
             padding: 1.5rem;
             background: color-mix(in srgb, var(--hf-color-2) 80%, transparent 20%);
             border: 1px solid var(--hf-border);
             border-radius: var(--hf-radius);
         }
-
         .demo-item h3 {
             font-size: var(--hf-size-sm);
             font-weight: var(--hf-weight-semibold);
@@ -69,33 +53,27 @@
             color: var(--hf-color-5);
             margin: 0 0 1rem 0;
         }
-
         .demo-item-content {
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
         }
-
         .demo-row {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-
         .demo-label {
             font-size: var(--hf-size-sm);
             color: var(--hf-color-5);
             min-width: 80px;
         }
-
-        /* Color swatches */
         .color-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 0.5rem;
         }
-
-        .color-swatch {
+        .color-swatch-demo {
             aspect-ratio: 1;
             border-radius: var(--hf-radius-sm);
             border: 1px solid var(--hf-border);
@@ -106,27 +84,22 @@
             font-size: var(--hf-size-xs);
             color: var(--hf-color-5);
         }
-
         .accent-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 0.5rem;
         }
-
-        /* Typography samples */
-        .type-sample {
-            color: var(--hf-color-6);
+        .semantic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
         }
-
-        /* Theme toggle */
         .theme-toggle {
             position: fixed;
             top: 1rem;
             right: 1rem;
             z-index: 1000;
         }
-
-        /* Output display */
         .output {
             padding: 0.5rem;
             background: var(--hf-color-1);
@@ -134,50 +107,82 @@
             font-family: var(--hf-font-family-mono);
             font-size: var(--hf-size-sm);
             color: var(--hf-accent-3);
+            min-height: 1.5em;
+        }
+        .type-sample { color: var(--hf-color-6); }
+        .swatch-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .gradient-preview {
+            height: 24px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+        .wide { grid-column: span 2; }
+        .full-width { grid-column: 1 / -1; }
+        .toast-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
     </style>
 </head>
 <body>
     <div class="theme-toggle">
-        <toggle-switch id="themeToggle" label="Dark Mode" checked></toggle-switch>
+        <toggle-switch id="themeToggle" checked></toggle-switch>
     </div>
 
     <header class="demo-header">
-        <h1>🐟 Handfish Design System</h1>
-        <p>A modern, accessible component library for creative tools</p>
+        <h1>Handfish Design System</h1>
+        <p>Component library for Noisemaker-based applications</p>
     </header>
 
-    <!-- Colors Section -->
+    <!-- ================================================================
+         1. Design Tokens
+         ================================================================ -->
     <section class="demo-section">
-        <h2>Colors</h2>
-        
-        <div class="demo-item" style="grid-column: 1 / -1;">
-            <h3>Base Palette</h3>
-            <div class="color-grid">
-                <div class="color-swatch" style="background: var(--hf-color-1);">1</div>
-                <div class="color-swatch" style="background: var(--hf-color-2);">2</div>
-                <div class="color-swatch" style="background: var(--hf-color-3);">3</div>
-                <div class="color-swatch" style="background: var(--hf-color-4);">4</div>
-                <div class="color-swatch" style="background: var(--hf-color-5); color: var(--hf-color-1);">5</div>
-                <div class="color-swatch" style="background: var(--hf-color-6); color: var(--hf-color-1);">6</div>
-                <div class="color-swatch" style="background: var(--hf-color-7); color: var(--hf-color-1);">7</div>
+        <h2>design tokens</h2>
+        <div class="demo-grid">
+            <div class="demo-item full-width">
+                <h3>Base Palette</h3>
+                <div class="color-grid">
+                    <div class="color-swatch-demo" style="background: var(--hf-color-1);">1</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-color-2);">2</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-color-3);">3</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-color-4);">4</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-color-5); color: var(--hf-color-1);">5</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-color-6); color: var(--hf-color-1);">6</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-color-7); color: var(--hf-color-1);">7</div>
+                </div>
             </div>
-        </div>
-
-        <div class="demo-item" style="grid-column: 1 / -1;">
-            <h3>Accent Palette</h3>
-            <div class="accent-grid">
-                <div class="color-swatch" style="background: var(--hf-accent-1);">1</div>
-                <div class="color-swatch" style="background: var(--hf-accent-2);">2</div>
-                <div class="color-swatch" style="background: var(--hf-accent-3); color: var(--hf-color-1);">3</div>
-                <div class="color-swatch" style="background: var(--hf-accent-4); color: var(--hf-color-1);">4</div>
+            <div class="demo-item">
+                <h3>Accent Palette</h3>
+                <div class="accent-grid">
+                    <div class="color-swatch-demo" style="background: var(--hf-accent-1);">1</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-accent-2);">2</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-accent-3); color: var(--hf-color-1);">3</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-accent-4); color: var(--hf-color-1);">4</div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Semantic Colors</h3>
+                <div class="semantic-grid">
+                    <div class="color-swatch-demo" style="background: var(--hf-red); color: var(--hf-color-1);">red</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-green); color: var(--hf-color-1);">green</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-yellow); color: var(--hf-color-1);">yellow</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Typography Section -->
+    <!-- ================================================================
+         Typography
+         ================================================================ -->
     <section class="demo-section">
-        <h2>Typography</h2>
+        <h2>typography</h2>
         <div class="demo-grid">
             <div class="demo-item">
                 <h3>Font Sizes</h3>
@@ -191,17 +196,16 @@
                     <div class="type-sample hf-text-2xl">2X Large (24px)</div>
                 </div>
             </div>
-
             <div class="demo-item">
-                <h3>Font Weights</h3>
+                <h3>Font Weights &amp; Styles</h3>
                 <div class="demo-item-content">
                     <div class="type-sample hf-font-normal">Normal (400)</div>
                     <div class="type-sample hf-font-medium">Medium (500)</div>
                     <div class="type-sample hf-font-semibold">Semibold (600)</div>
                     <div class="type-sample hf-font-bold">Bold (700)</div>
+                    <div class="type-sample hf-mono">Monospace font</div>
                 </div>
             </div>
-
             <div class="demo-item">
                 <h3>Text Colors</h3>
                 <div class="demo-item-content">
@@ -210,87 +214,211 @@
                     <div class="hf-text-normal">Normal text</div>
                     <div class="hf-text-bright">Bright text</div>
                     <div class="hf-text-accent">Accent text</div>
-                    <div class="hf-text-accent-bright">Accent bright text</div>
+                    <div class="hf-text-accent-bright">Accent bright</div>
                     <div class="hf-text-error">Error text</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Components Section -->
+    <!-- ================================================================
+         2. Buttons
+         ================================================================ -->
     <section class="demo-section">
-        <h2>Components</h2>
+        <h2>buttons</h2>
         <div class="demo-grid">
-
-            <!-- Toggle Switch -->
             <div class="demo-item">
-                <h3>Toggle Switch</h3>
-                <div class="demo-item-content">
-                    <div class="demo-row">
-                        <toggle-switch id="toggle1" label="Default"></toggle-switch>
-                    </div>
-                    <div class="demo-row">
-                        <toggle-switch id="toggle2" label="Checked" checked></toggle-switch>
-                    </div>
-                    <div class="demo-row">
-                        <toggle-switch id="toggle3" label="Disabled" disabled></toggle-switch>
-                    </div>
-                    <div class="output" id="toggleOutput">Toggle: unchecked</div>
+                <h3>Variants</h3>
+                <div class="demo-item-content" style="flex-direction: row; flex-wrap: wrap;">
+                    <button class="hf-btn">Default</button>
+                    <button class="hf-btn hf-btn-primary">Primary</button>
+                    <button class="hf-btn hf-btn-ghost">Ghost</button>
+                    <button class="hf-btn" disabled>Disabled</button>
                 </div>
             </div>
-
-            <!-- Slider Value -->
             <div class="demo-item">
-                <h3>Slider Value</h3>
+                <h3>With Icons</h3>
+                <div class="demo-item-content" style="flex-direction: row; flex-wrap: wrap;">
+                    <button class="hf-btn"><span class="hf-icon">add</span> Add</button>
+                    <button class="hf-btn hf-btn-primary"><span class="hf-icon">save</span> Save</button>
+                    <button class="hf-btn hf-btn-ghost"><span class="hf-icon">settings</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         3. Inputs
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>inputs</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Text Input</h3>
                 <div class="demo-item-content">
-                    <div class="demo-row" style="width: 100%;">
+                    <label class="hf-label">Project Name</label>
+                    <input type="text" class="hf-input" placeholder="Enter name...">
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>States</h3>
+                <div class="demo-item-content">
+                    <input type="text" class="hf-input" value="Normal state">
+                    <input type="text" class="hf-input" placeholder="Disabled" disabled>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         4. Toggle Switch
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>toggle switch</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>States</h3>
+                <div class="demo-item-content">
+                    <toggle-switch id="toggle1"></toggle-switch>
+                    <toggle-switch id="toggle2" checked></toggle-switch>
+                    <toggle-switch disabled></toggle-switch>
+                    <div class="output" id="toggleOutput">unchecked</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         5. Slider Value
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>slider value</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Variants</h3>
+                <div class="demo-item-content">
+                    <div class="demo-row" style="width:100%">
                         <span class="demo-label">Volume</span>
                         <slider-value id="slider1" min="0" max="100" value="50" suffix="%"></slider-value>
                     </div>
-                    <div class="demo-row" style="width: 100%;">
+                    <div class="demo-row" style="width:100%">
                         <span class="demo-label">Speed</span>
                         <slider-value id="slider2" min="0" max="2" value="1" step="0.1" suffix="x"></slider-value>
                     </div>
-                    <div class="demo-row" style="width: 100%;">
+                    <div class="demo-row" style="width:100%">
                         <span class="demo-label">Disabled</span>
                         <slider-value min="0" max="100" value="30" disabled></slider-value>
                     </div>
-                    <div class="output" id="sliderOutput">Value: 50</div>
+                    <div class="output" id="sliderOutput">50</div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Select Dropdown -->
+    <!-- ================================================================
+         6. Slider Control
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>slider control</h2>
+        <div class="demo-grid">
             <div class="demo-item">
-                <h3>Select Dropdown</h3>
+                <h3>Labeled</h3>
                 <div class="demo-item-content">
-                    <div class="demo-row" style="width: 100%;">
+                    <slider-control id="sc1" label="X" min="0" max="1" step="0.01" value="0.5"></slider-control>
+                    <slider-control id="sc2" label="Y" min="0" max="1" step="0.01" value="0.75"></slider-control>
+                    <slider-control id="sc3" label="Z" min="0" max="1" step="0.01" value="0.25"></slider-control>
+                    <div class="output" id="scOutput">0.50</div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Compact</h3>
+                <div class="demo-item-content">
+                    <slider-control label="R" min="0" max="255" step="1" value="128" precision="0" compact></slider-control>
+                    <slider-control label="G" min="0" max="255" step="1" value="200" precision="0" compact></slider-control>
+                    <slider-control label="B" min="0" max="255" step="1" value="64" precision="0" compact></slider-control>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         7. Select Dropdown
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>select dropdown</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Inline (few options)</h3>
+                <div class="demo-item-content">
+                    <div class="demo-row" style="width:100%">
                         <span class="demo-label">Effect</span>
                         <select-dropdown id="select1" value="blur">
                             <option value="none">None</option>
                             <option value="blur">Blur</option>
                             <option value="glow">Glow</option>
-                            <option value="shadow">Shadow</option>
                         </select-dropdown>
                     </div>
-                    <div class="demo-row" style="width: 100%;">
-                        <span class="demo-label">Mode</span>
-                        <select-dropdown id="select2">
-                            <option value="linear">Linear</option>
-                            <option value="radial">Radial</option>
-                            <option value="angular">Angular</option>
-                            <option value="diamond">Diamond</option>
-                            <option value="spiral">Spiral</option>
-                            <option value="wave">Wave</option>
-                            <option value="noise">Noise</option>
-                        </select-dropdown>
-                    </div>
-                    <div class="output" id="selectOutput">Selected: blur</div>
+                    <div class="output" id="selectOutput">blur</div>
                 </div>
             </div>
-
-            <!-- Justify Button Group -->
             <div class="demo-item">
-                <h3>Justify Button Group</h3>
+                <h3>Dialog (many options)</h3>
+                <div class="demo-item-content">
+                    <select-dropdown id="select2">
+                        <option value="linear">Linear</option>
+                        <option value="radial">Radial</option>
+                        <option value="angular">Angular</option>
+                        <option value="diamond">Diamond</option>
+                        <option value="spiral">Spiral</option>
+                        <option value="wave">Wave</option>
+                        <option value="noise">Noise</option>
+                    </select-dropdown>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         8. Dropdown Menu
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>dropdown menu</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Basic</h3>
+                <div class="demo-item-content">
+                    <dropdown-menu id="dm1" label="Options" icon="more_vert">
+                        <dropdown-item value="edit">Edit</dropdown-item>
+                        <dropdown-item value="duplicate">Duplicate</dropdown-item>
+                        <div class="dropdown-divider"></div>
+                        <dropdown-item value="delete" destructive>Delete</dropdown-item>
+                    </dropdown-menu>
+                    <div class="output" id="dmOutput">-</div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Selectable</h3>
+                <div class="demo-item-content">
+                    <dropdown-menu id="dm2" label="Theme" selectable value="default">
+                        <dropdown-item value="default">Default</dropdown-item>
+                        <dropdown-item value="monokai">Monokai</dropdown-item>
+                        <dropdown-item value="dracula">Dracula</dropdown-item>
+                        <dropdown-item value="nord">Nord</dropdown-item>
+                    </dropdown-menu>
+                    <div class="output" id="dm2Output">default</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         9. Justify Button Group
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>justify button group</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>States</h3>
                 <div class="demo-item-content">
                     <div class="demo-row">
                         <span class="demo-label">Align</span>
@@ -300,110 +428,236 @@
                         <span class="demo-label">Disabled</span>
                         <justify-button-group value="left" disabled></justify-button-group>
                     </div>
-                    <div class="output" id="justifyOutput">Alignment: center</div>
+                    <div class="output" id="justifyOutput">center</div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Color Picker -->
+    <!-- ================================================================
+         10. Color Picker
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>color picker</h2>
+        <div class="demo-grid">
             <div class="demo-item">
-                <h3>Color Picker</h3>
+                <h3>Swatch Mode</h3>
                 <div class="demo-item-content">
                     <div class="demo-row">
                         <span class="demo-label">Fill</span>
-                        <color-picker id="colorPicker1" value="#a5b8ff"></color-picker>
+                        <color-picker id="cp1" value="#a5b8ff"></color-picker>
                     </div>
                     <div class="demo-row">
                         <span class="demo-label">Stroke</span>
-                        <color-picker id="colorPicker2" value="#ff5b6b"></color-picker>
+                        <color-picker id="cp2" value="#ff5b6b"></color-picker>
                     </div>
-                    <div class="output" id="colorOutput">Color: #a5b8ff</div>
+                    <div class="output" id="cpOutput">#a5b8ff</div>
                 </div>
             </div>
-
-            <!-- Color Wheel (inline) -->
-            <div class="demo-item" style="grid-column: span 2;">
-                <h3>Color Wheel (Inline)</h3>
+            <div class="demo-item">
+                <h3>With Alpha</h3>
                 <div class="demo-item-content">
-                    <color-wheel id="colorWheel1" value="#6bffa5" mode="hsv"></color-wheel>
-                    <div class="output" id="wheelOutput">Color: #6bffa5</div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Buttons Section -->
-    <section class="demo-section">
-        <h2>Buttons</h2>
-        <div class="demo-grid">
-            <div class="demo-item">
-                <h3>Button Variants</h3>
-                <div class="demo-item-content" style="flex-direction: row; flex-wrap: wrap;">
-                    <button class="hf-btn">Default</button>
-                    <button class="hf-btn hf-btn-primary">Primary</button>
-                    <button class="hf-btn hf-btn-ghost">Ghost</button>
-                    <button class="hf-btn" disabled>Disabled</button>
-                </div>
-            </div>
-
-            <div class="demo-item">
-                <h3>With Icons</h3>
-                <div class="demo-item-content" style="flex-direction: row; flex-wrap: wrap;">
-                    <button class="hf-btn">
-                        <span class="hf-icon">add</span>
-                        Add
-                    </button>
-                    <button class="hf-btn hf-btn-primary">
-                        <span class="hf-icon">save</span>
-                        Save
-                    </button>
-                    <button class="hf-btn hf-btn-ghost">
-                        <span class="hf-icon">settings</span>
-                    </button>
+                    <color-picker id="cp3" value="#66cc99" alpha></color-picker>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Inputs Section -->
+    <!-- ================================================================
+         11. Color Wheel
+         ================================================================ -->
     <section class="demo-section">
-        <h2>Inputs</h2>
+        <h2>color wheel</h2>
         <div class="demo-grid">
-            <div class="demo-item">
-                <h3>Text Input</h3>
+            <div class="demo-item wide">
+                <h3>RGB, HSV, OkLab, OKLCH</h3>
                 <div class="demo-item-content">
-                    <label class="hf-label">Project Name</label>
-                    <input type="text" class="hf-input" placeholder="Enter name...">
-                </div>
-            </div>
-
-            <div class="demo-item">
-                <h3>Input States</h3>
-                <div class="demo-item-content">
-                    <input type="text" class="hf-input" value="Normal state">
-                    <input type="text" class="hf-input" placeholder="Disabled" disabled>
+                    <color-wheel id="cw1" value="#6bffa5" mode="hsv"></color-wheel>
+                    <div class="output" id="cwOutput">#6bffa5</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Surfaces Section -->
+    <!-- ================================================================
+         12. Color Swatch
+         ================================================================ -->
     <section class="demo-section">
-        <h2>Surfaces</h2>
+        <h2>color swatch</h2>
         <div class="demo-grid">
-            <div class="demo-item hf-panel">
+            <div class="demo-item">
+                <h3>Sizes</h3>
+                <div class="swatch-row">
+                    <color-swatch color="#ff6b6b" size="small" show-tooltip></color-swatch>
+                    <color-swatch color="#69db7c" show-tooltip></color-swatch>
+                    <color-swatch color="#74c0fc" size="large" show-tooltip></color-swatch>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>States</h3>
+                <div class="swatch-row">
+                    <color-swatch id="cs1" color="#a5b8ff" selected show-tooltip></color-swatch>
+                    <color-swatch id="cs2" color="#ffd866" show-tooltip></color-swatch>
+                    <color-swatch id="cs3" color="#ff79c6" editable show-tooltip></color-swatch>
+                    <color-swatch color="#888" disabled show-tooltip></color-swatch>
+                </div>
+                <div class="output" id="csOutput">#a5b8ff</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         13. Gradient Stops
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>gradient stops</h2>
+        <div class="demo-grid">
+            <div class="demo-item wide">
+                <h3>Draggable Stops</h3>
+                <div class="demo-item-content">
+                    <div class="gradient-preview" id="gradPreview" style="background: linear-gradient(to right, #ff6b6b, #69db7c, #74c0fc);"></div>
+                    <gradient-stops id="gs1"></gradient-stops>
+                    <div class="output" id="gsOutput">-</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         14. Vector 3D Picker
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>vector 3d picker</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Default</h3>
+                <div class="demo-item-content">
+                    <vector3d-picker id="vp1" value="[0, 1, 0]"></vector3d-picker>
+                    <div class="output" id="vpOutput">[0, 1, 0]</div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Preset Values</h3>
+                <div class="demo-item-content">
+                    <vector3d-picker id="vp2" value="[0.5, -0.5, 0.7]"></vector3d-picker>
+                    <vector3d-picker value="[1, 0, 0]" disabled></vector3d-picker>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         15. Code Editor
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>code editor</h2>
+        <div class="demo-grid">
+            <div class="demo-item wide">
+                <h3>DSL Tokenizer</h3>
+                <div class="demo-item-content">
+                    <code-editor id="editor1" style="height: 200px; border: 1px solid var(--hf-border); border-radius: var(--hf-radius-sm);"></code-editor>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Theme</h3>
+                <div class="demo-item-content">
+                    <dropdown-menu id="editorThemeMenu" label="Theme" selectable value="default">
+                        <dropdown-item value="default">GitHub Dark</dropdown-item>
+                        <dropdown-item value="monokai">Monokai</dropdown-item>
+                        <dropdown-item value="dracula">Dracula</dropdown-item>
+                        <dropdown-item value="nord">Nord</dropdown-item>
+                        <dropdown-item value="oneDark">One Dark</dropdown-item>
+                        <dropdown-item value="solarizedDark">Solarized Dark</dropdown-item>
+                        <dropdown-item value="solarizedLight">Solarized Light</dropdown-item>
+                        <dropdown-item value="githubLight">GitHub Light</dropdown-item>
+                    </dropdown-menu>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Plain Text (no tokenizer)</h3>
+                <div class="demo-item-content">
+                    <code-editor id="editor2" style="height: 120px; border: 1px solid var(--hf-border); border-radius: var(--hf-radius-sm);"></code-editor>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         16. Image Magnifier
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>image magnifier</h2>
+        <div class="demo-grid">
+            <div class="demo-item wide">
+                <h3>Hover over the canvas</h3>
+                <div class="demo-item-content">
+                    <canvas id="magCanvas" width="400" height="200" style="border: 1px solid var(--hf-border); border-radius: var(--hf-radius-sm); cursor: crosshair;"></canvas>
+                    <image-magnifier id="magnifier1"></image-magnifier>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         17. Toasts
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>toasts</h2>
+        <div class="demo-grid">
+            <div class="demo-item wide">
+                <h3>Notifications</h3>
+                <div class="toast-buttons">
+                    <button class="hf-btn" id="toastSuccess">Success</button>
+                    <button class="hf-btn" id="toastError">Error</button>
+                    <button class="hf-btn" id="toastWarning">Warning</button>
+                    <button class="hf-btn" id="toastInfo">Info</button>
+                    <button class="hf-btn" id="toastProgress">With Progress</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         18. Tooltips
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>tooltips</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Hover for Tooltip</h3>
+                <div class="demo-item-content" style="flex-direction: row; gap: 1rem;">
+                    <button class="hf-btn tooltip" data-title="Save your work">Save</button>
+                    <button class="hf-btn tooltip" data-title="Undo last action">Undo</button>
+                    <button class="hf-btn tooltip" data-title="Open settings panel">Settings</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         19. Surfaces
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>surfaces</h2>
+        <div class="demo-grid">
+            <div class="hf-surface demo-item">
+                <h3>Surface</h3>
+                <p class="hf-text-sm hf-text-dim">Translucent surface with blur</p>
+            </div>
+            <div class="hf-panel demo-item">
                 <h3>Panel</h3>
-                <p class="hf-text-sm hf-text-dim">Glass panel with blur and border</p>
+                <p class="hf-text-sm hf-text-dim">Panel with border and blur</p>
             </div>
-
-            <div class="demo-item hf-card">
+            <div class="hf-card demo-item">
                 <h3>Card</h3>
                 <p class="hf-text-sm hf-text-dim">Card surface with padding</p>
             </div>
         </div>
     </section>
 
-    <!-- Import components -->
+    <!-- ================================================================
+         Scripts
+         ================================================================ -->
     <script type="module">
         import {
             ToggleSwitch,
@@ -411,8 +665,29 @@
             SelectDropdown,
             JustifyButtonGroup,
             ColorPicker,
-            ColorWheel
+            ColorWheel,
+            initializeTooltips,
+            initEscapeHandler,
+            showToast,
+            showSuccess,
+            showError,
+            showWarning,
+            showInfo,
+            DropdownMenu,
+            DropdownItem,
+            ColorSwatch,
+            GradientStops,
+            SliderControl,
+            ImageMagnifier,
+            Vector3dPicker,
+            CodeEditor,
+            applyEditorTheme,
+            dslTokenizer
         } from '../src/index.js'
+
+        // Initialize systems
+        initializeTooltips()
+        initEscapeHandler()
 
         // Theme toggle
         document.getElementById('themeToggle').addEventListener('change', (e) => {
@@ -421,33 +696,145 @@
 
         // Toggle output
         document.getElementById('toggle1').addEventListener('change', (e) => {
-            document.getElementById('toggleOutput').textContent = 
-                `Toggle: ${e.target.checked ? 'checked' : 'unchecked'}`
+            document.getElementById('toggleOutput').textContent = e.target.checked ? 'checked' : 'unchecked'
         })
 
         // Slider output
         document.getElementById('slider1').addEventListener('input', (e) => {
-            document.getElementById('sliderOutput').textContent = `Value: ${e.target.value}`
+            document.getElementById('sliderOutput').textContent = e.target.value
+        })
+
+        // Slider control output
+        document.getElementById('sc1').addEventListener('input', (e) => {
+            document.getElementById('scOutput').textContent = e.detail.value.toFixed(2)
         })
 
         // Select output
         document.getElementById('select1').addEventListener('change', (e) => {
-            document.getElementById('selectOutput').textContent = `Selected: ${e.target.value}`
+            document.getElementById('selectOutput').textContent = e.target.value
+        })
+
+        // Dropdown menu output
+        document.getElementById('dm1').addEventListener('change', (e) => {
+            document.getElementById('dmOutput').textContent = e.detail.value
+        })
+        document.getElementById('dm2').addEventListener('change', (e) => {
+            document.getElementById('dm2Output').textContent = e.detail.value
         })
 
         // Justify output
         document.getElementById('justify1').addEventListener('change', (e) => {
-            document.getElementById('justifyOutput').textContent = `Alignment: ${e.target.value}`
+            document.getElementById('justifyOutput').textContent = e.target.value
         })
 
         // Color picker output
-        document.getElementById('colorPicker1').addEventListener('change', (e) => {
-            document.getElementById('colorOutput').textContent = `Color: ${e.target.value}`
+        document.getElementById('cp1').addEventListener('change', (e) => {
+            document.getElementById('cpOutput').textContent = e.target.value
         })
 
         // Color wheel output
-        document.getElementById('colorWheel1').addEventListener('colorinput', (e) => {
-            document.getElementById('wheelOutput').textContent = `Color: ${e.detail.value}`
+        document.getElementById('cw1').addEventListener('colorinput', (e) => {
+            document.getElementById('cwOutput').textContent = e.detail.value
+        })
+
+        // Color swatch output
+        document.querySelectorAll('color-swatch[id]').forEach(s => {
+            s.addEventListener('select', (e) => {
+                document.getElementById('csOutput').textContent = e.detail.color
+            })
+        })
+
+        // Gradient stops
+        const gs = document.getElementById('gs1')
+        const gsColors = [[1, 0.42, 0.42], [0.41, 0.86, 0.49], [0.45, 0.75, 0.99]]
+        gs.setStops(gsColors, [0, 0.5, 1])
+        gs.setSelectedIndex(0)
+
+        function updateGradientPreview(colors, positions) {
+            const stops = colors.map((c, i) => {
+                const r = Math.round(c[0] * 255)
+                const g = Math.round(c[1] * 255)
+                const b = Math.round(c[2] * 255)
+                return `rgb(${r},${g},${b}) ${(positions[i] * 100).toFixed(1)}%`
+            })
+            document.getElementById('gradPreview').style.background =
+                `linear-gradient(to right, ${stops.join(', ')})`
+        }
+        updateGradientPreview(gsColors, [0, 0.5, 1])
+
+        gs.addEventListener('input', (e) => {
+            updateGradientPreview(gs._colors, e.detail.positions)
+            document.getElementById('gsOutput').textContent =
+                `pos: [${e.detail.positions.map(p => p.toFixed(2)).join(', ')}]`
+        })
+        gs.addEventListener('delete', (e) => {
+            updateGradientPreview(e.detail.colors, e.detail.positions)
+            document.getElementById('gsOutput').textContent =
+                `deleted stop ${e.detail.index}, ${e.detail.colors.length} remaining`
+        })
+
+        // Vector picker output
+        document.getElementById('vp1').addEventListener('input', (e) => {
+            const v = e.target.value
+            document.getElementById('vpOutput').textContent =
+                `[${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)}]`
+        })
+
+        // Code editor - set DSL tokenizer and sample code
+        const editor1 = document.getElementById('editor1')
+        editor1.setTokenizer(dslTokenizer)
+        editor1.value = `// Noisemaker DSL example
+o0 = noise(freq: 4.0, speed: 0.5)
+o1 = gradient(type: "radial", color: #ff6b6b)
+o2 = blend(o0, o1, mix: 0.65)
+render(o2, brightness: 1.2)`
+
+        // Editor theme switcher
+        document.getElementById('editorThemeMenu').addEventListener('change', (e) => {
+            applyEditorTheme(editor1, e.detail.value)
+        })
+
+        // Plain text editor
+        const editor2 = document.getElementById('editor2')
+        editor2.value = 'Plain text editor\nNo syntax highlighting\nJust line numbers'
+
+        // Image magnifier - draw a sample gradient on canvas
+        const canvas = document.getElementById('magCanvas')
+        const ctx = canvas.getContext('2d')
+        const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
+        grad.addColorStop(0, '#ff6b6b')
+        grad.addColorStop(0.25, '#ffd866')
+        grad.addColorStop(0.5, '#69db7c')
+        grad.addColorStop(0.75, '#74c0fc')
+        grad.addColorStop(1, '#a5b8ff')
+        ctx.fillStyle = grad
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        // Add some shapes for visual interest
+        ctx.fillStyle = 'rgba(0,0,0,0.3)'
+        ctx.beginPath()
+        ctx.arc(100, 100, 50, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.fillStyle = 'rgba(255,255,255,0.3)'
+        ctx.beginPath()
+        ctx.arc(300, 80, 60, 0, Math.PI * 2)
+        ctx.fill()
+        document.getElementById('magnifier1').attach(canvas)
+
+        // Toast buttons
+        document.getElementById('toastSuccess').addEventListener('click', () => {
+            showSuccess('Changes saved successfully')
+        })
+        document.getElementById('toastError').addEventListener('click', () => {
+            showError('Failed to save changes')
+        })
+        document.getElementById('toastWarning').addEventListener('click', () => {
+            showWarning('Unsaved changes will be lost')
+        })
+        document.getElementById('toastInfo').addEventListener('click', () => {
+            showInfo('New version available')
+        })
+        document.getElementById('toastProgress').addEventListener('click', () => {
+            showToast('Exporting palette...', { type: 'info', duration: 5000, showProgress: true })
         })
     </script>
 </body>

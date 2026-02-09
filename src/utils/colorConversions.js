@@ -216,6 +216,30 @@ export function oklchToOKLab(lch) {
 // ============================================================================
 
 /**
+ * Convert RGB to OkLab
+ * @param {{r: number, g: number, b: number}} rgb - RGB values (0-255)
+ * @returns {{l: number, a: number, b: number}} OkLab values
+ */
+export function rgbToOklab(rgb) {
+    const linear = sRGBToLinearRGB(rgb)
+    return linearRGBToOKLab(linear)
+}
+
+/**
+ * Convert OkLab to RGB (with gamut clamping)
+ * @param {{l: number, a: number, b: number}} lab - OkLab values
+ * @returns {{r: number, g: number, b: number}} RGB values (0-255)
+ */
+export function oklabToRgb(lab) {
+    const linear = okLabToLinearRGB(lab)
+    return {
+        r: Math.round(clamp(linearToSRGB(clamp(linear.r, 0, 1)), 0, 1) * 255),
+        g: Math.round(clamp(linearToSRGB(clamp(linear.g, 0, 1)), 0, 1) * 255),
+        b: Math.round(clamp(linearToSRGB(clamp(linear.b, 0, 1)), 0, 1) * 255)
+    }
+}
+
+/**
  * Convert RGB to OKLCH
  * @param {{r: number, g: number, b: number}} rgb - RGB values (0-255)
  * @returns {{l: number, c: number, h: number}} OKLCH values
@@ -343,6 +367,15 @@ export function getMaxChroma(l, h) {
     }
 
     return lowC
+}
+
+/**
+ * Get approximate maximum a/b extent for a given OkLab lightness
+ * @param {number} l - Lightness (0-1)
+ * @returns {number} Maximum a/b magnitude
+ */
+export function getMaxAB(l) {
+    return 0.4 * Math.sin(Math.PI * l)
 }
 
 // ============================================================================

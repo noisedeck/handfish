@@ -1,17 +1,17 @@
 /**
  * Color Wheel Web Component
  *
- * A modern, accessible color picker with support for RGB, HSV, and OKLCH color spaces.
- * Designed to replace native `<input type="color">` with a higher-quality UI.
+ * A modern, accessible color picker with support for RGB, HSV, OkLab, and OKLCH color spaces.
  *
  * @module components/color-wheel/ColorWheel
  */
 
 import {
     rgbToHsv, hsvToRgb,
-    rgbToOklch, oklchToRgb, getMaxChroma,
+    rgbToOklch, oklchToRgb,
+    rgbToOklab, oklabToRgb,
     parseHex, rgbToHex, rgbToHexWithAlpha,
-    clamp, normalizeHue, roundTo
+    clamp, normalizeHue, roundTo, getMaxChroma, getMaxAB
 } from '../../utils/colorConversions.js'
 
 // ============================================================================
@@ -26,13 +26,13 @@ const WHEEL_INNER_RADIUS_RATIO = 0.15
 
 // Step sizes for keyboard navigation
 const STEPS = {
-    normal: { hue: 1, sat: 1, value: 1, lightness: 1, chroma: 0.005 },
-    shift: { hue: 10, sat: 10, value: 10, lightness: 10, chroma: 0.02 },
-    alt: { hue: 0.1, sat: 0.1, value: 0.1, lightness: 0.1, chroma: 0.001 }
+    normal: { hue: 1, sat: 1, value: 1, lightness: 1, chroma: 0.005, ab: 0.01 },
+    shift: { hue: 10, sat: 10, value: 10, lightness: 10, chroma: 0.02, ab: 0.04 },
+    alt: { hue: 0.1, sat: 0.1, value: 0.1, lightness: 0.1, chroma: 0.001, ab: 0.002 }
 }
 
 // ============================================================================
-// Light DOM Style Injection
+// Style Injection
 // ============================================================================
 
 const COLOR_WHEEL_STYLES_ID = 'hf-color-wheel-styles'
@@ -147,7 +147,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
             content: '';
             position: absolute;
             inset: 0;
-            background: 
+            background:
                 linear-gradient(45deg, #888 25%, transparent 25%),
                 linear-gradient(-45deg, #888 25%, transparent 25%),
                 linear-gradient(45deg, transparent 75%, #888 75%),
@@ -172,7 +172,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
 
         color-wheel .hex-input {
             width: 100%;
-            font-family: monospace;
+            font-family: var(--hf-font-family-mono, monospace);
             font-size: 12px;
             font-weight: 500;
             color: var(--cw-text);
@@ -212,7 +212,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
             content: '';
             position: absolute;
             inset: 0;
-            background: 
+            background:
                 linear-gradient(45deg, #888 25%, transparent 25%),
                 linear-gradient(-45deg, #888 25%, transparent 25%),
                 linear-gradient(45deg, transparent 75%, #888 75%),
@@ -247,7 +247,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
         }
 
         color-wheel .alpha-value {
-            font-family: monospace;
+            font-family: var(--hf-font-family-mono, monospace);
             font-size: 11px;
             color: var(--cw-text-dim);
             width: 32px;
@@ -264,8 +264,8 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
 
         color-wheel .mode-tab {
             flex: 1;
-            padding: 4px 8px;
-            font-size: 10px;
+            padding: 4px 6px;
+            font-size: 9px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -282,14 +282,18 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
         }
 
         color-wheel .mode-tab.active {
-            color: var(--cw-text);
-            background: var(--cw-bg);
+            color: var(--cw-bg);
+            background: var(--cw-text);
         }
 
         color-wheel .inputs-panel {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
+        }
+
+        color-wheel .inputs-panel[hidden] {
+            display: none;
         }
 
         color-wheel .input-group {
@@ -307,7 +311,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
         }
 
         color-wheel .input-field {
-            font-family: monospace;
+            font-family: var(--hf-font-family-mono, monospace);
             font-size: 11px;
             color: var(--cw-text);
             background: var(--cw-input-bg);
@@ -322,6 +326,16 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
         color-wheel .input-field:focus {
             outline: none;
             border-color: var(--cw-accent);
+        }
+
+        /* Hide number input spinners */
+        color-wheel .input-field::-webkit-outer-spin-button,
+        color-wheel .input-field::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        color-wheel .input-field[type=number] {
+            -moz-appearance: textfield;
         }
 
         /* Focus ring for accessibility */
@@ -357,12 +371,26 @@ class ColorWheel extends HTMLElement {
             this._internals = this.attachInternals?.()
         }
 
+        /** @type {{r: number, g: number, b: number}} RGB 0-255 */
         this._rgb = { r: 0, g: 0, b: 0 }
+
+        /** @type {number} Alpha 0-1 */
         this._alpha = 1
+
+        /** @type {'hsv'|'oklab'|'oklch'} Current editing mode */
         this._mode = 'hsv'
+
+        /** @type {number} Preserved hue for gray colors (degrees) */
         this._preservedHue = 0
+
+        /** @type {{h: number, s: number, v: number}} */
         this._hsv = { h: 0, s: 0, v: 0 }
+
+        /** @type {{l: number, c: number, h: number}} */
         this._oklch = { l: 0, c: 0, h: 0 }
+
+        /** @type {{l: number, a: number, b: number}} */
+        this._oklab = { l: 0, a: 0, b: 0 }
 
         this._wheelImageData = null
         this._wheelCacheKey = ''
@@ -388,6 +416,7 @@ class ColorWheel extends HTMLElement {
             this._setupEventListeners()
             this._listenersAttached = true
         }
+        this._updateModeUI()
         this._drawWheel()
         this._drawSlider()
         this._drawAlphaSlider()
@@ -411,7 +440,7 @@ class ColorWheel extends HTMLElement {
                 this._updateAlphaUI()
                 break
             case 'mode':
-                if (['rgb', 'hsv', 'oklch'].includes(newVal)) {
+                if (['hsv', 'oklab', 'oklch'].includes(newVal)) {
                     this._mode = newVal
                     this._updateModeUI()
                 }
@@ -422,7 +451,10 @@ class ColorWheel extends HTMLElement {
         }
     }
 
+    // ========================================================================
     // Public API
+    // ========================================================================
+
     get value() {
         return rgbToHex(this._rgb)
     }
@@ -451,7 +483,7 @@ class ColorWheel extends HTMLElement {
     }
 
     set mode(val) {
-        if (['rgb', 'hsv', 'oklch'].includes(val)) {
+        if (['hsv', 'oklab', 'oklch'].includes(val)) {
             this._mode = val
             this._updateModeUI()
         }
@@ -492,7 +524,7 @@ class ColorWheel extends HTMLElement {
         if (typeof opts.alpha === 'number') {
             this._alpha = clamp(opts.alpha, 0, 1)
         }
-        if (opts.mode && ['rgb', 'hsv', 'oklch'].includes(opts.mode)) {
+        if (opts.mode && ['hsv', 'oklab', 'oklch'].includes(opts.mode)) {
             this._mode = opts.mode
         }
         this._redrawAll()
@@ -504,11 +536,23 @@ class ColorWheel extends HTMLElement {
             alpha: this._alpha,
             rgb: { ...this._rgb },
             hsv: { ...this._hsv },
+            oklab: { ...this._oklab },
             oklch: { ...this._oklch }
         }
     }
 
-    // Internal value management
+    // Form associated callbacks
+    get form() { return this._internals?.form }
+    get validity() { return this._internals?.validity }
+    get validationMessage() { return this._internals?.validationMessage }
+    get willValidate() { return this._internals?.willValidate }
+    checkValidity() { return this._internals?.checkValidity() ?? true }
+    reportValidity() { return this._internals?.reportValidity() ?? true }
+
+    // ========================================================================
+    // Internal: Value Management
+    // ========================================================================
+
     _setValueFromAttribute(hex) {
         const rgb = parseHex(hex)
         if (rgb) {
@@ -525,12 +569,15 @@ class ColorWheel extends HTMLElement {
         } else {
             this._hsv.h = this._preservedHue
         }
+
         this._oklch = rgbToOklch(this._rgb)
         if (this._oklch.c > 0.001) {
             this._preservedHue = this._oklch.h
         } else {
             this._oklch.h = this._preservedHue
         }
+
+        this._oklab = rgbToOklab(this._rgb)
     }
 
     _updateFromHSV() {
@@ -539,6 +586,7 @@ class ColorWheel extends HTMLElement {
         }
         this._rgb = hsvToRgb(this._hsv)
         this._oklch = rgbToOklch(this._rgb)
+        this._oklab = rgbToOklab(this._rgb)
         if (this._oklch.c < 0.001) {
             this._oklch.h = this._preservedHue
         }
@@ -550,8 +598,21 @@ class ColorWheel extends HTMLElement {
         }
         this._rgb = oklchToRgb(this._oklch)
         this._hsv = rgbToHsv(this._rgb)
-        if (this._hsv.s < 0.01 || this._hsv.v < 0.01) {
+        this._oklab = rgbToOklab(this._rgb)
+        if (this._hsv.s < 1 || this._hsv.v < 1) {
             this._hsv.h = this._preservedHue
+        }
+    }
+
+    _updateFromOkLab() {
+        this._rgb = oklabToRgb(this._oklab)
+        this._hsv = rgbToHsv(this._rgb)
+        this._oklch = rgbToOklch(this._rgb)
+        if (this._hsv.s < 1 || this._hsv.v < 1) {
+            this._hsv.h = this._preservedHue
+        }
+        if (this._oklch.c < 0.001) {
+            this._oklch.h = this._preservedHue
         }
     }
 
@@ -561,7 +622,10 @@ class ColorWheel extends HTMLElement {
         }
     }
 
-    // Rendering
+    // ========================================================================
+    // Internal: Rendering
+    // ========================================================================
+
     _render() {
         this.innerHTML = `
             <div class="color-wheel-container">
@@ -575,7 +639,7 @@ class ColorWheel extends HTMLElement {
                         <div class="slider-thumb"></div>
                     </div>
                 </div>
-                
+
                 <div class="preview-row">
                     <div class="preview-swatches">
                         <div class="preview-swatch preview-current" title="Current color">
@@ -591,7 +655,7 @@ class ColorWheel extends HTMLElement {
                 </div>
 
                 <div class="alpha-container">
-                    <span class="input-label">α</span>
+                    <span class="input-label">\u03b1</span>
                     <div class="alpha-slider-container">
                         <div class="alpha-slider-bg"></div>
                         <div class="alpha-slider-gradient"></div>
@@ -603,6 +667,7 @@ class ColorWheel extends HTMLElement {
 
                 <div class="mode-tabs">
                     <button class="mode-tab active" data-mode="hsv">HSV</button>
+                    <button class="mode-tab" data-mode="oklab">OkLab</button>
                     <button class="mode-tab" data-mode="oklch">OKLCH</button>
                 </div>
 
@@ -623,7 +688,7 @@ class ColorWheel extends HTMLElement {
 
                 <div class="inputs-panel" data-mode="hsv">
                     <div class="input-group">
-                        <label class="input-label">H°</label>
+                        <label class="input-label">H\u00b0</label>
                         <input type="number" class="input-field" data-channel="h" min="0" max="360" step="1">
                     </div>
                     <div class="input-group">
@@ -636,17 +701,32 @@ class ColorWheel extends HTMLElement {
                     </div>
                 </div>
 
+                <div class="inputs-panel" data-mode="oklab" hidden>
+                    <div class="input-group">
+                        <label class="input-label">L%</label>
+                        <input type="number" class="input-field" data-channel="lab-l" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">a</label>
+                        <input type="number" class="input-field" data-channel="lab-a" min="-0.4" max="0.4" step="0.005">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">b</label>
+                        <input type="number" class="input-field" data-channel="lab-b" min="-0.4" max="0.4" step="0.005">
+                    </div>
+                </div>
+
                 <div class="inputs-panel" data-mode="oklch" hidden>
                     <div class="input-group">
                         <label class="input-label">L%</label>
-                        <input type="number" class="input-field" data-channel="l" min="0" max="100" step="0.1">
+                        <input type="number" class="input-field" data-channel="lch-l" min="0" max="100" step="0.1">
                     </div>
                     <div class="input-group">
                         <label class="input-label">C</label>
-                        <input type="number" class="input-field" data-channel="c" min="0" max="0.4" step="0.005">
+                        <input type="number" class="input-field" data-channel="lch-c" min="0" max="0.4" step="0.005">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">H°</label>
+                        <label class="input-label">H\u00b0</label>
                         <input type="number" class="input-field" data-channel="lch-h" min="0" max="360" step="0.1">
                     </div>
                 </div>
@@ -664,9 +744,14 @@ class ColorWheel extends HTMLElement {
         const outerRadius = center - 2
         const innerRadius = outerRadius * WHEEL_INNER_RADIUS_RATIO
 
-        const cacheKey = this._mode === 'oklch'
-            ? `oklch-${roundTo(this._oklch.l, 2)}`
-            : `hsv-${roundTo(this._hsv.v, 0)}`
+        let cacheKey
+        if (this._mode === 'oklch') {
+            cacheKey = `oklch-${roundTo(this._oklch.l, 2)}`
+        } else if (this._mode === 'oklab') {
+            cacheKey = `oklab-${roundTo(this._oklab.l, 2)}`
+        } else {
+            cacheKey = `hsv-${roundTo(this._hsv.v, 0)}`
+        }
 
         if (this._wheelCacheKey === cacheKey && this._wheelImageData) {
             ctx.putImageData(this._wheelImageData, 0, 0)
@@ -676,25 +761,39 @@ class ColorWheel extends HTMLElement {
         const imageData = ctx.createImageData(size, size)
         const data = imageData.data
 
+        // Anti-aliasing: fade over ~1.5 pixels at edges
+        const aaWidth = 1.5
+
         for (let y = 0; y < size; y++) {
             for (let x = 0; x < size; x++) {
                 const dx = x - center
                 const dy = y - center
                 const dist = Math.sqrt(dx * dx + dy * dy)
-
                 const idx = (y * size + x) * 4
 
-                if (dist <= outerRadius && dist >= innerRadius) {
+                let alpha = 1
+                if (dist > outerRadius) {
+                    alpha = clamp(1 - (dist - outerRadius) / aaWidth, 0, 1)
+                } else if (dist < innerRadius) {
+                    alpha = clamp(1 - (innerRadius - dist) / aaWidth, 0, 1)
+                }
+
+                if (alpha > 0) {
                     let angle = Math.atan2(dy, dx) * (180 / Math.PI)
                     if (angle < 0) angle += 360
 
-                    const satRadius = (dist - innerRadius) / (outerRadius - innerRadius)
+                    const satRadius = clamp((dist - innerRadius) / (outerRadius - innerRadius), 0, 1)
 
                     let rgb
                     if (this._mode === 'oklch') {
                         const maxC = getMaxChroma(this._oklch.l, angle)
                         const c = satRadius * maxC
                         rgb = oklchToRgb({ l: this._oklch.l, c, h: angle })
+                    } else if (this._mode === 'oklab') {
+                        const maxAB = getMaxAB(this._oklab.l)
+                        const a = satRadius * maxAB * Math.cos(angle * Math.PI / 180)
+                        const b = satRadius * maxAB * Math.sin(angle * Math.PI / 180)
+                        rgb = oklabToRgb({ l: this._oklab.l, a, b })
                     } else {
                         rgb = hsvToRgb({ h: angle, s: satRadius * 100, v: this._hsv.v })
                     }
@@ -702,7 +801,7 @@ class ColorWheel extends HTMLElement {
                     data[idx] = clamp(rgb.r, 0, 255)
                     data[idx + 1] = clamp(rgb.g, 0, 255)
                     data[idx + 2] = clamp(rgb.b, 0, 255)
-                    data[idx + 3] = 255
+                    data[idx + 3] = Math.round(alpha * 255)
                 } else {
                     data[idx + 3] = 0
                 }
@@ -725,6 +824,8 @@ class ColorWheel extends HTMLElement {
         let cacheKey
         if (this._mode === 'oklch') {
             cacheKey = `oklch-${roundTo(this._oklch.c, 3)}-${roundTo(this._oklch.h, 1)}`
+        } else if (this._mode === 'oklab') {
+            cacheKey = `oklab-${roundTo(this._oklab.a, 3)}-${roundTo(this._oklab.b, 3)}`
         } else {
             cacheKey = `hsv-${roundTo(this._hsv.h, 1)}-${roundTo(this._hsv.s, 0)}`
         }
@@ -743,6 +844,8 @@ class ColorWheel extends HTMLElement {
             let rgb
             if (this._mode === 'oklch') {
                 rgb = oklchToRgb({ l: t, c: this._oklch.c, h: this._oklch.h })
+            } else if (this._mode === 'oklab') {
+                rgb = oklabToRgb({ l: t, a: this._oklab.a, b: this._oklab.b })
             } else {
                 rgb = hsvToRgb({ h: this._hsv.h, s: this._hsv.s, v: t * 100 })
             }
@@ -780,7 +883,13 @@ class ColorWheel extends HTMLElement {
             if (this._mode === 'oklch') {
                 hue = this._oklch.h
                 const maxC = getMaxChroma(this._oklch.l, this._oklch.h)
-                satNorm = maxC > 0 ? this._oklch.c / maxC : 0
+                satNorm = maxC > 0 ? Math.min(this._oklch.c / maxC, 1) : 0
+            } else if (this._mode === 'oklab') {
+                const maxAB = getMaxAB(this._oklab.l)
+                const dist = Math.sqrt(this._oklab.a * this._oklab.a + this._oklab.b * this._oklab.b)
+                satNorm = maxAB > 0 ? Math.min(dist / maxAB, 1) : 0
+                hue = Math.atan2(this._oklab.b, this._oklab.a) * (180 / Math.PI)
+                if (hue < 0) hue += 360
             } else {
                 hue = this._hsv.h
                 satNorm = this._hsv.s / 100
@@ -802,6 +911,8 @@ class ColorWheel extends HTMLElement {
             let valueNorm
             if (this._mode === 'oklch') {
                 valueNorm = this._oklch.l
+            } else if (this._mode === 'oklab') {
+                valueNorm = this._oklab.l
             } else {
                 valueNorm = this._hsv.v / 100
             }
@@ -839,11 +950,18 @@ class ColorWheel extends HTMLElement {
         if (sInput) sInput.value = Math.round(this._hsv.s)
         if (vInput) vInput.value = Math.round(this._hsv.v)
 
-        const lInput = this.querySelector('[data-channel="l"]')
-        const cInput = this.querySelector('[data-channel="c"]')
+        const labLInput = this.querySelector('[data-channel="lab-l"]')
+        const labAInput = this.querySelector('[data-channel="lab-a"]')
+        const labBInput = this.querySelector('[data-channel="lab-b"]')
+        if (labLInput) labLInput.value = roundTo(this._oklab.l * 100, 1)
+        if (labAInput) labAInput.value = roundTo(this._oklab.a, 3)
+        if (labBInput) labBInput.value = roundTo(this._oklab.b, 3)
+
+        const lchLInput = this.querySelector('[data-channel="lch-l"]')
+        const lchCInput = this.querySelector('[data-channel="lch-c"]')
         const lchHInput = this.querySelector('[data-channel="lch-h"]')
-        if (lInput) lInput.value = roundTo(this._oklch.l * 100, 1)
-        if (cInput) cInput.value = roundTo(this._oklch.c, 3)
+        if (lchLInput) lchLInput.value = roundTo(this._oklch.l * 100, 1)
+        if (lchCInput) lchCInput.value = roundTo(this._oklch.c, 3)
         if (lchHInput) lchHInput.value = roundTo(this._oklch.h, 1)
 
         const hexInput = this.querySelector('.hex-input')
@@ -878,7 +996,7 @@ class ColorWheel extends HTMLElement {
             tab.classList.toggle('active', tab.dataset.mode === this._mode)
         })
 
-        const panels = this.querySelectorAll('.inputs-panel')
+        const panels = this.querySelectorAll('.inputs-panel[data-mode]')
         panels.forEach(panel => {
             panel.hidden = panel.dataset.mode !== this._mode
         })
@@ -913,7 +1031,10 @@ class ColorWheel extends HTMLElement {
         this._updatePreview()
     }
 
-    // Event handling
+    // ========================================================================
+    // Event Handling
+    // ========================================================================
+
     _setupEventListeners() {
         const wheelCanvas = this.querySelector('.wheel-canvas')
         const sliderCanvas = this.querySelector('.slider-canvas')
@@ -1020,6 +1141,11 @@ class ColorWheel extends HTMLElement {
             const maxC = getMaxChroma(this._oklch.l, angle)
             this._oklch.c = satNorm * maxC
             this._updateFromOKLCH()
+        } else if (this._mode === 'oklab') {
+            const maxAB = getMaxAB(this._oklab.l)
+            this._oklab.a = satNorm * maxAB * Math.cos(angle * Math.PI / 180)
+            this._oklab.b = satNorm * maxAB * Math.sin(angle * Math.PI / 180)
+            this._updateFromOkLab()
         } else {
             this._hsv.h = angle
             this._hsv.s = satNorm * 100
@@ -1073,6 +1199,9 @@ class ColorWheel extends HTMLElement {
         if (this._mode === 'oklch') {
             this._oklch.l = valueNorm
             this._updateFromOKLCH()
+        } else if (this._mode === 'oklab') {
+            this._oklab.l = valueNorm
+            this._updateFromOkLab()
         } else {
             this._hsv.v = valueNorm * 100
             this._updateFromHSV()
@@ -1179,11 +1308,23 @@ class ColorWheel extends HTMLElement {
                 this._hsv.v = clamp(value, 0, 100)
                 this._updateFromHSV()
                 break
-            case 'l':
+            case 'lab-l':
+                this._oklab.l = clamp(value / 100, 0, 1)
+                this._updateFromOkLab()
+                break
+            case 'lab-a':
+                this._oklab.a = clamp(value, -0.5, 0.5)
+                this._updateFromOkLab()
+                break
+            case 'lab-b':
+                this._oklab.b = clamp(value, -0.5, 0.5)
+                this._updateFromOkLab()
+                break
+            case 'lch-l':
                 this._oklch.l = clamp(value / 100, 0, 1)
                 this._updateFromOKLCH()
                 break
-            case 'c':
+            case 'lch-c':
                 this._oklch.c = clamp(value, 0, 0.5)
                 this._updateFromOKLCH()
                 break
@@ -1224,6 +1365,12 @@ class ColorWheel extends HTMLElement {
                 if (this._mode === 'oklch') {
                     this._oklch.h = normalizeHue(this._oklch.h - steps.hue)
                     this._updateFromOKLCH()
+                } else if (this._mode === 'oklab') {
+                    const dist = Math.sqrt(this._oklab.a ** 2 + this._oklab.b ** 2)
+                    const angle = Math.atan2(this._oklab.b, this._oklab.a) - steps.hue * Math.PI / 180
+                    this._oklab.a = dist * Math.cos(angle)
+                    this._oklab.b = dist * Math.sin(angle)
+                    this._updateFromOkLab()
                 } else {
                     this._hsv.h = normalizeHue(this._hsv.h - steps.hue)
                     this._updateFromHSV()
@@ -1234,6 +1381,12 @@ class ColorWheel extends HTMLElement {
                 if (this._mode === 'oklch') {
                     this._oklch.h = normalizeHue(this._oklch.h + steps.hue)
                     this._updateFromOKLCH()
+                } else if (this._mode === 'oklab') {
+                    const dist = Math.sqrt(this._oklab.a ** 2 + this._oklab.b ** 2)
+                    const angle = Math.atan2(this._oklab.b, this._oklab.a) + steps.hue * Math.PI / 180
+                    this._oklab.a = dist * Math.cos(angle)
+                    this._oklab.b = dist * Math.sin(angle)
+                    this._updateFromOkLab()
                 } else {
                     this._hsv.h = normalizeHue(this._hsv.h + steps.hue)
                     this._updateFromHSV()
@@ -1244,6 +1397,13 @@ class ColorWheel extends HTMLElement {
                 if (this._mode === 'oklch') {
                     this._oklch.c = clamp(this._oklch.c + steps.chroma, 0, 0.5)
                     this._updateFromOKLCH()
+                } else if (this._mode === 'oklab') {
+                    const dist = Math.sqrt(this._oklab.a ** 2 + this._oklab.b ** 2)
+                    const angle = Math.atan2(this._oklab.b, this._oklab.a)
+                    const newDist = clamp(dist + steps.ab, 0, 0.5)
+                    this._oklab.a = newDist * Math.cos(angle)
+                    this._oklab.b = newDist * Math.sin(angle)
+                    this._updateFromOkLab()
                 } else {
                     this._hsv.s = clamp(this._hsv.s + steps.sat, 0, 100)
                     this._updateFromHSV()
@@ -1254,6 +1414,13 @@ class ColorWheel extends HTMLElement {
                 if (this._mode === 'oklch') {
                     this._oklch.c = clamp(this._oklch.c - steps.chroma, 0, 0.5)
                     this._updateFromOKLCH()
+                } else if (this._mode === 'oklab') {
+                    const dist = Math.sqrt(this._oklab.a ** 2 + this._oklab.b ** 2)
+                    const angle = Math.atan2(this._oklab.b, this._oklab.a)
+                    const newDist = clamp(dist - steps.ab, 0, 0.5)
+                    this._oklab.a = newDist * Math.cos(angle)
+                    this._oklab.b = newDist * Math.sin(angle)
+                    this._updateFromOkLab()
                 } else {
                     this._hsv.s = clamp(this._hsv.s - steps.sat, 0, 100)
                     this._updateFromHSV()
@@ -1279,6 +1446,9 @@ class ColorWheel extends HTMLElement {
                 if (this._mode === 'oklch') {
                     this._oklch.l = clamp(this._oklch.l + steps.lightness / 100, 0, 1)
                     this._updateFromOKLCH()
+                } else if (this._mode === 'oklab') {
+                    this._oklab.l = clamp(this._oklab.l + steps.lightness / 100, 0, 1)
+                    this._updateFromOkLab()
                 } else {
                     this._hsv.v = clamp(this._hsv.v + steps.value, 0, 100)
                     this._updateFromHSV()
@@ -1289,6 +1459,9 @@ class ColorWheel extends HTMLElement {
                 if (this._mode === 'oklch') {
                     this._oklch.l = clamp(this._oklch.l - steps.lightness / 100, 0, 1)
                     this._updateFromOKLCH()
+                } else if (this._mode === 'oklab') {
+                    this._oklab.l = clamp(this._oklab.l - steps.lightness / 100, 0, 1)
+                    this._updateFromOkLab()
                 } else {
                     this._hsv.v = clamp(this._hsv.v - steps.value, 0, 100)
                     this._updateFromHSV()

@@ -9,6 +9,33 @@
 
 const TOOLTIP_MARGIN = 12
 
+const TOOLTIP_STYLES_ID = 'hf-tooltip-styles'
+if (typeof document !== 'undefined' && !document.getElementById(TOOLTIP_STYLES_ID)) {
+    const style = document.createElement('style')
+    style.id = TOOLTIP_STYLES_ID
+    style.textContent = `
+        #hf-tooltip-layer {
+            position: fixed;
+            z-index: 100000;
+            padding: 0.375rem 0.625rem;
+            font-family: var(--hf-font-family, Nunito, system-ui, sans-serif);
+            font-size: var(--hf-size-xs, 0.625rem);
+            color: var(--hf-color-7, #eef1f8);
+            background: var(--hf-color-2, #1a1e2e);
+            border: 1px solid var(--hf-border, rgba(255, 255, 255, 0.08));
+            border-radius: var(--hf-radius-sm, 0.375rem);
+            pointer-events: none;
+            white-space: nowrap;
+            transform: translateX(-50%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        #hf-tooltip-layer[data-position="above"] {
+            transform: translateX(-50%) translateY(-100%);
+        }
+    `
+    document.head.appendChild(style)
+}
+
 let tooltipElement = null
 let activeTarget = null
 let initialized = false

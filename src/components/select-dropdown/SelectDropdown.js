@@ -317,6 +317,7 @@ class SelectDropdown extends HTMLElement {
 
     connectedCallback() {
         if (!this._rendered) {
+            this._parseChildOptions()
             this._render()
             this._rendered = true
         }
@@ -435,6 +436,19 @@ class SelectDropdown extends HTMLElement {
     // ========================================================================
     // Private Methods
     // ========================================================================
+
+    _parseChildOptions() {
+        if (this._options.length > 0) return
+        const optionEls = this.querySelectorAll('option')
+        if (optionEls.length === 0) return
+        this._options = Array.from(optionEls).map(el => ({
+            value: el.value ?? el.textContent.trim(),
+            text: el.textContent.trim()
+        }))
+        if (!this._value && this.hasAttribute('value')) {
+            this._value = this.getAttribute('value')
+        }
+    }
 
     _render() {
         this.innerHTML = `

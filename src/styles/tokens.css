@@ -42,7 +42,7 @@
 
     /* Semantic colors */
     --hf-red: #ff5b6b;
-    --hf-green: #6bffa5;
+    --hf-green: #58db63;
     --hf-yellow: #ffd66b;
 
     /* Computed colors */
@@ -71,7 +71,7 @@
 
         --hf-red: #a0152b;
         --hf-green: #156b35;
-        --hf-yellow: #8b6d15;
+        --hf-yellow: #dfa90b;
     }
 }
 
@@ -89,6 +89,8 @@
     --hf-accent-3: #a5b8ff;
     --hf-accent-4: #dce6ff;
     --hf-red: #ff5b6b;
+    --hf-green: #58db63;
+    --hf-yellow: #ffd66b;
 }
 
 [data-theme="light"] {
@@ -104,6 +106,8 @@
     --hf-accent-3: #5b4612;
     --hf-accent-4: #2d2306;
     --hf-red: #a0152b;
+    --hf-green: #156b35;
+    --hf-yellow: #dfa90b;
 }
 
 /* ============================================================================
@@ -113,7 +117,7 @@
 :root {
     /* Font families */
     --hf-font-family: Nunito, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --hf-font-family-mono: 'Sono Mono', 'SF Mono', Monaco, Consolas, monospace;
+    --hf-font-family-mono: 'Noto Sans Mono', 'SF Mono', Monaco, Consolas, monospace;
     --hf-font-family-icon: 'Material Symbols Outlined';
 
     /* Font sizes */
