@@ -1,6 +1,8 @@
-# 🐟 Handfish Design System
+# Handfish Design System
 
 A modern, accessible component library for creative tools. Built with Web Components and CSS Custom Properties.
+
+Demo: [https://noisedeck.github.io/handfish/examples/](https://noisedeck.github.io/handfish/examples/)
 
 ## Features
 
@@ -46,7 +48,7 @@ import { ToggleSwitch, SliderValue, ColorPicker } from '@noisedeck/handfish'
 ```html
 <toggle-switch label="Enable feature"></toggle-switch>
 
-<slider-value min="0" max="100" value="50" suffix="%"></slider-value>
+<slider-value min="0" max="100" value="50" step="1" type="int"></slider-value>
 
 <select-dropdown value="option1">
     <option value="option1">Option 1</option>
@@ -63,7 +65,7 @@ import { ToggleSwitch, SliderValue, ColorPicker } from '@noisedeck/handfish'
 A boolean toggle control that replaces `<input type="checkbox">`.
 
 ```html
-<toggle-switch 
+<toggle-switch
     name="darkMode"
     label="Dark Mode"
     checked
@@ -79,7 +81,7 @@ A boolean toggle control that replaces `<input type="checkbox">`.
 
 ### Slider Value
 
-A range slider with editable numeric value display.
+A range slider with editable numeric value display. Uses `display: contents` to participate in parent grid layouts. Click the value to type an exact number.
 
 ```html
 <slider-value
@@ -88,7 +90,7 @@ A range slider with editable numeric value display.
     max="100"
     value="50"
     step="1"
-    suffix="%"
+    type="int"
 ></slider-value>
 ```
 
@@ -96,10 +98,41 @@ A range slider with editable numeric value display.
 |-----------|------|---------|-------------|
 | `min` | number | `0` | Minimum value |
 | `max` | number | `100` | Maximum value |
-| `value` | number | `50` | Current value |
-| `step` | number | `1` | Step increment |
-| `suffix` | string | `''` | Suffix shown after value |
+| `value` | number | `0` | Current value |
+| `step` | number | `0.01` | Step increment |
+| `type` | string | `'float'` | Value type: `int` or `float` |
+| `name` | string | `''` | Form field name |
 | `disabled` | boolean | `false` | Disabled state |
+
+Events: `input`, `change`
+
+### Slider Control
+
+A self-contained labeled slider with value readout. Supports compact and vertical variants.
+
+```html
+<slider-control
+    label="X"
+    min="0"
+    max="1"
+    value="0.5"
+    precision="2"
+></slider-control>
+```
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `min` | number | `0` | Minimum value |
+| `max` | number | `1` | Maximum value |
+| `value` | number | `0.5` | Current value |
+| `step` | number | `0.01` | Step increment |
+| `label` | string | `''` | Label text |
+| `precision` | number | `2` | Decimal places to display |
+| `compact` | boolean | `false` | Compact layout with tighter gaps |
+| `vertical` | boolean | `false` | Vertical orientation |
+| `disabled` | boolean | `false` | Disabled state |
+
+Events: `input` (detail: `{ value }`), `change` (detail: `{ value }`)
 
 ### Select Dropdown
 
@@ -118,7 +151,6 @@ A custom dropdown select with keyboard navigation and search.
 | `value` | string | `''` | Selected option value |
 | `name` | string | `''` | Form field name |
 | `disabled` | boolean | `false` | Disabled state |
-| `required` | boolean | `false` | Required field |
 
 Features:
 - Type-ahead search when focused
@@ -126,12 +158,37 @@ Features:
 - Auto-switches to dialog mode with 6+ options
 - Escape to close
 
+### Dropdown Menu
+
+A trigger button with a dropdown menu for actions.
+
+```html
+<dropdown-menu label="Options" icon="more_vert">
+    <dropdown-item value="edit" icon="edit">Edit</dropdown-item>
+    <dropdown-item value="duplicate" icon="content_copy">Duplicate</dropdown-item>
+    <dropdown-item divider></dropdown-item>
+    <dropdown-item value="delete" destructive icon="delete">Delete</dropdown-item>
+</dropdown-menu>
+```
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `label` | string | `''` | Trigger button text |
+| `icon` | string | `''` | Material Symbols icon name |
+| `align` | string | `'left'` | Menu alignment: `left` or `right` |
+| `value` | string | `''` | Currently selected value (selectable mode) |
+| `disabled` | boolean | `false` | Disabled state |
+
+`<dropdown-item>` attributes: `value`, `icon`, `divider`, `destructive`
+
+Events: `change` (detail: `{ value }`)
+
 ### Justify Button Group
 
 A segmented control for text alignment selection.
 
 ```html
-<justify-button-group 
+<justify-button-group
     name="alignment"
     value="center"
 ></justify-button-group>
@@ -160,13 +217,17 @@ A dropdown color picker with swatch trigger.
 |-----------|------|---------|-------------|
 | `value` | string | `'#000000'` | Hex color value |
 | `alpha` | number | `1` | Alpha/opacity (0-1) |
-| `mode` | string | `'hsv'` | Color mode: `hsv` or `oklch` |
+| `mode` | string | `'hsv'` | Color mode: `hsv`, `oklab`, or `oklch` |
 | `inline` | boolean | `false` | Always show wheel (no dropdown) |
+| `name` | string | `''` | Form field name |
+| `required` | boolean | `false` | Required field |
 | `disabled` | boolean | `false` | Disabled state |
+
+Events: `input`, `change`, `colorinput` (detail: `{ value, alpha, rgb, hsv, oklch }`), `open`, `close`
 
 ### Color Wheel
 
-The full color wheel interface (used inside Color Picker).
+The full color wheel interface (used inside Color Picker). Supports three color modes: HSV, OkLab, and OKLCH.
 
 ```html
 <color-wheel
@@ -179,7 +240,9 @@ The full color wheel interface (used inside Color Picker).
 |-----------|------|---------|-------------|
 | `value` | string | `'#000000'` | Hex color value |
 | `alpha` | number | `1` | Alpha/opacity (0-1) |
-| `mode` | string | `'hsv'` | Color mode: `hsv` or `oklch` |
+| `mode` | string | `'hsv'` | Color mode: `hsv`, `oklab`, or `oklch` |
+| `name` | string | `''` | Form field name |
+| `required` | boolean | `false` | Required field |
 | `disabled` | boolean | `false` | Disabled state |
 
 Methods:
@@ -191,6 +254,191 @@ Events:
 - `change` - Fires when selection is finalized
 - `colorinput` - Fires with `detail: { value, alpha, rgb, hsv, oklch }`
 
+### Color Swatch
+
+A single color display with selection and tooltip.
+
+```html
+<color-swatch
+    color="#a5b8ff"
+    size="32"
+    selected
+    show-tooltip
+></color-swatch>
+```
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `color` | string | `'#000000'` | Hex color value |
+| `size` | number | `32` | Swatch size in pixels |
+| `selected` | boolean | `false` | Selected state (shows outline ring) |
+| `editable` | boolean | `false` | Enable double-click to edit |
+| `show-tooltip` | boolean | `false` | Show hex tooltip on hover |
+| `disabled` | boolean | `false` | Disabled state |
+
+Events: `select` (detail: `{ color }`), `edit` (detail: `{ color }`)
+
+### Gradient Stops
+
+Draggable color stop handles for positioning colors in a gradient.
+
+```html
+<gradient-stops></gradient-stops>
+```
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `disabled` | boolean | `false` | Disabled state |
+
+Methods:
+- `setStops(colors, positions)` - Set colors (RGB 0-1 arrays) and positions (0-1)
+- `getPositions()` - Get current position array
+- `getSelectedIndex()` - Get selected stop index
+- `setSelectedIndex(index)` - Set selected stop
+
+Events: `select` (detail: `{ index }`), `input` (detail: `{ index, position, positions }`), `change` (detail: `{ index, positions }`), `delete` (detail: `{ index, positions, colors }`)
+
+### Vector 3D Picker
+
+A 3D vector picker with interactive sphere gizmo and XYZ sliders in a dialog modal.
+
+```html
+<vector3d-picker
+    value="0,1,0"
+    min="-1"
+    max="1"
+    step="0.01"
+    normalized
+></vector3d-picker>
+```
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | string | `'0,0,1'` | Comma-separated X,Y,Z values |
+| `min` | number | `-1` | Minimum axis value |
+| `max` | number | `1` | Maximum axis value |
+| `step` | number | `0.01` | Step increment |
+| `normalized` | boolean | `false` | Normalize to unit vector |
+| `name` | string | `''` | Form field name |
+| `disabled` | boolean | `false` | Disabled state |
+
+Events: `input`, `change`
+
+### Code Editor
+
+A code editor with line numbers and pluggable syntax highlighting.
+
+```html
+<code-editor
+    value="// Hello world"
+    placeholder="Enter code..."
+    line-numbers
+></code-editor>
+```
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | string | `''` | Editor content |
+| `placeholder` | string | `''` | Placeholder text |
+| `readonly` | boolean | `false` | Read-only mode |
+| `disabled` | boolean | `false` | Disabled state |
+| `spellcheck` | boolean | `false` | Enable spell check |
+| `line-numbers` | boolean | `true` | Show line numbers |
+| `font-family` | string | — | Override font |
+| `font-size` | string | — | Override font size |
+| `background-color` | string | — | Override background |
+| `background-opacity` | string | — | Override background opacity |
+| `text-color` | string | — | Override text color |
+| `caret-color` | string | — | Override caret color |
+| `selection-color` | string | — | Override selection color |
+
+Methods:
+- `setTokenizer(fn)` - Set a syntax highlighting function: `(line: string) => Array<{type, text}>`
+- `get/set value` - Editor content
+
+Events: `input` (detail: `{ value }`), `forcerecompile`
+
+```js
+// Use with DSL tokenizer
+import { dslTokenizer } from '@noisedeck/handfish'
+editor.setTokenizer(dslTokenizer)
+```
+
+### Image Magnifier
+
+A zoomed-in view of a canvas under the cursor for precise color picking. Shows crosshairs and the hex value of the center pixel.
+
+```html
+<image-magnifier zoom="8" size="120"></image-magnifier>
+```
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `active` | boolean | `false` | Show/hide the magnifier |
+| `zoom` | number | `8` | Zoom level |
+| `size` | number | `120` | Magnifier diameter in pixels |
+
+Methods:
+- `attachToCanvas(canvas)` - Set the source canvas to magnify
+- `update(x, y)` - Update magnifier position and render
+
+### Toast Notifications
+
+Lightweight notification toasts with auto-dismiss. Exported as standalone functions (not a custom element).
+
+```js
+import { showToast, showSuccess, showError, showWarning, showInfo } from '@noisedeck/handfish'
+
+showSuccess('Palette saved')
+showError('Failed to load', { duration: 6000 })
+showWarning('Unsaved changes')
+showInfo('Copied to clipboard')
+```
+
+- `showToast(message, { type, duration })` - General toast (`type`: `info`, `success`, `error`, `warning`)
+- `showSuccess(message, options)` - Success toast (default 2s)
+- `showError(message, options)` - Error toast (default 6s)
+- `showWarning(message, options)` - Warning toast (default 2s)
+- `showInfo(message, options)` - Info toast (default 2s)
+
+## Utilities
+
+### Escape Handler
+
+Stack-based escape key management for closing modals and dropdowns in the correct order.
+
+```js
+import { registerEscapeable, unregisterEscapeable, initEscapeHandler } from '@noisedeck/handfish'
+
+initEscapeHandler()
+registerEscapeable(element, () => closeMyModal())
+unregisterEscapeable(element)
+```
+
+Exports: `registerEscapeable`, `unregisterEscapeable`, `closeTopmost`, `hasOpenEscapeables`, `initEscapeHandler`
+
+### Tooltips
+
+Hover tooltips for any element with a `data-title` attribute.
+
+```js
+import { initializeTooltips } from '@noisedeck/handfish'
+
+initializeTooltips()
+```
+
+```html
+<button data-title="Save palette">Save</button>
+```
+
+### Color Conversions
+
+Comprehensive color conversion utilities. All RGB objects use `{r, g, b}` with 0-255 values.
+
+```js
+import { rgbToHex, parseHex, rgbToHsv, hsvToRgb, rgbToOklch, oklchToRgb } from '@noisedeck/handfish'
+```
+
 ## Design Tokens
 
 All colors, spacing, and other values are controlled via CSS custom properties. Override them in your CSS:
@@ -200,13 +448,13 @@ All colors, spacing, and other values are controlled via CSS custom properties. 
     /* Colors */
     --hf-color-1: #07090d;
     --hf-accent-3: #a5b8ff;
-    
+
     /* Typography */
     --hf-font-family: 'Your Font', sans-serif;
-    
+
     /* Spacing */
     --hf-space-4: 1rem;
-    
+
     /* Radii */
     --hf-radius: 0.5rem;
 }
@@ -255,7 +503,7 @@ Colors automatically adapt to `prefers-color-scheme`.
 
 ```js
 // Toggle theme
-document.documentElement.dataset.theme = 
+document.documentElement.dataset.theme =
     document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
 ```
 
@@ -314,11 +562,11 @@ Requires support for:
 npm install
 
 # Run examples
-npx serve .
+npm run dev
 
 # Open http://localhost:3000/examples/
 ```
 
 ## License
 
-MIT © Noisedeck
+MIT
