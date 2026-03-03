@@ -264,8 +264,8 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
 
         color-wheel .mode-tab {
             flex: 1;
-            padding: 4px 6px;
-            font-size: 9px;
+            padding: 4px 8px;
+            font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -282,8 +282,8 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
         }
 
         color-wheel .mode-tab.active {
-            color: var(--cw-bg);
-            background: var(--cw-text);
+            color: var(--cw-text);
+            background: var(--cw-bg);
         }
 
         color-wheel .inputs-panel {
@@ -501,6 +501,18 @@ class ColorWheel extends HTMLElement {
         }
     }
 
+    get required() {
+        return this.hasAttribute('required')
+    }
+
+    set required(val) {
+        if (val) {
+            this.setAttribute('required', '')
+        } else {
+            this.removeAttribute('required')
+        }
+    }
+
     get name() {
         return this.getAttribute('name') || ''
     }
@@ -650,12 +662,12 @@ class ColorWheel extends HTMLElement {
                         </div>
                     </div>
                     <div class="hex-input-container">
-                        <input type="text" class="hex-input" placeholder="#000000" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex color value">
+                        <input type="text" class="hex-input" name="hex-input" placeholder="#000000" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex color value">
                     </div>
                 </div>
 
                 <div class="alpha-container">
-                    <span class="input-label">\u03b1</span>
+                    <span class="input-label">α</span>
                     <div class="alpha-slider-container">
                         <div class="alpha-slider-bg"></div>
                         <div class="alpha-slider-gradient"></div>
@@ -673,61 +685,61 @@ class ColorWheel extends HTMLElement {
 
                 <div class="inputs-panel rgb-panel">
                     <div class="input-group">
-                        <label class="input-label">R</label>
-                        <input type="number" class="input-field" data-channel="r" min="0" max="255" step="1">
+                        <span class="input-label">R</span>
+                        <input type="number" class="input-field" name="r-input" data-channel="r" min="0" max="255" step="1">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">G</label>
-                        <input type="number" class="input-field" data-channel="g" min="0" max="255" step="1">
+                        <span class="input-label">G</span>
+                        <input type="number" class="input-field" name="g-input" data-channel="g" min="0" max="255" step="1">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">B</label>
-                        <input type="number" class="input-field" data-channel="b" min="0" max="255" step="1">
+                        <span class="input-label">B</span>
+                        <input type="number" class="input-field" name="b-input" data-channel="b" min="0" max="255" step="1">
                     </div>
                 </div>
 
                 <div class="inputs-panel" data-mode="hsv">
                     <div class="input-group">
-                        <label class="input-label">H\u00b0</label>
-                        <input type="number" class="input-field" data-channel="h" min="0" max="360" step="1">
+                        <span class="input-label">H°</span>
+                        <input type="number" class="input-field" name="h-input" data-channel="h" min="0" max="360" step="1">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">S%</label>
-                        <input type="number" class="input-field" data-channel="s" min="0" max="100" step="1">
+                        <span class="input-label">S%</span>
+                        <input type="number" class="input-field" name="s-input" data-channel="s" min="0" max="100" step="1">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">V%</label>
-                        <input type="number" class="input-field" data-channel="v" min="0" max="100" step="1">
+                        <span class="input-label">V%</span>
+                        <input type="number" class="input-field" name="v-input" data-channel="v" min="0" max="100" step="1">
                     </div>
                 </div>
 
                 <div class="inputs-panel" data-mode="oklab" hidden>
                     <div class="input-group">
-                        <label class="input-label">L%</label>
-                        <input type="number" class="input-field" data-channel="lab-l" min="0" max="100" step="0.1">
+                        <span class="input-label">L%</span>
+                        <input type="number" class="input-field" name="lab-l-input" data-channel="lab-l" min="0" max="100" step="0.1">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">a</label>
-                        <input type="number" class="input-field" data-channel="lab-a" min="-0.4" max="0.4" step="0.005">
+                        <span class="input-label">a</span>
+                        <input type="number" class="input-field" name="lab-a-input" data-channel="lab-a" min="-0.4" max="0.4" step="0.005">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">b</label>
-                        <input type="number" class="input-field" data-channel="lab-b" min="-0.4" max="0.4" step="0.005">
+                        <span class="input-label">b</span>
+                        <input type="number" class="input-field" name="lab-b-input" data-channel="lab-b" min="-0.4" max="0.4" step="0.005">
                     </div>
                 </div>
 
                 <div class="inputs-panel" data-mode="oklch" hidden>
                     <div class="input-group">
-                        <label class="input-label">L%</label>
-                        <input type="number" class="input-field" data-channel="lch-l" min="0" max="100" step="0.1">
+                        <span class="input-label">L%</span>
+                        <input type="number" class="input-field" name="lch-l-input" data-channel="lch-l" min="0" max="100" step="0.1">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">C</label>
-                        <input type="number" class="input-field" data-channel="lch-c" min="0" max="0.4" step="0.005">
+                        <span class="input-label">C</span>
+                        <input type="number" class="input-field" name="lch-c-input" data-channel="lch-c" min="0" max="0.4" step="0.005">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">H\u00b0</label>
-                        <input type="number" class="input-field" data-channel="lch-h" min="0" max="360" step="0.1">
+                        <span class="input-label">H°</span>
+                        <input type="number" class="input-field" name="lch-h-input" data-channel="lch-h" min="0" max="360" step="0.1">
                     </div>
                 </div>
             </div>
@@ -883,11 +895,11 @@ class ColorWheel extends HTMLElement {
             if (this._mode === 'oklch') {
                 hue = this._oklch.h
                 const maxC = getMaxChroma(this._oklch.l, this._oklch.h)
-                satNorm = maxC > 0 ? Math.min(this._oklch.c / maxC, 1) : 0
+                satNorm = maxC > 0 ? this._oklch.c / maxC : 0
             } else if (this._mode === 'oklab') {
                 const maxAB = getMaxAB(this._oklab.l)
                 const dist = Math.sqrt(this._oklab.a * this._oklab.a + this._oklab.b * this._oklab.b)
-                satNorm = maxAB > 0 ? Math.min(dist / maxAB, 1) : 0
+                satNorm = maxAB > 0 ? dist / maxAB : 0
                 hue = Math.atan2(this._oklab.b, this._oklab.a) * (180 / Math.PI)
                 if (hue < 0) hue += 360
             } else {

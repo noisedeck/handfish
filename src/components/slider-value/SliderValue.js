@@ -109,7 +109,7 @@ class SliderValue extends HTMLElement {
     static formAssociated = true
 
     static get observedAttributes() {
-        return ['value', 'min', 'max', 'step', 'disabled', 'name', 'type']
+        return ['value', 'min', 'max', 'step', 'disabled', 'name', 'type', 'format']
     }
 
     constructor() {
@@ -135,6 +135,9 @@ class SliderValue extends HTMLElement {
         /** @type {'int'|'float'} */
         this._type = 'float'
 
+        /** @type {string|null} Display format ('percent' or null) */
+        this._format = null
+
         /** @type {boolean} */
         this._rendered = false
 
@@ -154,10 +157,6 @@ class SliderValue extends HTMLElement {
         this._updateSlider()
         this._updateValueDisplay()
         this._updateFormValue()
-    }
-
-    disconnectedCallback() {
-        // Cleanup if needed
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -184,6 +183,10 @@ class SliderValue extends HTMLElement {
                 break
             case 'type':
                 this._type = newValue === 'int' ? 'int' : 'float'
+                this._updateValueDisplay()
+                break
+            case 'format':
+                this._format = newValue || null
                 this._updateValueDisplay()
                 break
             case 'disabled':
@@ -253,6 +256,17 @@ class SliderValue extends HTMLElement {
     /** @param {'int'|'float'} val */
     set type(val) {
         this._type = val === 'int' ? 'int' : 'float'
+        this._updateValueDisplay()
+    }
+
+    /** @returns {string|null} Display format */
+    get format() {
+        return this._format
+    }
+
+    /** @param {string|null} val - Display format ('percent' or null) */
+    set format(val) {
+        this._format = val || null
         this._updateValueDisplay()
     }
 
@@ -340,6 +354,11 @@ class SliderValue extends HTMLElement {
         const valueDisplay = this.querySelector('.value-display')
         if (!valueDisplay) return
 
+        if (this._format === 'percent') {
+            valueDisplay.textContent = Math.round(this._value * 100) + '%'
+            return
+        }
+
         if (this._type === 'int') {
             valueDisplay.textContent = String(Math.round(this._value))
         } else {
@@ -353,8 +372,16 @@ class SliderValue extends HTMLElement {
         const valueDisplay = this.querySelector('.value-display')
         if (!valueDisplay) return
 
-        const inputText = valueDisplay.textContent.trim()
-        const inputValue = parseFloat(inputText)
+        let inputText = valueDisplay.textContent.trim()
+
+        // If percent format, strip trailing '%' and convert from percentage
+        let inputValue
+        if (this._format === 'percent') {
+            inputText = inputText.replace(/%$/, '')
+            inputValue = parseFloat(inputText) / 100
+        } else {
+            inputValue = parseFloat(inputText)
+        }
 
         // Validate: check if it's a valid number
         if (isNaN(inputValue)) {

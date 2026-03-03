@@ -60,7 +60,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
         }
 
         select-dropdown .trigger-arrow {
-            font-size: 0.8rem;
+            font-size: 0.5rem;
             color: var(--hf-color-5, #98a7c8);
             flex-shrink: 0;
             margin-left: auto;
@@ -105,6 +105,14 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
         select-dropdown .inline-dropdown.position-above {
             bottom: 100%;
             margin-bottom: 2px;
+        }
+
+        select-dropdown .inline-dropdown .group-header {
+            padding: 0.375rem 0.5rem 0.2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            opacity: 0.5;
+            letter-spacing: 0.05em;
         }
 
         select-dropdown .inline-dropdown .option {
@@ -220,6 +228,15 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
             border-bottom: none;
         }
 
+        select-dropdown .dialog-options .group-header {
+            padding: 0.375rem 0.5rem 0.2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         select-dropdown .dialog-options .option:hover,
         select-dropdown .dialog-options .option.focused {
             background: color-mix(in srgb, var(--hf-accent-3, #a5b8ff) 20%, transparent 80%);
@@ -316,8 +333,12 @@ class SelectDropdown extends HTMLElement {
     }
 
     connectedCallback() {
+        // Parse <option> children before rendering (they get replaced by _render)
+        if (this._options.length === 0) {
+            this._parseOptionChildren()
+        }
+
         if (!this._rendered) {
-            this._parseChildOptions()
             this._render()
             this._rendered = true
         }
@@ -437,16 +458,25 @@ class SelectDropdown extends HTMLElement {
     // Private Methods
     // ========================================================================
 
-    _parseChildOptions() {
-        if (this._options.length > 0) return
-        const optionEls = this.querySelectorAll('option')
-        if (optionEls.length === 0) return
-        this._options = Array.from(optionEls).map(el => ({
-            value: el.value ?? el.textContent.trim(),
-            text: el.textContent.trim()
-        }))
-        if (!this._value && this.hasAttribute('value')) {
-            this._value = this.getAttribute('value')
+    /**
+     * Parse <option> child elements to populate options array
+     * This allows declarative usage: <select-dropdown><option value="a">A</option></select-dropdown>
+     * @private
+     */
+    _parseOptionChildren() {
+        const optionElements = this.querySelectorAll('option')
+        if (optionElements.length > 0) {
+            this._options = Array.from(optionElements).map(opt => ({
+                value: opt.value || opt.textContent.trim(),
+                text: opt.textContent.trim()
+            }))
+            // If no value attribute is set, use the first option's value
+            if (!this._value && this._options.length > 0) {
+                const valueAttr = this.getAttribute('value')
+                if (valueAttr) {
+                    this._value = valueAttr
+                }
+            }
         }
     }
 
@@ -530,7 +560,7 @@ class SelectDropdown extends HTMLElement {
     }
 
     _useInlineMode() {
-        return this._options.length < 6
+        return this._options.length < 60
     }
 
     _getOptionsContainer() {
@@ -558,7 +588,15 @@ class SelectDropdown extends HTMLElement {
                 return
             }
 
+            let lastCategory = null
             this._options.forEach((opt) => {
+                if (opt.category && opt.category !== lastCategory) {
+                    lastCategory = opt.category
+                    const header = document.createElement('div')
+                    header.className = 'group-header'
+                    header.textContent = opt.category
+                    container.appendChild(header)
+                }
                 const option = document.createElement('div')
                 option.className = 'option'
                 option.dataset.value = opt.value
@@ -780,6 +818,7 @@ class SelectDropdown extends HTMLElement {
 
         if (trigger) {
             trigger.setAttribute('aria-expanded', 'false')
+            trigger.focus()
         }
 
         if (currentOpenDialog === this) {
@@ -795,8 +834,8 @@ class SelectDropdown extends HTMLElement {
         const labelEl = controlGroup?.querySelector('.control-label')
         const paramName = labelEl?.textContent?.trim() || ''
 
-        const shaderModule = this.closest('.shader-module')
-        const effectName = shaderModule?.dataset?.effectName || ''
+        const shaderEffect = this.closest('.shader-effect')
+        const effectName = shaderEffect?.dataset?.effectName || ''
 
         let title = 'select'
         if (effectName && paramName) {
@@ -840,13 +879,25 @@ class SelectDropdown extends HTMLElement {
         if (this._options.length === 0) return
 
         let currentIdx = this._options.findIndex(o => o.value === this._value)
+        if (currentIdx === -1) currentIdx = offset > 0 ? -1 : this._options.length
         let newIdx = currentIdx + offset
 
-        if (newIdx < 0) newIdx = 0
-        if (newIdx >= this._options.length) newIdx = this._options.length - 1
+        if (newIdx < 0) newIdx = this._options.length - 1
+        if (newIdx >= this._options.length) newIdx = 0
 
-        if (newIdx !== currentIdx) {
-            this._selectOption(this._options[newIdx].value)
+        const oldVal = this._value
+        this._value = this._options[newIdx].value
+        this.setAttribute('value', this._value)
+        this._updateDisplay()
+        this._updateFormValue()
+
+        if (this._isOpen) {
+            this._focusedIndex = newIdx
+            this._updateFocusedOption()
+        }
+
+        if (oldVal !== this._value) {
+            this.dispatchEvent(new Event('change', { bubbles: true }))
         }
     }
 

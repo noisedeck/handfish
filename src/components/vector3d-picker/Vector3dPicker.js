@@ -111,8 +111,8 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
         vector3d-picker .dialog-titlebar {
             background-color: color-mix(
                 in srgb,
-                var(--hf-accent-3, #a5b8ff) 30%,
-                transparent 70%
+                var(--hf-accent-3, #a5b8ff) var(--hf-header-opacity, 30%),
+                transparent var(--hf-header-transparency, 70%)
             );
             border-bottom: none;
             padding: 0 0.5em;
@@ -630,24 +630,24 @@ class Vector3dPicker extends HTMLElement {
                     <div class="sliders-section">
                         <div class="slider-row">
                             <span class="slider-label x">X</span>
-                            <input type="range" class="axis-slider x" min="-1" max="1" step="0.01" value="0">
-                            <input type="text" class="axis-input x-input" value="0.00">
+                            <input type="range" class="axis-slider x" name="x-range" min="-1" max="1" step="0.01" value="0">
+                            <input type="text" class="axis-input x-input" name="x-input" value="0.00">
                         </div>
                         <div class="slider-row">
                             <span class="slider-label y">Y</span>
-                            <input type="range" class="axis-slider y" min="-1" max="1" step="0.01" value="0">
-                            <input type="text" class="axis-input y-input" value="0.00">
+                            <input type="range" class="axis-slider y" name="y-range" min="-1" max="1" step="0.01" value="0">
+                            <input type="text" class="axis-input y-input" name="y-input" value="0.00">
                         </div>
                         <div class="slider-row">
                             <span class="slider-label z">Z</span>
-                            <input type="range" class="axis-slider z" min="-1" max="1" step="0.01" value="0">
-                            <input type="text" class="axis-input z-input" value="0.00">
+                            <input type="range" class="axis-slider z" name="z-range" min="-1" max="1" step="0.01" value="0">
+                            <input type="text" class="axis-input z-input" name="z-input" value="0.00">
                         </div>
                     </div>
 
                     <div class="options-row">
                         <label class="normalize-toggle">
-                            <input type="checkbox" class="normalize-checkbox">
+                            <input type="checkbox" class="normalize-checkbox" name="normalize">
                             <span>Normalize</span>
                         </label>
                         <span class="magnitude-display">|v| = 0.00</span>

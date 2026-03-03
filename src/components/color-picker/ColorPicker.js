@@ -1,34 +1,32 @@
 /**
- * Color Picker Web Component
+ * Color Picker Dropdown Component
  *
- * A dropdown color picker that wraps the ColorWheel component.
- * Provides a compact swatch trigger that opens a dialog with the full color wheel.
+ * A compact color picker that shows a swatch button which opens a modal dialog
+ * containing the full ColorWheel component. Uses <dialog> element for proper
+ * z-index stacking.
  *
  * @module components/color-picker/ColorPicker
  */
 
-import { parseHex, rgbToHex } from '../../utils/colorConversions.js'
+import {
+    parseHex, rgbToHex, rgbToHsv, rgbToOklab, rgbToOklch
+} from '../../utils/colorConversions.js'
+
+// Import ColorWheel (self-registers)
 import '../color-wheel/ColorWheel.js'
 
 // ============================================================================
-// Light DOM Style Injection
+// Inject styles once into document head
 // ============================================================================
-
 const COLOR_PICKER_STYLES_ID = 'hf-color-picker-styles'
-
 if (!document.getElementById(COLOR_PICKER_STYLES_ID)) {
     const styleEl = document.createElement('style')
     styleEl.id = COLOR_PICKER_STYLES_ID
     styleEl.textContent = `
         color-picker {
-            display: inline-block;
-            position: relative;
-            font-family: var(--hf-font-family, Nunito, system-ui, sans-serif);
-            --cp-swatch-size: 32px;
-            --cp-border: color-mix(in srgb, var(--hf-accent-3, #a5b8ff) 25%, transparent 75%);
-            --cp-bg: var(--hf-color-2, #101522);
-            --cp-radius: var(--hf-radius-sm, 4px);
-            --cp-accent: var(--hf-accent-3, #a5b8ff);
+            all: unset;
+            display: block;
+            font-family: inherit;
         }
 
         color-picker[disabled] {
@@ -36,136 +34,152 @@ if (!document.getElementById(COLOR_PICKER_STYLES_ID)) {
             pointer-events: none;
         }
 
-        color-picker .color-picker-trigger {
-            width: var(--cp-swatch-size);
-            height: var(--cp-swatch-size);
-            border: 1px solid var(--cp-border);
-            border-radius: var(--cp-radius);
+        color-picker .swatch-button {
+            all: unset;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.375rem 0.5rem;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            padding: 0;
-            background: none;
+            width: 100%;
+            height: 1.75rem;
+            box-sizing: border-box;
+            font-size: 0.75rem;
+            color: var(--hf-color-6, #d9deeb);
+            background: var(--hf-color-3, #1b2538);
+            border-radius: var(--hf-radius-sm, 0.375rem);
         }
 
-        color-picker .color-picker-trigger:hover {
-            border-color: var(--cp-accent);
+        color-picker .swatch {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
         }
 
-        color-picker .color-picker-trigger:focus {
-            outline: 2px solid var(--cp-accent);
-            outline-offset: 2px;
+        color-picker .hex-display {
+            font-size: 0.62rem;
+            color: var(--hf-color-6, #d9deeb);
+            font-family: var(--hf-font-family-mono, ui-monospace, 'Cascadia Mono', 'Consolas', monospace);
         }
 
-        color-picker .color-picker-trigger::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: 
-                linear-gradient(45deg, #888 25%, transparent 25%),
-                linear-gradient(-45deg, #888 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #888 75%),
-                linear-gradient(-45deg, transparent 75%, #888 75%);
-            background-size: 8px 8px;
-            background-position: 0 0, 0 4px, 4px -4px, -4px 0;
-            opacity: 0.3;
+        color-picker .dropdown-arrow {
+            font-size: 0.6rem;
+            color: var(--hf-color-5, #98a7c8);
+            flex-shrink: 0;
+            margin-left: auto;
+            transition: transform 0.15s ease;
         }
 
-        color-picker .swatch-color {
-            position: absolute;
-            inset: 0;
+        color-picker.dialog-open .dropdown-arrow {
+            transform: rotate(180deg);
         }
 
-        /* Dialog styling */
-        color-picker dialog {
+        /* Dialog styles */
+        color-picker .color-dialog {
+            background: color-mix(
+                in srgb,
+                var(--hf-color-2, #1a1e2e) var(--hf-surface-opacity, 85%),
+                transparent var(--hf-surface-transparency, 15%)
+            );
+            backdrop-filter: var(--hf-glass-blur, blur(12px));
             border: none;
-            padding: 0;
-            background: transparent;
-            overflow: visible;
-        }
-
-        color-picker dialog::backdrop {
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        color-picker dialog[open] {
-            display: block;
-        }
-
-        /* Position dialog near trigger when using show() */
-        color-picker dialog.positioned {
-            position: absolute;
-            margin: 0;
-            top: calc(var(--cp-swatch-size) + 4px);
-            left: 0;
-        }
-
-        color-picker dialog.positioned-above {
-            top: auto;
-            bottom: calc(var(--cp-swatch-size) + 4px);
-        }
-
-        color-picker dialog.positioned-left {
-            left: auto;
-            right: 0;
-        }
-
-        /* Color wheel within dialog */
-        color-picker dialog color-wheel {
-            display: block;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             border-radius: var(--hf-radius, 8px);
+            padding: 0;
+            color: var(--hf-color-6, #d9deeb);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
         }
 
-        /* Hidden color input for form submission fallback */
-        color-picker input[type="hidden"] {
-            display: none;
+        color-picker .color-dialog::backdrop {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
         }
 
-        /* Inline mode (no dialog, wheel always visible) */
-        color-picker[inline] .color-picker-trigger {
-            display: none;
+        color-picker .dialog-titlebar {
+            background-color: color-mix(
+                in srgb,
+                var(--hf-accent-3, #a5b8ff) var(--hf-header-opacity, 30%),
+                transparent var(--hf-header-transparency, 70%)
+            );
+            border-bottom: none;
+            padding: 0 0.5em;
+            min-height: 1.75rem;
+            height: 1.75rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--hf-color-6, #d9deeb);
+            text-transform: lowercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5em;
+            border-radius: var(--hf-radius, 8px) var(--hf-radius, 8px) 0 0;
         }
 
-        color-picker[inline] dialog {
-            display: block !important;
-            position: static;
+        color-picker .dialog-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        color-picker[inline] dialog color-wheel {
-            box-shadow: none;
+        color-picker .dialog-close {
+            background: transparent;
+            border: none;
+            color: var(--hf-color-5, #98a7c8);
+            cursor: pointer;
+            font-size: 0.875rem;
+            padding: 0.25em 0.5em;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.15s ease;
+            margin-left: auto;
+        }
+
+        color-picker .dialog-close:hover {
+            opacity: 1;
+            color: var(--hf-color-6, #d9deeb);
+        }
+
+        color-picker .dialog-body {
+            padding: 0;
+        }
+
+        color-picker color-wheel {
+            display: block;
         }
     `
     document.head.appendChild(styleEl)
 }
 
 // ============================================================================
-// Color Picker Component
+// Color Picker Dropdown Component
 // ============================================================================
 
 class ColorPicker extends HTMLElement {
     static formAssociated = true
 
     static get observedAttributes() {
-        return ['value', 'alpha', 'mode', 'disabled', 'required', 'name', 'inline']
+        return ['value', 'disabled', 'name', 'color-mode']
     }
 
     constructor() {
         super()
 
+        // Form association
         if (this.constructor.formAssociated) {
             this._internals = this.attachInternals?.()
         }
 
         this._value = '#000000'
-        this._alpha = 1
-        this._mode = 'hsv'
+        this._colorMode = 'rgb'
         this._isOpen = false
-        this._rendered = false
-        this._listenersAttached = false
 
-        this._boundOnKeyDown = this._onKeyDown.bind(this)
-        this._boundOnClickOutside = this._onClickOutside.bind(this)
+        /** @type {boolean} */
+        this._rendered = false
+
+        /** @type {boolean} */
+        this._listenersAttached = false
     }
 
     connectedCallback() {
@@ -182,73 +196,51 @@ class ColorPicker extends HTMLElement {
     }
 
     disconnectedCallback() {
-        document.removeEventListener('keydown', this._boundOnKeyDown)
-        document.removeEventListener('pointerdown', this._boundOnClickOutside)
+        this._closeDialog()
     }
 
-    attributeChangedCallback(name, oldVal, newVal) {
-        if (oldVal === newVal) return
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return
 
         switch (name) {
             case 'value':
-                if (parseHex(newVal)) {
-                    this._value = newVal
-                    this._updateSwatch()
-                    this._syncToColorWheel()
-                }
-                break
-            case 'alpha':
-                this._alpha = Math.max(0, Math.min(1, parseFloat(newVal) || 1))
-                this._syncToColorWheel()
-                break
-            case 'mode':
-                if (['rgb', 'hsv', 'oklch'].includes(newVal)) {
-                    this._mode = newVal
-                    this._syncToColorWheel()
-                }
+                this._setValueFromAttribute(newValue)
                 break
             case 'disabled':
                 this._updateDisabledState()
                 break
-            case 'inline':
-                if (newVal !== null && this._isOpen) {
-                    this._closeDialog()
-                }
+            case 'color-mode':
+                this._colorMode = newValue || 'rgb'
+                this._updateSwatch()
                 break
         }
     }
 
+    // ========================================================================
     // Public API
+    // ========================================================================
+
     get value() {
         return this._value
     }
 
     set value(val) {
-        if (parseHex(val)) {
-            this._value = val
-            this._updateSwatch()
-            this._syncToColorWheel()
-            this._updateFormValue()
+        let rgb
+        if (typeof val === 'string') {
+            rgb = parseHex(val)
+        } else if (Array.isArray(val) && val.length >= 3) {
+            rgb = { r: val[0] * 255, g: val[1] * 255, b: val[2] * 255 }
         }
-    }
 
-    get alpha() {
-        return this._alpha
-    }
-
-    set alpha(val) {
-        this._alpha = Math.max(0, Math.min(1, val))
-        this._syncToColorWheel()
-    }
-
-    get mode() {
-        return this._mode
-    }
-
-    set mode(val) {
-        if (['rgb', 'hsv', 'oklch'].includes(val)) {
-            this._mode = val
-            this._syncToColorWheel()
+        if (rgb) {
+            this._value = rgbToHex(rgb)
+            this._updateSwatch()
+            this._updateFormValue()
+            // Update color wheel if open
+            const colorWheel = this.querySelector('color-wheel')
+            if (colorWheel) {
+                colorWheel.value = this._value
+            }
         }
     }
 
@@ -265,241 +257,215 @@ class ColorPicker extends HTMLElement {
     }
 
     get name() {
-        return this.getAttribute('name') || ''
+        return this.getAttribute('name')
     }
 
     set name(val) {
-        this.setAttribute('name', val)
-    }
-
-    get inline() {
-        return this.hasAttribute('inline')
-    }
-
-    set inline(val) {
         if (val) {
-            this.setAttribute('inline', '')
+            this.setAttribute('name', val)
         } else {
-            this.removeAttribute('inline')
+            this.removeAttribute('name')
         }
     }
 
-    get isOpen() {
-        return this._isOpen
+    get colorMode() {
+        return this._colorMode
     }
 
-    open() {
-        if (this.disabled || this.inline) return
-        this._openDialog()
-    }
-
-    close() {
-        this._closeDialog()
-    }
-
-    toggle() {
-        if (this._isOpen) {
-            this.close()
-        } else {
-            this.open()
-        }
-    }
-
-    getColor() {
-        const wheel = this.querySelector('color-wheel')
-        if (wheel) {
-            return wheel.getColor()
-        }
-        return {
-            value: this._value,
-            alpha: this._alpha,
-            rgb: null,
-            hsv: null,
-            oklch: null
-        }
-    }
-
-    setColor(opts) {
-        if (opts.value && parseHex(opts.value)) {
-            this._value = opts.value
-        }
-        if (typeof opts.alpha === 'number') {
-            this._alpha = Math.max(0, Math.min(1, opts.alpha))
-        }
-        if (opts.mode && ['rgb', 'hsv', 'oklch'].includes(opts.mode)) {
-            this._mode = opts.mode
-        }
+    set colorMode(val) {
+        const mode = val || 'rgb'
+        if (mode === this._colorMode) return
+        this._colorMode = mode
+        this.setAttribute('color-mode', mode)
         this._updateSwatch()
-        this._syncToColorWheel()
-        this._updateFormValue()
     }
 
-    // Private methods
+    // ========================================================================
+    // Private Methods
+    // ========================================================================
+
+    _render() {
+        this.innerHTML = `
+            <button class="swatch-button" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <span class="swatch"></span>
+                <span class="hex-display"></span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+            <dialog class="color-dialog" aria-label="Color picker">
+                <div class="dialog-titlebar">
+                    <span class="dialog-title">color</span>
+                    <button class="dialog-close" type="button" aria-label="close">✕</button>
+                </div>
+                <div class="dialog-body">
+                    <color-wheel mode="hsv"></color-wheel>
+                </div>
+            </dialog>
+        `
+    }
+
+    _setupEventListeners() {
+        const button = this.querySelector('.swatch-button')
+        const dialog = this.querySelector('.color-dialog')
+        const closeBtn = this.querySelector('.dialog-close')
+        const colorWheel = this.querySelector('color-wheel')
+
+        // Toggle dialog on button click
+        button.addEventListener('click', (e) => {
+            e.stopPropagation()
+            if (this.disabled) return
+            this._toggleDialog()
+        })
+
+        // Handle keyboard on button
+        button.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                this._toggleDialog()
+            }
+        })
+
+        // Close button
+        closeBtn.addEventListener('click', () => {
+            this._closeDialog()
+        })
+
+        // Click on backdrop closes
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) {
+                this._closeDialog()
+            }
+        })
+
+        // ESC triggers 'cancel' event; normalize to close
+        dialog.addEventListener('cancel', (e) => {
+            e.preventDefault()
+            this._closeDialog()
+        })
+
+        dialog.addEventListener('close', () => {
+            this._onDialogClosed()
+        })
+
+        // Color wheel events
+        colorWheel.addEventListener('input', () => {
+            this._value = colorWheel.value
+            this._updateSwatch()
+            this._updateFormValue()
+            this._emitInput()
+        })
+
+        colorWheel.addEventListener('change', () => {
+            this._value = colorWheel.value
+            this._updateSwatch()
+            this._updateFormValue()
+            this._emitChange()
+        })
+    }
+
+    _toggleDialog() {
+        if (this._isOpen) {
+            this._closeDialog()
+        } else {
+            this._openDialog()
+        }
+    }
+
+    _openDialog() {
+        const dialog = this.querySelector('.color-dialog')
+        const button = this.querySelector('.swatch-button')
+        const colorWheel = this.querySelector('color-wheel')
+
+        // Sync color wheel value and mode
+        colorWheel.value = this._value
+        colorWheel.mode = this._colorMode === 'rgb' ? 'hsv' : this._colorMode
+
+        // Show modal dialog
+        dialog.showModal()
+        button.setAttribute('aria-expanded', 'true')
+        this.classList.add('dialog-open')
+        this._isOpen = true
+    }
+
+    _closeDialog() {
+        const dialog = this.querySelector('.color-dialog')
+        if (dialog?.open) {
+            dialog.close()
+        } else {
+            this._onDialogClosed()
+        }
+    }
+
+    _onDialogClosed() {
+        const button = this.querySelector('.swatch-button')
+        if (button) button.setAttribute('aria-expanded', 'false')
+        this.classList.remove('dialog-open')
+        this._isOpen = false
+    }
+
+    _updateSwatch() {
+        const swatch = this.querySelector('.swatch')
+        const hexDisplay = this.querySelector('.hex-display')
+
+        if (swatch) {
+            swatch.style.backgroundColor = this._value
+        }
+        if (hexDisplay) {
+            hexDisplay.textContent = this._formatDisplay()
+        }
+    }
+
+    _formatDisplay() {
+        if (this._colorMode === 'rgb') return this._value
+
+        const rgb = parseHex(this._value)
+        if (!rgb) return this._value
+
+        if (this._colorMode === 'hsv') {
+            const { h, s, v } = rgbToHsv(rgb)
+            return `${Math.round(h)}° ${Math.round(s)}% ${Math.round(v)}%`
+        }
+        if (this._colorMode === 'oklab') {
+            const { l, a, b } = rgbToOklab(rgb)
+            return `${l.toFixed(2)} ${a.toFixed(2)} ${b.toFixed(2)}`
+        }
+        if (this._colorMode === 'oklch') {
+            const { l, c, h } = rgbToOklch(rgb)
+            return `${l.toFixed(2)} ${c.toFixed(2)} ${Math.round(h)}°`
+        }
+        return this._value
+    }
+
+    _updateDisabledState() {
+        const button = this.querySelector('.swatch-button')
+        if (button) {
+            button.disabled = this.disabled
+        }
+        if (this.disabled) {
+            this._closeDialog()
+        }
+    }
+
+    _setValueFromAttribute(hex) {
+        const rgb = parseHex(hex)
+        if (rgb) {
+            this._value = rgbToHex(rgb)
+            this._updateSwatch()
+            this._updateFormValue()
+        }
+    }
+
     _updateFormValue() {
         if (this._internals) {
             this._internals.setFormValue(this._value)
         }
     }
 
-    _render() {
-        this.innerHTML = `
-            <button type="button" class="color-picker-trigger" aria-label="Choose color" aria-haspopup="dialog">
-                <div class="swatch-color"></div>
-            </button>
-            <dialog>
-                <color-wheel></color-wheel>
-            </dialog>
-        `
+    _emitInput() {
+        this.dispatchEvent(new Event('input', { bubbles: true, composed: true }))
     }
 
-    _updateSwatch() {
-        const swatch = this.querySelector('.swatch-color')
-        if (swatch) {
-            swatch.style.backgroundColor = this._value
-            swatch.style.opacity = this._alpha
-        }
-    }
-
-    _syncToColorWheel() {
-        const wheel = this.querySelector('color-wheel')
-        if (wheel) {
-            wheel.setColor({
-                value: this._value,
-                alpha: this._alpha,
-                mode: this._mode
-            })
-        }
-    }
-
-    _updateDisabledState() {
-        const trigger = this.querySelector('.color-picker-trigger')
-        if (trigger) {
-            trigger.disabled = this.disabled
-        }
-        if (this.disabled && this._isOpen) {
-            this._closeDialog()
-        }
-    }
-
-    _setupEventListeners() {
-        const trigger = this.querySelector('.color-picker-trigger')
-        const dialog = this.querySelector('dialog')
-        const wheel = this.querySelector('color-wheel')
-
-        if (trigger) {
-            trigger.addEventListener('click', () => this.toggle())
-        }
-
-        if (wheel) {
-            wheel.addEventListener('colorinput', (e) => {
-                this._value = e.detail.value
-                this._alpha = e.detail.alpha
-                this._updateSwatch()
-                this._updateFormValue()
-                this.dispatchEvent(new Event('input', { bubbles: true, composed: true }))
-            })
-
-            wheel.addEventListener('change', () => {
-                this.dispatchEvent(new Event('change', { bubbles: true, composed: true }))
-            })
-
-            // Sync initial value
-            this._syncToColorWheel()
-        }
-
-        // Handle Escape to close
-        if (dialog) {
-            dialog.addEventListener('cancel', (e) => {
-                e.preventDefault()
-                this._closeDialog()
-            })
-        }
-    }
-
-    _openDialog() {
-        const dialog = this.querySelector('dialog')
-        if (!dialog || this._isOpen) return
-
-        this._isOpen = true
-
-        // Position dialog relative to trigger
-        const trigger = this.querySelector('.color-picker-trigger')
-        const rect = trigger?.getBoundingClientRect()
-
-        if (rect) {
-            const viewportHeight = window.innerHeight
-            const viewportWidth = window.innerWidth
-            const dialogHeight = 400 // Approximate
-            const dialogWidth = 220 // Approximate
-
-            dialog.classList.add('positioned')
-            dialog.classList.remove('positioned-above', 'positioned-left')
-
-            // Check if dialog would go off bottom of screen
-            if (rect.bottom + dialogHeight > viewportHeight && rect.top > dialogHeight) {
-                dialog.classList.add('positioned-above')
-            }
-
-            // Check if dialog would go off right of screen
-            if (rect.left + dialogWidth > viewportWidth && rect.right > dialogWidth) {
-                dialog.classList.add('positioned-left')
-            }
-        }
-
-        dialog.show()
-        this._syncToColorWheel()
-
-        // Focus the wheel
-        const wheel = this.querySelector('color-wheel')
-        const wheelCanvas = wheel?.querySelector('.wheel-canvas')
-        if (wheelCanvas) {
-            requestAnimationFrame(() => wheelCanvas.focus())
-        }
-
-        // Add global listeners
-        document.addEventListener('keydown', this._boundOnKeyDown)
-        document.addEventListener('pointerdown', this._boundOnClickOutside)
-
-        this.dispatchEvent(new CustomEvent('open', { bubbles: true }))
-    }
-
-    _closeDialog() {
-        const dialog = this.querySelector('dialog')
-        if (!dialog || !this._isOpen) return
-
-        this._isOpen = false
-        dialog.close()
-        dialog.classList.remove('positioned', 'positioned-above', 'positioned-left')
-
-        // Remove global listeners
-        document.removeEventListener('keydown', this._boundOnKeyDown)
-        document.removeEventListener('pointerdown', this._boundOnClickOutside)
-
-        // Focus trigger
-        const trigger = this.querySelector('.color-picker-trigger')
-        if (trigger) {
-            trigger.focus()
-        }
-
-        this.dispatchEvent(new CustomEvent('close', { bubbles: true }))
-    }
-
-    _onKeyDown(e) {
-        if (e.key === 'Escape' && this._isOpen) {
-            e.preventDefault()
-            this._closeDialog()
-        }
-    }
-
-    _onClickOutside(e) {
-        if (!this._isOpen) return
-
-        const dialog = this.querySelector('dialog')
-        const trigger = this.querySelector('.color-picker-trigger')
-
-        if (dialog && !dialog.contains(e.target) && e.target !== trigger && !trigger?.contains(e.target)) {
-            this._closeDialog()
-        }
+    _emitChange() {
+        this.dispatchEvent(new Event('change', { bubbles: true, composed: true }))
     }
 }
 
