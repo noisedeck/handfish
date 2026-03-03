@@ -62,8 +62,7 @@
 /* Checked / active item */
 .hf-menu-item.active,
 .hf-menu-item[aria-checked="true"] {
-    font-weight: var(--hf-weight-semibold);
-    color: var(--hf-text-bright);
+    font-weight: var(--hf-weight-bold);
 }
 
 .hf-menu-item.active::before,
@@ -73,6 +72,7 @@
     width: 1em;
     margin-left: -1em;
     margin-right: -0.5em;
+    margin-top: -0.125em;
 }
 
 /* Disabled item */
