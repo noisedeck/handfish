@@ -803,6 +803,67 @@ render(o0)</pre>
     </section>
 
     <!-- ================================================================
+         Tags, Badges & Tabs
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>tags, badges &amp; tabs</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Tags</h3>
+                <div class="demo-item-content">
+                    <div class="hf-tag-bar">
+                        <span class="hf-tag">noise</span>
+                        <span class="hf-tag">gradient</span>
+                        <span class="hf-tag active">blur</span>
+                        <span class="hf-tag">distort</span>
+                    </div>
+                    <div class="hf-tag-bar" style="margin-top: 0.5rem;">
+                        <span class="hf-tag hf-tag-sm">small</span>
+                        <span class="hf-tag hf-tag-sm hf-tag-flat">flat</span>
+                        <button class="hf-tag hf-tag-sm">clickable</button>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Badges</h3>
+                <div class="demo-item-content" style="flex-direction: row; flex-wrap: wrap; gap: 0.5rem;">
+                    <span class="hf-badge">default</span>
+                    <span class="hf-badge hf-badge-success">success</span>
+                    <span class="hf-badge hf-badge-warning">warning</span>
+                    <span class="hf-badge hf-badge-error">error</span>
+                    <span class="hf-badge hf-badge-muted">muted</span>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Tabs (underline)</h3>
+                <div class="demo-item-content">
+                    <div class="hf-tabs" role="tablist">
+                        <button class="hf-tab active" role="tab">General</button>
+                        <button class="hf-tab" role="tab">Effects</button>
+                        <button class="hf-tab" role="tab">Export</button>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Tabs (pill)</h3>
+                <div class="demo-item-content">
+                    <div class="hf-tabs hf-tabs-pill" role="tablist">
+                        <button class="hf-tab active" role="tab">RGB</button>
+                        <button class="hf-tab" role="tab">HSV</button>
+                        <button class="hf-tab" role="tab">OkLab</button>
+                        <button class="hf-tab" role="tab">OKLCH</button>
+                    </div>
+                    <div class="hf-tabs hf-tabs-pill hf-tabs-compact" role="tablist" style="margin-top: 0.75rem;">
+                        <button class="hf-tab" role="tab">All</button>
+                        <button class="hf-tab active" role="tab">Favorites</button>
+                        <button class="hf-tab" role="tab">Recent</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
          Scripts
          ================================================================ -->
     <script type="module">
@@ -997,6 +1058,25 @@ render(o2, brightness: 1.2)`
         })
         document.getElementById('toastProgress').addEventListener('click', () => {
             showToast('Exporting palette...', { type: 'info', duration: 5000, showProgress: true })
+        })
+
+        // Tab switching (demo only)
+        document.querySelectorAll('.hf-tabs').forEach(tabBar => {
+            tabBar.addEventListener('click', (e) => {
+                const tab = e.target.closest('.hf-tab')
+                if (!tab) return
+                tabBar.querySelectorAll('.hf-tab').forEach(t => t.classList.remove('active'))
+                tab.classList.add('active')
+            })
+        })
+
+        // Tag selection (demo only)
+        document.querySelectorAll('.hf-tag-bar').forEach(bar => {
+            bar.addEventListener('click', (e) => {
+                const tag = e.target.closest('.hf-tag')
+                if (!tag) return
+                tag.classList.toggle('active')
+            })
         })
     </script>
 </body>

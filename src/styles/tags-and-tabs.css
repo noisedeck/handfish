@@ -1,0 +1,195 @@
+/**
+ * Handfish Tags, Badges & Tabs
+ *
+ * Reusable patterns for tags/chips, pill badges, and tab bars.
+ */
+
+/* ============================================================================
+ * Tags / Chips
+ * ============================================================================ */
+
+.hf-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: var(--hf-size-sm);
+    font-weight: var(--hf-weight-medium);
+    padding: 0.15rem 0.45rem;
+    background: color-mix(in srgb, var(--hf-accent-3) 12%, transparent 88%);
+    border: 1px solid var(--hf-border);
+    border-radius: var(--hf-radius-sm);
+    color: color-mix(in srgb, var(--hf-color-5) 85%, var(--hf-accent-3) 15%);
+    text-transform: lowercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+/* Interactive tag */
+button.hf-tag,
+a.hf-tag,
+.hf-tag[role="button"] {
+    cursor: pointer;
+    transition: background var(--hf-transition), border-color var(--hf-transition);
+}
+
+button.hf-tag:hover,
+a.hf-tag:hover,
+.hf-tag[role="button"]:hover {
+    background: color-mix(in srgb, var(--hf-accent-3) 20%, transparent 80%);
+    border-color: var(--hf-border-hover);
+}
+
+/* Active / selected tag */
+.hf-tag.active,
+.hf-tag[aria-selected="true"] {
+    background: color-mix(in srgb, var(--hf-accent-3) 25%, transparent 75%);
+    border-color: var(--hf-accent-3);
+    color: var(--hf-accent-3);
+}
+
+/* Small tag variant */
+.hf-tag-sm {
+    font-size: var(--hf-size-xs);
+    padding: 0.1rem 0.35rem;
+}
+
+/* Tag without border */
+.hf-tag-flat {
+    border: none;
+}
+
+/* Tag bar container */
+.hf-tag-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+/* ============================================================================
+ * Badges (pill-shaped)
+ * ============================================================================ */
+
+.hf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: var(--hf-weight-semibold);
+    color: var(--hf-accent-3);
+    background: color-mix(in srgb, var(--hf-accent-3) 12%, transparent 88%);
+    border: 1px solid color-mix(in srgb, var(--hf-accent-3) 30%, transparent 70%);
+    border-radius: var(--hf-radius-pill);
+    padding: 0.15em 0.6em;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+/* Interactive badge */
+button.hf-badge,
+a.hf-badge {
+    cursor: pointer;
+    transition: background var(--hf-transition), color var(--hf-transition);
+}
+
+button.hf-badge:hover,
+a.hf-badge:hover {
+    background: color-mix(in srgb, var(--hf-accent-3) 20%, transparent 80%);
+    color: var(--hf-accent-4);
+}
+
+/* Semantic badge variants */
+.hf-badge-success {
+    color: var(--hf-green);
+    background: color-mix(in srgb, var(--hf-green) 12%, transparent 88%);
+    border-color: color-mix(in srgb, var(--hf-green) 30%, transparent 70%);
+}
+
+.hf-badge-warning {
+    color: var(--hf-yellow);
+    background: color-mix(in srgb, var(--hf-yellow) 12%, transparent 88%);
+    border-color: color-mix(in srgb, var(--hf-yellow) 30%, transparent 70%);
+}
+
+.hf-badge-error {
+    color: var(--hf-red);
+    background: color-mix(in srgb, var(--hf-red) 12%, transparent 88%);
+    border-color: color-mix(in srgb, var(--hf-red) 30%, transparent 70%);
+}
+
+/* Muted / subtle badge */
+.hf-badge-muted {
+    color: var(--hf-color-5);
+    background: color-mix(in srgb, var(--hf-color-5) 10%, transparent 90%);
+    border-color: color-mix(in srgb, var(--hf-color-5) 20%, transparent 80%);
+}
+
+/* ============================================================================
+ * Tabs
+ * ============================================================================ */
+
+.hf-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--hf-border);
+}
+
+.hf-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    font-size: var(--hf-size-sm);
+    font-weight: var(--hf-weight-medium);
+    color: var(--hf-color-5);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color var(--hf-transition), border-color var(--hf-transition);
+    margin-bottom: -1px;
+}
+
+.hf-tab:hover {
+    color: var(--hf-color-6);
+}
+
+.hf-tab.active,
+.hf-tab[aria-selected="true"] {
+    color: var(--hf-accent-3);
+    border-bottom-color: var(--hf-accent-3);
+}
+
+.hf-tab:focus-visible {
+    outline: 1px solid var(--hf-accent-3);
+    outline-offset: -1px;
+}
+
+/* Compact tabs (smaller padding) */
+.hf-tabs-compact .hf-tab {
+    padding: 0.35rem 0.5rem;
+    font-size: var(--hf-size-xs);
+}
+
+/* Pill-style tabs (no underline, uses background) */
+.hf-tabs-pill {
+    border-bottom: none;
+    gap: 0.25rem;
+    background: color-mix(in srgb, var(--hf-accent-3) 8%, transparent 92%);
+    border-radius: var(--hf-radius);
+    padding: 0.2rem;
+}
+
+.hf-tabs-pill .hf-tab {
+    border-bottom: none;
+    border-radius: var(--hf-radius-sm);
+    margin-bottom: 0;
+    padding: 0.35rem 0.6rem;
+}
+
+.hf-tabs-pill .hf-tab.active,
+.hf-tabs-pill .hf-tab[aria-selected="true"] {
+    background: color-mix(in srgb, var(--hf-accent-3) 20%, transparent 80%);
+    color: var(--hf-accent-3);
+}
