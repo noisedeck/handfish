@@ -91,18 +91,30 @@ if (!document.getElementById(STYLES_ID)) {
         }
 
         /* Toast types */
+        .hf-toast.hf-toast-success {
+            border-color: color-mix(in srgb, var(--hf-green, #58db63) 30%, transparent 70%);
+        }
         .hf-toast.hf-toast-success .hf-toast-icon {
-            color: var(--hf-accent-2, #78dce8);
+            color: var(--hf-green, #58db63);
         }
 
+        .hf-toast.hf-toast-error {
+            border-color: color-mix(in srgb, var(--hf-red, #ff5b6b) 30%, transparent 70%);
+        }
         .hf-toast.hf-toast-error .hf-toast-icon {
-            color: var(--hf-red, #ff5f56);
+            color: var(--hf-red, #ff5b6b);
         }
 
+        .hf-toast.hf-toast-warning {
+            border-color: color-mix(in srgb, var(--hf-yellow, #ffd66b) 30%, transparent 70%);
+        }
         .hf-toast.hf-toast-warning .hf-toast-icon {
-            color: var(--hf-accent-1, #ffd866);
+            color: var(--hf-yellow, #ffd66b);
         }
 
+        .hf-toast.hf-toast-info {
+            border-color: color-mix(in srgb, var(--hf-accent-3, #a5b8ff) 30%, transparent 70%);
+        }
         .hf-toast.hf-toast-info .hf-toast-icon {
             color: var(--hf-accent-3, #a5b8ff);
         }
@@ -126,15 +138,15 @@ if (!document.getElementById(STYLES_ID)) {
         }
 
         .hf-toast.hf-toast-success .hf-toast-progress-bar {
-            background: var(--hf-accent-2, #78dce8);
+            background: var(--hf-green, #58db63);
         }
 
         .hf-toast.hf-toast-error .hf-toast-progress-bar {
-            background: var(--hf-red, #ff5f56);
+            background: var(--hf-red, #ff5b6b);
         }
 
         .hf-toast.hf-toast-warning .hf-toast-progress-bar {
-            background: var(--hf-accent-1, #ffd866);
+            background: var(--hf-yellow, #ffd66b);
         }
     `
     document.head.appendChild(style)

@@ -1,0 +1,233 @@
+/**
+ * Handfish Menus & Toolbars
+ *
+ * Context menus, dropdown menu panels, action buttons, icon buttons,
+ * and toolbar layouts.
+ */
+
+/* ============================================================================
+ * Menu Panel
+ * ============================================================================ */
+
+.hf-menu {
+    display: flex;
+    flex-direction: column;
+    background: color-mix(
+        in srgb,
+        var(--hf-color-2) var(--hf-surface-opacity),
+        transparent var(--hf-surface-transparency)
+    );
+    backdrop-filter: var(--hf-glass-blur);
+    -webkit-backdrop-filter: var(--hf-glass-blur);
+    border-radius: var(--hf-radius);
+    box-shadow: 0 0 12px 2px color-mix(in srgb, var(--hf-accent-3) 15%, transparent 85%);
+    min-width: 160px;
+    width: max-content;
+    padding: 0.25rem 0;
+    color: var(--hf-accent-3);
+    z-index: var(--hf-z-dropdown);
+}
+
+/* ============================================================================
+ * Menu Items
+ * ============================================================================ */
+
+.hf-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.45rem 0.75rem;
+    font-size: var(--hf-size-sm);
+    color: inherit;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background var(--hf-transition), color var(--hf-transition);
+    text-decoration: none;
+    text-align: left;
+    width: 100%;
+}
+
+.hf-menu-item:hover {
+    background: color-mix(in srgb, var(--hf-accent-3) 12%, transparent 88%);
+    color: var(--hf-accent-4);
+}
+
+.hf-menu-item .hf-icon {
+    font-size: 1.125em;
+}
+
+/* Checked / active item */
+.hf-menu-item.active,
+.hf-menu-item[aria-checked="true"] {
+    font-weight: var(--hf-weight-semibold);
+    color: var(--hf-color-7);
+}
+
+.hf-menu-item.active::before,
+.hf-menu-item[aria-checked="true"]::before {
+    content: '\25b8';
+    display: inline-block;
+    width: 1em;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+}
+
+/* Disabled item */
+.hf-menu-item:disabled,
+.hf-menu-item[aria-disabled="true"] {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: default;
+}
+
+/* Destructive item */
+.hf-menu-item-destructive {
+    color: var(--hf-red);
+}
+
+.hf-menu-item-destructive:hover {
+    background: color-mix(in srgb, var(--hf-red) 12%, transparent 88%);
+    color: var(--hf-red);
+}
+
+/* ============================================================================
+ * Menu Item with Shortcut
+ * ============================================================================ */
+
+.hf-menu-shortcut {
+    margin-left: auto;
+    padding-left: 2em;
+    font-size: var(--hf-size-xs);
+    opacity: 0.6;
+    font-family: var(--hf-font-family);
+}
+
+/* ============================================================================
+ * Menu Separator
+ * ============================================================================ */
+
+.hf-menu-separator {
+    border: none;
+    border-top: 1px solid color-mix(in srgb, var(--hf-accent-3) 20%, transparent 80%);
+    margin: 0.25rem 0;
+}
+
+/* ============================================================================
+ * Menu Header (non-interactive label within a menu)
+ * ============================================================================ */
+
+.hf-menu-header {
+    padding: 0.35rem 0.75rem 0.2rem;
+    font-size: var(--hf-size-xs);
+    font-weight: var(--hf-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--hf-tracking-wide);
+    color: var(--hf-color-5);
+    pointer-events: none;
+}
+
+/* ============================================================================
+ * Action Buttons (small toolbar-style buttons)
+ * ============================================================================ */
+
+.hf-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.45rem;
+    font-size: var(--hf-size-xs);
+    font-family: var(--hf-font-family);
+    font-weight: var(--hf-weight-semibold);
+    text-transform: lowercase;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--hf-accent-3) 30%, transparent 70%);
+    border-radius: var(--hf-radius-sm);
+    color: color-mix(in srgb, var(--hf-color-5) 70%, transparent 30%);
+    cursor: pointer;
+    transition: all var(--hf-transition);
+}
+
+.hf-action-btn:hover {
+    background: color-mix(in srgb, var(--hf-accent-3) 20%, transparent 80%);
+    border-color: color-mix(in srgb, var(--hf-accent-3) 50%, transparent 50%);
+    color: var(--hf-color-6);
+}
+
+.hf-action-btn.active {
+    background: color-mix(in srgb, var(--hf-accent-3) 40%, transparent 60%);
+    border-color: var(--hf-accent-3);
+    color: var(--hf-color-6);
+}
+
+.hf-action-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ============================================================================
+ * Icon Buttons (minimal, icon-only)
+ * ============================================================================ */
+
+.hf-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity var(--hf-transition);
+    color: var(--hf-color-5);
+}
+
+.hf-icon-btn:hover {
+    opacity: 1;
+}
+
+.hf-icon-btn:hover .hf-icon {
+    color: var(--hf-color-6);
+}
+
+.hf-icon-btn.active {
+    opacity: 0.9;
+}
+
+.hf-icon-btn.active .hf-icon {
+    color: var(--hf-accent-3);
+}
+
+.hf-icon-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ============================================================================
+ * Toolbar Layout
+ * ============================================================================ */
+
+.hf-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Toolbar with separator between groups */
+.hf-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.hf-toolbar-group + .hf-toolbar-group::before {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 1.25rem;
+    background: var(--hf-border);
+    margin: 0 0.25rem;
+}

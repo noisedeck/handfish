@@ -215,7 +215,23 @@
                     <div class="hf-text-bright">Bright text</div>
                     <div class="hf-text-accent">Accent text</div>
                     <div class="hf-text-accent-bright">Accent bright</div>
+                    <div class="hf-text-success">Success text</div>
+                    <div class="hf-text-warning">Warning text</div>
                     <div class="hf-text-error">Error text</div>
+                </div>
+            </div>
+            <div class="demo-item wide">
+                <h3>Semantic States</h3>
+                <div class="demo-item-content" style="gap: 0.5rem;">
+                    <div class="hf-bg-success hf-border-success hf-text-success hf-border hf-rounded-sm hf-px-3 hf-py-1 hf-text-sm">
+                        Changes saved successfully
+                    </div>
+                    <div class="hf-bg-warning hf-border-warning hf-border hf-rounded-sm hf-px-3 hf-py-1 hf-text-sm">
+                        <span class="hf-text-warning">Unsaved changes will be lost</span>
+                    </div>
+                    <div class="hf-bg-error hf-border-error hf-border hf-rounded-sm hf-px-3 hf-py-1 hf-text-sm">
+                        <span class="hf-text-error">Failed to connect to server</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -857,6 +873,71 @@ render(o0)</pre>
                         <button class="hf-tab" role="tab">All</button>
                         <button class="hf-tab active" role="tab">Favorites</button>
                         <button class="hf-tab" role="tab">Recent</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         Menus & Toolbars
+         ================================================================ -->
+    <section class="demo-section">
+        <h2>menus &amp; toolbars</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Menu Panel</h3>
+                <div class="demo-item-content">
+                    <div class="hf-menu" style="position: relative;">
+                        <button class="hf-menu-item"><span class="hf-icon hf-icon-sm">edit</span> Edit</button>
+                        <button class="hf-menu-item"><span class="hf-icon hf-icon-sm">content_copy</span> Duplicate<span class="hf-menu-shortcut">Ctrl+D</span></button>
+                        <button class="hf-menu-item active"><span class="hf-icon hf-icon-sm">visibility</span> Visible</button>
+                        <hr class="hf-menu-separator">
+                        <div class="hf-menu-header">Export</div>
+                        <button class="hf-menu-item"><span class="hf-icon hf-icon-sm">download</span> Save as PNG</button>
+                        <button class="hf-menu-item" disabled><span class="hf-icon hf-icon-sm">movie</span> Export video</button>
+                        <hr class="hf-menu-separator">
+                        <button class="hf-menu-item hf-menu-item-destructive"><span class="hf-icon hf-icon-sm">delete</span> Delete</button>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Action Buttons</h3>
+                <div class="demo-item-content" style="flex-direction: row; flex-wrap: wrap; gap: 0.5rem;">
+                    <button class="hf-action-btn">add</button>
+                    <button class="hf-action-btn active">solo</button>
+                    <button class="hf-action-btn">mute</button>
+                    <button class="hf-action-btn">bypass</button>
+                    <button class="hf-action-btn" disabled>locked</button>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Icon Buttons</h3>
+                <div class="demo-item-content" style="flex-direction: row; gap: 0.25rem;">
+                    <button class="hf-icon-btn"><span class="hf-icon">play_arrow</span></button>
+                    <button class="hf-icon-btn"><span class="hf-icon">pause</span></button>
+                    <button class="hf-icon-btn"><span class="hf-icon">stop</span></button>
+                    <button class="hf-icon-btn active"><span class="hf-icon">repeat</span></button>
+                    <button class="hf-icon-btn" disabled><span class="hf-icon">skip_next</span></button>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Toolbar</h3>
+                <div class="demo-item-content">
+                    <div class="hf-toolbar">
+                        <div class="hf-toolbar-group">
+                            <button class="hf-action-btn active">edit</button>
+                            <button class="hf-action-btn">select</button>
+                        </div>
+                        <div class="hf-toolbar-group">
+                            <button class="hf-icon-btn"><span class="hf-icon">undo</span></button>
+                            <button class="hf-icon-btn"><span class="hf-icon">redo</span></button>
+                        </div>
+                        <div class="hf-toolbar-group">
+                            <button class="hf-icon-btn"><span class="hf-icon">zoom_in</span></button>
+                            <button class="hf-icon-btn"><span class="hf-icon">zoom_out</span></button>
+                            <button class="hf-icon-btn"><span class="hf-icon">fit_screen</span></button>
+                        </div>
                     </div>
                 </div>
             </div>

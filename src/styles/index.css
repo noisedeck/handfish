@@ -7,6 +7,7 @@
 @import './tokens.css';
 @import './forms.css';
 @import './tags-and-tabs.css';
+@import './menus-and-toolbars.css';
 @import './dialogs.css';
 
 /* ============================================================================
@@ -151,12 +152,21 @@ body {
 .hf-text-bright { color: var(--hf-color-7); }
 .hf-text-accent { color: var(--hf-accent-3); }
 .hf-text-accent-bright { color: var(--hf-accent-4); }
+.hf-text-success { color: var(--hf-green); }
+.hf-text-warning { color: var(--hf-yellow); }
 .hf-text-error { color: var(--hf-red); }
 
 .hf-bg-base { background-color: var(--hf-color-1); }
 .hf-bg-surface { background-color: var(--hf-color-2); }
 .hf-bg-elevated { background-color: var(--hf-color-3); }
 .hf-bg-accent { background-color: var(--hf-accent-1); }
+.hf-bg-success { background-color: color-mix(in srgb, var(--hf-green) 12%, transparent 88%); }
+.hf-bg-warning { background-color: color-mix(in srgb, var(--hf-yellow) 12%, transparent 88%); }
+.hf-bg-error { background-color: color-mix(in srgb, var(--hf-red) 12%, transparent 88%); }
+
+.hf-border-success { border-color: color-mix(in srgb, var(--hf-green) 30%, transparent 70%); }
+.hf-border-warning { border-color: color-mix(in srgb, var(--hf-yellow) 30%, transparent 70%); }
+.hf-border-error { border-color: color-mix(in srgb, var(--hf-red) 30%, transparent 70%); }
 
 /* ============================================================================
  * Surface Styles (Glassmorphism)
