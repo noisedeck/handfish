@@ -24,7 +24,6 @@ export { showToast, showSuccess, showError, showWarning, showInfo } from './comp
 export { DropdownMenu, DropdownItem } from './components/dropdown-menu/DropdownMenu.js'
 export { ColorSwatch } from './components/color-swatch/ColorSwatch.js'
 export { GradientStops } from './components/gradient-stops/GradientStops.js'
-export { SliderControl } from './components/slider-control/SliderControl.js'
 export { ImageMagnifier } from './components/image-magnifier/ImageMagnifier.js'
 export { Vector3dPicker } from './components/vector3d-picker/Vector3dPicker.js'
 export { CodeEditor } from './components/code-editor/CodeEditor.js'

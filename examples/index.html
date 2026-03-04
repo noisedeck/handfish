@@ -479,32 +479,6 @@ render(o0)</pre>
     </section>
 
     <!-- ================================================================
-         6. Slider Control
-         ================================================================ -->
-    <section class="demo-section">
-        <h2>slider control</h2>
-        <div class="demo-grid">
-            <div class="demo-item">
-                <h3>Labeled</h3>
-                <div class="demo-item-content">
-                    <slider-control id="sc1" label="X" min="0" max="1" step="0.01" value="0.5"></slider-control>
-                    <slider-control id="sc2" label="Y" min="0" max="1" step="0.01" value="0.75"></slider-control>
-                    <slider-control id="sc3" label="Z" min="0" max="1" step="0.01" value="0.25"></slider-control>
-                    <div class="output" id="scOutput">0.50</div>
-                </div>
-            </div>
-            <div class="demo-item">
-                <h3>Compact</h3>
-                <div class="demo-item-content">
-                    <slider-control label="R" min="0" max="255" step="1" value="128" precision="0" compact></slider-control>
-                    <slider-control label="G" min="0" max="255" step="1" value="200" precision="0" compact></slider-control>
-                    <slider-control label="B" min="0" max="255" step="1" value="64" precision="0" compact></slider-control>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================================================================
          7. Select Dropdown
          ================================================================ -->
     <section class="demo-section">
@@ -980,7 +954,6 @@ render(o0)</pre>
             DropdownItem,
             ColorSwatch,
             GradientStops,
-            SliderControl,
             ImageMagnifier,
             Vector3dPicker,
             CodeEditor,
@@ -1019,11 +992,6 @@ render(o0)</pre>
         // Slider output
         document.getElementById('slider1').addEventListener('input', (e) => {
             document.getElementById('sliderOutput').textContent = e.target.value
-        })
-
-        // Slider control output
-        document.getElementById('sc1').addEventListener('input', (e) => {
-            document.getElementById('scOutput').textContent = e.detail.value.toFixed(2)
         })
 
         // Select output

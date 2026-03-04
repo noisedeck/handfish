@@ -106,34 +106,6 @@ A range slider with editable numeric value display. Uses `display: contents` to 
 
 Events: `input`, `change`
 
-### Slider Control
-
-A self-contained labeled slider with value readout. Supports compact and vertical variants.
-
-```html
-<slider-control
-    label="X"
-    min="0"
-    max="1"
-    value="0.5"
-    precision="2"
-></slider-control>
-```
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `min` | number | `0` | Minimum value |
-| `max` | number | `1` | Maximum value |
-| `value` | number | `0.5` | Current value |
-| `step` | number | `0.01` | Step increment |
-| `label` | string | `''` | Label text |
-| `precision` | number | `2` | Decimal places to display |
-| `compact` | boolean | `false` | Compact layout with tighter gaps |
-| `vertical` | boolean | `false` | Vertical orientation |
-| `disabled` | boolean | `false` | Disabled state |
-
-Events: `input` (detail: `{ value }`), `change` (detail: `{ value }`)
-
 ### Select Dropdown
 
 A custom dropdown select with keyboard navigation and search.

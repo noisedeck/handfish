@@ -127,7 +127,6 @@ All public API is re-exported from `src/index.js`. When adding a new component o
 |-----------|-----|--------|
 | Toggle Switch | `<toggle-switch>` | Original |
 | Slider Value | `<slider-value>` | Original |
-| Slider Control | `<slider-control>` | From Tetra |
 | Select Dropdown | `<select-dropdown>` | Original |
 | Dropdown Menu | `<dropdown-menu>` | From Tetra |
 | Justify Button Group | `<justify-button-group>` | Original |
