@@ -106,15 +106,11 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
 
         vector3d-picker .vector-dialog::backdrop {
             background: var(--hf-backdrop, rgba(0, 0, 0, 0.6));
-            backdrop-filter: blur(4px);
+            backdrop-filter: var(--hf-glass-blur-sm, blur(4px));
         }
 
         vector3d-picker .dialog-titlebar {
-            background-color: color-mix(
-                in srgb,
-                var(--hf-accent, #a5b8ff) var(--hf-header-opacity, 30%),
-                transparent var(--hf-header-transparency, 70%)
-            );
+            background-color: var(--hf-titlebar-bg, var(--hf-bg-elevated, #262e3f));
             border-bottom: none;
             padding: 0 0.5em;
             min-height: 1.75rem;

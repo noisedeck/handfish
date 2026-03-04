@@ -84,7 +84,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
                 var(--hf-bg-surface, #1a1f2e) 95%,
                 transparent 5%
             );
-            backdrop-filter: var(--hf-blur, blur(12px));
+            backdrop-filter: var(--hf-glass-blur, blur(12px));
             border: 1px solid color-mix(in srgb, var(--hf-accent, #4a5568) 30%, transparent 70%);
             border-radius: var(--hf-radius-sm, 0.25rem);
             box-shadow: var(--hf-shadow-md, 0 4px 8px rgba(0, 0, 0, 0.2));
@@ -139,7 +139,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
                 var(--hf-bg-surface, #101522) 92%,
                 transparent 8%
             );
-            backdrop-filter: var(--hf-blur, blur(20px));
+            backdrop-filter: var(--hf-glass-blur, blur(20px));
             border: none;
             border-radius: var(--hf-radius, 0.5rem);
             padding: 0;
@@ -152,15 +152,11 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
 
         select-dropdown .select-dialog::backdrop {
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            backdrop-filter: var(--hf-glass-blur-sm, blur(4px));
         }
 
         select-dropdown .dialog-titlebar {
-            background-color: color-mix(
-                in srgb,
-                var(--hf-accent-bg, #141a2d) 65%,
-                transparent 35%
-            );
+            background-color: var(--hf-titlebar-bg, var(--hf-bg-elevated, #262e3f));
             border-bottom: none;
             padding: 0 0.5em;
             min-height: 2.25em;

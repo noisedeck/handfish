@@ -63,6 +63,7 @@
     --hf-bg-surface:  var(--hf-color-2);
     --hf-bg-elevated: var(--hf-color-3);
     --hf-bg-muted:    var(--hf-color-4);
+    --hf-titlebar-bg: var(--hf-color-3);
 
     /* Text */
     --hf-text-muted:  var(--hf-color-4);
@@ -244,6 +245,23 @@
     /* Backdrop overlay */
     --hf-backdrop: rgba(0, 0, 0, 0.6);
 
+}
+
+/* Opaque mode — disables glassmorphism transparency.
+   Double attribute selector for specificity over theme selectors. */
+[data-opaque][data-opaque] {
+    --hf-surface-opacity: 100%;
+    --hf-surface-transparency: 0%;
+    --hf-panel-opacity: 100%;
+    --hf-panel-transparency: 0%;
+    --hf-header-opacity: 100%;
+    --hf-header-transparency: 0%;
+    --hf-glass-blur: none;
+    --hf-glass-blur-sm: none;
+    --hf-glass-blur-lg: none;
+}
+
+:root {
     /* Chrome highlight/shadow for 3D effect */
     --hf-chrome-highlight-blend: 86%;
     --hf-chrome-highlight-tint: 14%;

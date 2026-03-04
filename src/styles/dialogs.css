@@ -9,8 +9,8 @@
 
 dialog::backdrop {
     background: var(--hf-backdrop);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: var(--hf-glass-blur-sm, blur(4px));
+    -webkit-backdrop-filter: var(--hf-glass-blur-sm, blur(4px));
 }
 
 /* ============================================================================

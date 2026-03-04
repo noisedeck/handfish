@@ -46,7 +46,11 @@ if (!document.getElementById(JUSTIFY_BUTTON_GROUP_STYLES_ID)) {
 
         justify-button-group .justify-btn.selected {
             background: var(--hf-accent, #0066cc);
-            color: var(--hf-text-normal, #fff);
+            color: var(--hf-bg-base, #000);
+        }
+
+        justify-button-group .material-symbols {
+            color: inherit;
         }
 
         justify-button-group .justify-btn:disabled {
