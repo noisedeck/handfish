@@ -359,12 +359,14 @@ class SliderValue extends HTMLElement {
             return
         }
 
-        if (this._type === 'int') {
+        if (this._type === 'int' || this._value === Math.round(this._value)) {
             valueDisplay.textContent = String(Math.round(this._value))
         } else {
-            // For floats, only show decimals if not a whole number
-            const isWholeNumber = this._value === Math.round(this._value)
-            valueDisplay.textContent = isWholeNumber ? String(Math.round(this._value)) : this._value.toFixed(2)
+            // Adaptive precision: drop decimals to fit the value column
+            let text = this._value.toFixed(2)
+            if (text.length > 5) text = this._value.toFixed(1)
+            if (text.length > 5) text = this._value.toFixed(0)
+            valueDisplay.textContent = text
         }
     }
 
