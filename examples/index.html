@@ -978,7 +978,7 @@ render(o0)</pre>
             e.target.setAttribute('label', theme)
 
             // Sync code editor themes
-            const editorTheme = theme === 'light' ? 'githubLight' : 'default'
+            const editorTheme = (theme === 'light' || theme === 'corporate' || theme === 'organic') ? 'githubLight' : 'default'
             applyEditorTheme(editor1, editorTheme)
             applyEditorTheme(editor2, editorTheme)
             editorThemeMenu.value = editorTheme
