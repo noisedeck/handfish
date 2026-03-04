@@ -19,7 +19,7 @@ if (!document.getElementById(JUSTIFY_BUTTON_GROUP_STYLES_ID)) {
 
         justify-button-group .button-group {
             display: inline-flex;
-            border-radius: var(--hf-radius-sm, 0.375rem);
+            border-radius: var(--hf-radius-sm, 0.25rem);
             overflow: hidden;
             background: var(--hf-bg-surface, #333);
             border: 1px solid var(--hf-bg-elevated, #444);

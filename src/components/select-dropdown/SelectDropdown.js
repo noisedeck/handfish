@@ -49,7 +49,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
             color: var(--hf-text-normal, #d9deeb);
             background: var(--hf-bg-elevated, #1b2538);
             border: 1px solid var(--hf-border-subtle);
-            border-radius: var(--hf-radius-sm, 0.375rem);
+            border-radius: var(--hf-radius-sm, 0.25rem);
         }
 
         select-dropdown .trigger-text {
@@ -86,7 +86,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
             );
             backdrop-filter: var(--hf-blur, blur(12px));
             border: 1px solid color-mix(in srgb, var(--hf-accent, #4a5568) 30%, transparent 70%);
-            border-radius: var(--hf-radius-sm, 0.375rem);
+            border-radius: var(--hf-radius-sm, 0.25rem);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             max-height: 200px;
@@ -483,7 +483,7 @@ class SelectDropdown extends HTMLElement {
     _render() {
         this.innerHTML = `
             <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-                <span class="trigger-text">select...</span>
+                <span class="trigger-text">Select...</span>
                 <span class="trigger-arrow">▼</span>
             </button>
             <div class="inline-dropdown" role="listbox" tabindex="-1"></div>
@@ -614,7 +614,7 @@ class SelectDropdown extends HTMLElement {
         if (!triggerText) return
 
         const selected = this._options.find(o => o.value === this._value)
-        triggerText.textContent = selected ? selected.text : (this._value || 'select...')
+        triggerText.textContent = selected ? selected.text : (this._value || 'Select...')
 
         this._updateSelectedOption()
     }

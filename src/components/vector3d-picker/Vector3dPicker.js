@@ -42,7 +42,7 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
             font-size: var(--hf-size-sm, 0.75rem);
             color: var(--hf-text-normal);
             background: var(--hf-bg-elevated);
-            border-radius: var(--hf-radius-sm, 0.375rem);
+            border-radius: var(--hf-radius-sm, 0.25rem);
             border: 1px solid var(--hf-border-subtle);
         }
 

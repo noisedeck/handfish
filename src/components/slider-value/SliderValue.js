@@ -29,7 +29,7 @@ if (!document.getElementById(SLIDER_VALUE_STYLES_ID)) {
             width: 100%;
             height: 0.5rem;
             background: color-mix(in srgb, var(--hf-accent, #5a7fdd) 15%, transparent 85%);
-            border-radius: var(--hf-radius-sm, 0.375rem);
+            border-radius: var(--hf-radius-sm, 0.25rem);
             outline: none;
             cursor: pointer;
             transition: background 0.15s ease;

@@ -51,14 +51,14 @@ if (!document.getElementById(DROPDOWN_MENU_STYLES_ID)) {
             color: var(--hf-text-normal);
             background: var(--hf-bg-elevated);
             border: 1px solid var(--hf-border-subtle);
-            border-radius: var(--hf-radius-sm, 0.375rem);
+            border-radius: var(--hf-radius-sm, 0.25rem);
             transition: background-color 0.15s ease, border-color 0.15s ease;
         }
 
         dropdown-menu .dropdown-trigger:hover,
         dropdown-menu .dropdown-trigger:focus {
             background: var(--hf-bg-muted);
-            border-color: var(--hf-text-dim);
+            border-color: var(--hf-border-hover);
         }
 
         dropdown-menu .dropdown-trigger .material-symbols {
@@ -83,7 +83,7 @@ if (!document.getElementById(DROPDOWN_MENU_STYLES_ID)) {
             margin-top: 2px;
             background: var(--hf-bg-surface);
             border: 1px solid var(--hf-border-subtle);
-            border-radius: var(--hf-radius-sm, 0.375rem);
+            border-radius: var(--hf-radius-sm, 0.25rem);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             display: none;
             overflow: hidden;
