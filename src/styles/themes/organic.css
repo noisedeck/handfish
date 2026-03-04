@@ -1,0 +1,71 @@
+/**
+ * Handfish Theme: Organic & Soft
+ *
+ * A warm, light theme inspired by natural textures — warm cream
+ * backgrounds with a sage/green tint, soft rounded corners, and
+ * gentle diffused shadows. Accents blend sage green with touches
+ * of lavender for a calm, earthy feel. Apply with:
+ *
+ *   <html data-theme="organic">
+ *
+ * Or import after the base stylesheet to override defaults.
+ */
+
+[data-theme="organic"] {
+    /* Neutrals — warm off-whites to soft darks, sage tint (hue 140°) */
+    --hf-color-1: oklch(96.5% 0.008 140);
+    --hf-color-2: oklch(93.0% 0.010 140);
+    --hf-color-3: oklch(88.0% 0.012 140);
+    --hf-color-4: oklch(78.0% 0.014 140);
+    --hf-color-5: oklch(55.0% 0.016 140);
+    --hf-color-6: oklch(38.0% 0.012 140);
+    --hf-color-7: oklch(22.0% 0.008 140);
+
+    /* Accents — sage green primary, lavender secondary */
+    --hf-accent-1: oklch(92.0% 0.030 155);
+    --hf-accent-2: oklch(82.0% 0.060 155);
+    --hf-accent-3: oklch(52.0% 0.100 155);
+    --hf-accent-4: oklch(58.0% 0.080 300);
+
+    /* Semantic colors — soft natural tones */
+    --hf-red: oklch(58.0% 0.140 15);
+    --hf-green: oklch(52.0% 0.120 155);
+    --hf-yellow: oklch(72.0% 0.120 80);
+    --hf-blue: oklch(58.0% 0.100 265);
+
+    /* Typography — soft rounded sans-serif */
+    --hf-font-family: 'Avenir', 'Nunito', system-ui, sans-serif;
+
+    /* Extra rounded, pill-like corners */
+    --hf-radius-sm: 8px;
+    --hf-radius-md: 12px;
+    --hf-radius: 12px;
+    --hf-radius-lg: 16px;
+    --hf-radius-xl: 24px;
+    --hf-radius-pill: 999px;
+
+    /* Soft diffused shadows — large blur, low opacity */
+    --hf-shadow-sm: 0 1px 4px oklch(40% 0.010 140 / 0.08);
+    --hf-shadow: 0 2px 8px oklch(40% 0.010 140 / 0.10);
+    --hf-shadow-md: 0 4px 16px oklch(40% 0.010 140 / 0.10);
+    --hf-shadow-lg: 0 8px 32px oklch(40% 0.010 140 / 0.12);
+    --hf-shadow-xl: 0 16px 56px oklch(40% 0.010 140 / 0.14);
+    --hf-glow-accent: 0 0 24px oklch(52% 0.100 155 / 0.15);
+
+    /* Glassmorphism — high opacity, gentle blur, soft not sharp */
+    --hf-surface-opacity: 94%;
+    --hf-surface-transparency: 6%;
+    --hf-panel-opacity: 88%;
+    --hf-panel-transparency: 12%;
+    --hf-header-opacity: 80%;
+    --hf-header-transparency: 20%;
+    --hf-glass-blur: blur(16px);
+    --hf-glass-blur-sm: blur(8px);
+    --hf-glass-blur-lg: blur(24px);
+    --hf-backdrop: oklch(96% 0.008 140 / 0.60);
+
+    /* Computed borders — subtle sage tint */
+    --hf-border: color-mix(in srgb, var(--hf-accent-3) 18%, transparent 82%);
+    --hf-border-hover: color-mix(in srgb, var(--hf-accent-3) 35%, transparent 65%);
+    --hf-border-focus: var(--hf-accent-3);
+}

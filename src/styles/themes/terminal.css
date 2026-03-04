@@ -1,0 +1,73 @@
+/**
+ * Handfish Theme: Retro Terminal
+ *
+ * Phosphor-green-on-black aesthetic inspired by vintage CRT monitors.
+ * Monochrome greens with amber warnings, hard rectangular edges, and
+ * glowing green shadows that mimic cathode-ray phosphor bloom. Apply with:
+ *
+ *   <html data-theme="terminal">
+ *
+ * Or import after the base stylesheet to override defaults.
+ */
+
+[data-theme="terminal"] {
+    /* Neutrals — pure black to very dark green, nearly monochrome (hue 140°) */
+    --hf-color-1: oklch(5.0% 0.005 140);
+    --hf-color-2: oklch(9.0% 0.008 140);
+    --hf-color-3: oklch(13.5% 0.010 140);
+    --hf-color-4: oklch(19.0% 0.012 140);
+    --hf-color-5: oklch(45.0% 0.015 140);
+    --hf-color-6: oklch(68.0% 0.010 140);
+    --hf-color-7: oklch(88.0% 0.008 140);
+
+    /* Accents — phosphor green, high chroma */
+    --hf-accent-1: oklch(15.0% 0.050 140);
+    --hf-accent-2: oklch(25.0% 0.080 140);
+    --hf-accent-3: oklch(72.0% 0.200 140);
+    --hf-accent-4: oklch(85.0% 0.150 140);
+
+    /* Semantic colors — terminal-appropriate tones */
+    --hf-red: oklch(68.0% 0.180 55);
+    --hf-green: oklch(78.0% 0.220 140);
+    --hf-yellow: oklch(88.0% 0.170 95);
+    --hf-blue: oklch(70.0% 0.140 195);
+
+    /* Typography — everything monospace */
+    --hf-font-family: 'Courier New', 'Noto Sans Mono', Courier, monospace;
+
+    /* Dense terminal sizing */
+    --hf-size-base: 0.8125rem;
+
+    /* Hard rectangular edges */
+    --hf-radius-sm: 0;
+    --hf-radius-md: 1px;
+    --hf-radius: 1px;
+    --hf-radius-lg: 2px;
+    --hf-radius-xl: 2px;
+    --hf-radius-pill: 999px;
+
+    /* Phosphor glow shadows — green-tinted */
+    --hf-shadow-sm: 0 0 3px oklch(75% 0.2 140 / 0.12);
+    --hf-shadow: 0 0 6px oklch(75% 0.2 140 / 0.18);
+    --hf-shadow-md: 0 0 10px oklch(75% 0.2 140 / 0.22), 0 0 4px oklch(75% 0.2 140 / 0.10);
+    --hf-shadow-lg: 0 0 18px oklch(75% 0.2 140 / 0.28), 0 0 8px oklch(75% 0.2 140 / 0.14);
+    --hf-shadow-xl: 0 0 32px oklch(75% 0.2 140 / 0.35), 0 0 14px oklch(75% 0.2 140 / 0.18);
+    --hf-glow-accent: 0 0 24px oklch(75% 0.2 140 / 0.55);
+
+    /* Glassmorphism — very transparent, CRT screen-overlay feel */
+    --hf-surface-opacity: 72%;
+    --hf-surface-transparency: 28%;
+    --hf-panel-opacity: 58%;
+    --hf-panel-transparency: 42%;
+    --hf-header-opacity: 38%;
+    --hf-header-transparency: 62%;
+    --hf-glass-blur: blur(32px);
+    --hf-glass-blur-sm: blur(14px);
+    --hf-glass-blur-lg: blur(48px);
+    --hf-backdrop: oklch(3% 0.010 140 / 0.82);
+
+    /* Computed borders — green-tinted */
+    --hf-border: color-mix(in srgb, var(--hf-accent-3) 25%, transparent 75%);
+    --hf-border-hover: color-mix(in srgb, var(--hf-accent-3) 45%, transparent 55%);
+    --hf-border-focus: var(--hf-accent-3);
+}

@@ -1,0 +1,70 @@
+/**
+ * Handfish Theme: Warm & Earthy
+ *
+ * A grounded, organic aesthetic built on warm grays, tans, and
+ * copper/amber accents. Soft rounded corners and warm-tinted shadows
+ * give the interface a tactile, inviting quality. Apply with:
+ *
+ *   <html data-theme="earthy">
+ *
+ * Or import after the base stylesheet to override defaults.
+ */
+
+[data-theme="earthy"] {
+    /* Neutrals — warm grays/tans, amber-brown tint (hue 55°) */
+    --hf-color-1: oklch(15.0% 0.010 55);
+    --hf-color-2: oklch(22.0% 0.015 55);
+    --hf-color-3: oklch(30.0% 0.018 55);
+    --hf-color-4: oklch(40.0% 0.020 55);
+    --hf-color-5: oklch(58.0% 0.025 55);
+    --hf-color-6: oklch(78.0% 0.020 55);
+    --hf-color-7: oklch(94.0% 0.012 55);
+
+    /* Accents — copper/amber, moderate-high chroma */
+    --hf-accent-1: oklch(22.0% 0.040 55);
+    --hf-accent-2: oklch(35.0% 0.070 55);
+    --hf-accent-3: oklch(68.0% 0.130 55);
+    --hf-accent-4: oklch(82.0% 0.090 55);
+
+    /* Semantic colors — warm organic tones */
+    --hf-red: oklch(55.0% 0.180 25);
+    --hf-green: oklch(58.0% 0.140 155);
+    --hf-yellow: oklch(80.0% 0.150 80);
+    --hf-blue: oklch(58.0% 0.100 230);
+
+    /* Typography — serif stack for a warm, literary feel */
+    --hf-font-family: 'Georgia', 'Times New Roman', serif;
+
+    /* Extra rounded corners */
+    --hf-radius-sm: 6px;
+    --hf-radius-md: 8px;
+    --hf-radius: 10px;
+    --hf-radius-lg: 14px;
+    --hf-radius-xl: 20px;
+    --hf-radius-pill: 999px;
+
+    /* Warm-tinted shadows — amber/brown instead of pure black */
+    --hf-shadow-sm: 0 1px 3px oklch(20% 0.030 55 / 0.25);
+    --hf-shadow: 0 2px 6px oklch(18% 0.025 55 / 0.30);
+    --hf-shadow-md: 0 4px 12px oklch(15% 0.020 55 / 0.30), 0 0 6px oklch(68% 0.130 55 / 0.08);
+    --hf-shadow-lg: 0 8px 24px oklch(12% 0.020 55 / 0.35), 0 0 12px oklch(68% 0.130 55 / 0.10);
+    --hf-shadow-xl: 0 16px 48px oklch(10% 0.015 55 / 0.40), 0 0 24px oklch(68% 0.130 55 / 0.12);
+    --hf-glow-accent: 0 0 16px oklch(68% 0.130 55 / 0.35);
+
+    /* Glassmorphism — slightly more opaque, warmer feel */
+    --hf-surface-opacity: 90%;
+    --hf-surface-transparency: 10%;
+    --hf-panel-opacity: 82%;
+    --hf-panel-transparency: 18%;
+    --hf-header-opacity: 60%;
+    --hf-header-transparency: 40%;
+    --hf-glass-blur: blur(20px);
+    --hf-glass-blur-sm: blur(8px);
+    --hf-glass-blur-lg: blur(32px);
+    --hf-backdrop: oklch(15% 0.010 55 / 0.70);
+
+    /* Computed borders — warm amber tint */
+    --hf-border: color-mix(in srgb, var(--hf-accent-3) 25%, transparent 75%);
+    --hf-border-hover: color-mix(in srgb, var(--hf-accent-3) 45%, transparent 55%);
+    --hf-border-focus: var(--hf-accent-3);
+}

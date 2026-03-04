@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handfish Design System</title>
     <link rel="stylesheet" href="../src/styles/index.css">
+    <link rel="stylesheet" href="../src/styles/themes/cyberpunk.css">
+    <link rel="stylesheet" href="../src/styles/themes/earthy.css">
+    <link rel="stylesheet" href="../src/styles/themes/corporate.css">
+    <link rel="stylesheet" href="../src/styles/themes/organic.css">
+    <link rel="stylesheet" href="../src/styles/themes/terminal.css">
     <style>
         body {
             padding: 2rem;
@@ -91,7 +96,7 @@
         }
         .semantic-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 0.5rem;
         }
         .theme-toggle {
@@ -132,7 +137,15 @@
 </head>
 <body>
     <div class="theme-toggle">
-        <toggle-switch id="themeToggle" checked></toggle-switch>
+        <dropdown-menu id="themeSwitcher" label="dark" icon="palette" small>
+            <dropdown-item value="dark">Dark</dropdown-item>
+            <dropdown-item value="light">Light</dropdown-item>
+            <dropdown-item value="cyberpunk">Cyberpunk</dropdown-item>
+            <dropdown-item value="earthy">Earthy</dropdown-item>
+            <dropdown-item value="corporate">Corporate</dropdown-item>
+            <dropdown-item value="organic">Organic</dropdown-item>
+            <dropdown-item value="terminal">Terminal</dropdown-item>
+        </dropdown-menu>
     </div>
 
     <header class="demo-header">
@@ -173,6 +186,7 @@
                     <div class="color-swatch-demo" style="background: var(--hf-red); color: var(--hf-color-1);">red</div>
                     <div class="color-swatch-demo" style="background: var(--hf-green); color: var(--hf-color-1);">green</div>
                     <div class="color-swatch-demo" style="background: var(--hf-yellow); color: var(--hf-color-1);">yellow</div>
+                    <div class="color-swatch-demo" style="background: var(--hf-blue); color: var(--hf-color-1);">blue</div>
                 </div>
             </div>
         </div>
@@ -983,12 +997,15 @@ render(o0)</pre>
         const editor2 = document.getElementById('editor2')
         const editorThemeMenu = document.getElementById('editorThemeMenu')
 
-        document.getElementById('themeToggle').addEventListener('change', (e) => {
-            const isDark = e.target.checked
-            document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
+        document.getElementById('themeSwitcher').addEventListener('change', (e) => {
+            const theme = e.detail.value
+            document.documentElement.dataset.theme = theme
+
+            // Update switcher label
+            e.target.setAttribute('label', theme)
 
             // Sync code editor themes
-            const editorTheme = isDark ? 'default' : 'githubLight'
+            const editorTheme = theme === 'light' ? 'githubLight' : 'default'
             applyEditorTheme(editor1, editorTheme)
             applyEditorTheme(editor2, editorTheme)
             editorThemeMenu.value = editorTheme
