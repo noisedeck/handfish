@@ -4,7 +4,7 @@
 
 Handfish is a shared UI component library for the Noise Factor product ecosystem (Noisedeck, Tetra, and future apps). It provides Web Components, design tokens, and utility CSS. No build step — ES modules served directly to the browser.
 
-Demo: https://noisedeck.github.io/handfish/examples/
+Demo: https://handfish.noisefactor.io/examples/
 
 ## Commands
 
@@ -172,4 +172,4 @@ npm run dev
 # http://localhost:3000/examples/
 ```
 
-The examples page is also deployed via GitHub Pages at the repo root, so the demo works at `https://noisedeck.github.io/handfish/examples/`.
+The examples page is deployed to `https://handfish.noisefactor.io/examples/` via the scaffold CDN.
