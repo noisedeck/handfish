@@ -2,7 +2,7 @@
 
 A modern, accessible component library for creative tools. Built with Web Components and CSS Custom Properties.
 
-Demo: [https://handfish.noisefactor.io/](https://handfish.noisefactor.io/)
+Demo: [https://handfish.noisefactor.io/examples/](https://handfish.noisefactor.io/examples/)
 
 ## Features
 
