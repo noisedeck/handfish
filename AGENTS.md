@@ -121,7 +121,7 @@ export { MyComponent }
 
 All public API is re-exported from `src/index.js`. When adding a new component or utility, add its export there.
 
-## Components (15)
+## Components (14)
 
 | Component | Tag | Source |
 |-----------|-----|--------|
