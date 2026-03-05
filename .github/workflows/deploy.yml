@@ -9,6 +9,7 @@ on:
       - 'scripts/**'
       - 'package.json'
       - 'README.md'
+      - '_config.yml'
       - '.github/workflows/deploy.yml'
 
 jobs:
