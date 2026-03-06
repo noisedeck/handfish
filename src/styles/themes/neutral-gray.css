@@ -1,0 +1,58 @@
+/**
+ * Handfish Theme: Neutral Gray
+ *
+ * Mid-toned neutral grays — distinctly lighter than a typical dark theme.
+ * Inspired by the Layers media editor aesthetic. Zero chroma throughout.
+ * Apply with:
+ *
+ *   <html data-theme="neutral-gray-dark">   (dark mid-gray)
+ *   <html data-theme="neutral-gray-light">  (light mid-gray)
+ */
+
+[data-theme="neutral-gray-dark"] {
+    /* Mid-gray scale — shifted up from neutral-dark
+     * color-1 ≈ #333, color-2 ≈ #555 (main bg), color-3 ≈ #666 */
+    --hf-color-1: oklch(25.3% 0 0);
+    --hf-color-2: oklch(39.3% 0 0);
+    --hf-color-3: oklch(45.7% 0 0);
+    --hf-color-4: oklch(50.0% 0 0);
+    --hf-color-5: oklch(60.3% 0 0);
+    --hf-color-6: oklch(74.8% 0 0);
+    --hf-color-7: oklch(95.3% 0 0);
+
+    /* Neutral accents — zero chroma */
+    --hf-accent-1: oklch(30.0% 0 0);
+    --hf-accent-2: oklch(42.0% 0 0);
+    --hf-accent-3: oklch(68.5% 0 0);
+    --hf-accent-4: oklch(80.8% 0 0);
+
+    /* Semantic colors unchanged */
+    --hf-red: oklch(69.3% 0.199 18);
+    --hf-green: oklch(79.2% 0.198 145);
+    --hf-yellow: oklch(89.1% 0.133 89);
+    --hf-blue: oklch(61.1% 0.153 260);
+}
+
+[data-theme="neutral-gray-light"] {
+    /* Muted light grays — not too bright
+     * color-1 ≈ #c8c8 (elevated), color-2 ≈ #b8b8, color-3 ≈ #a8a8 (main bg) */
+    --hf-color-1: oklch(84.0% 0 0);
+    --hf-color-2: oklch(78.0% 0 0);
+    --hf-color-3: oklch(72.0% 0 0);
+    --hf-color-4: oklch(65.0% 0 0);
+    --hf-color-5: oklch(38.0% 0 0);
+    --hf-color-6: oklch(28.0% 0 0);
+    --hf-color-7: oklch(15.0% 0 0);
+
+    /* Neutral accents — zero chroma */
+    --hf-accent-1: oklch(80.0% 0 0);
+    --hf-accent-2: oklch(70.0% 0 0);
+    --hf-accent-3: oklch(42.0% 0 0);
+    --hf-accent-4: oklch(25.0% 0 0);
+
+    /* Semantic colors unchanged */
+    --hf-red: oklch(45.5% 0.170 20);
+    --hf-green: oklch(46.5% 0.116 151);
+    --hf-yellow: oklch(76.4% 0.155 85);
+    --hf-blue: oklch(42.5% 0.150 260);
+}
