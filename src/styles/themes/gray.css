@@ -1,15 +1,15 @@
 /**
- * Handfish Theme: Neutral Gray
+ * Handfish Theme: Gray
  *
  * Mid-toned neutral grays — distinctly lighter than a typical dark theme.
  * Inspired by the Layers media editor aesthetic. Zero chroma throughout.
  * Apply with:
  *
- *   <html data-theme="neutral-gray-dark">   (dark mid-gray)
- *   <html data-theme="neutral-gray-light">  (light mid-gray)
+ *   <html data-theme="gray-dark">   (dark mid-gray)
+ *   <html data-theme="gray-light">  (light mid-gray)
  */
 
-[data-theme="neutral-gray-dark"] {
+[data-theme="gray-dark"] {
     /* Mid-gray scale — shifted up from neutral-dark
      * color-1 ≈ #333, color-2 ≈ #555 (main bg), color-3 ≈ #666 */
     --hf-color-1: oklch(25.3% 0 0);
@@ -33,7 +33,7 @@
     --hf-blue: oklch(61.1% 0.153 260);
 }
 
-[data-theme="neutral-gray-light"] {
+[data-theme="gray-light"] {
     /* Muted light grays — not too bright
      * color-1 ≈ #c8c8 (elevated), color-2 ≈ #b8b8, color-3 ≈ #a8a8 (main bg) */
     --hf-color-1: oklch(84.0% 0 0);
