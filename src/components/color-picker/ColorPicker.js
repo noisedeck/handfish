@@ -48,7 +48,7 @@ if (!document.getElementById(COLOR_PICKER_STYLES_ID)) {
             color: var(--hf-text-normal, #d9deeb);
             background: var(--hf-bg-elevated, #1b2538);
             border-radius: var(--hf-radius-sm, 0.25rem);
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
         }
 
         color-picker .swatch {

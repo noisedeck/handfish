@@ -34,7 +34,7 @@ if (!document.getElementById(STYLES_ID)) {
                 transparent 5%
             );
             backdrop-filter: var(--hf-glass-blur, blur(12px));
-            border: 1px solid var(--hf-bg-elevated);
+            border: var(--hf-border-width) solid var(--hf-bg-elevated);
             border-radius: var(--hf-radius-sm, 4px);
             box-shadow: var(--hf-shadow-md, 0 4px 8px rgba(0, 0, 0, 0.2));
             color: var(--hf-text-normal);

@@ -109,7 +109,7 @@ if (!document.getElementById(IMAGE_MAGNIFIER_STYLES_ID)) {
             width: ${ZOOM_LEVEL}px;
             height: ${ZOOM_LEVEL}px;
             transform: translate(-50%, -50%);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            border: var(--hf-border-width) solid rgba(255, 255, 255, 0.9);
             box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
             pointer-events: none;
         }
@@ -120,7 +120,7 @@ if (!document.getElementById(IMAGE_MAGNIFIER_STYLES_ID)) {
             left: 50%;
             transform: translateX(-50%);
             background: var(--mag-bg);
-            border: 1px solid var(--mag-border);
+            border: var(--hf-border-width) solid var(--mag-border);
             border-radius: var(--hf-radius-sm, 0.25rem);
             padding: 2px 8px;
             font-family: var(--hf-font-family-mono, monospace);
@@ -137,7 +137,7 @@ if (!document.getElementById(IMAGE_MAGNIFIER_STYLES_ID)) {
             width: 12px;
             height: 12px;
             border-radius: var(--hf-radius-sm, 0.25rem);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: var(--hf-border-width) solid rgba(255, 255, 255, 0.3);
             flex-shrink: 0;
         }
     `

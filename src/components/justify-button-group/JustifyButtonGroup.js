@@ -22,7 +22,7 @@ if (!document.getElementById(JUSTIFY_BUTTON_GROUP_STYLES_ID)) {
             border-radius: var(--hf-radius-sm, 0.25rem);
             overflow: hidden;
             background: var(--hf-bg-surface, #333);
-            border: 1px solid var(--hf-bg-elevated, #444);
+            border: var(--hf-border-width) solid var(--hf-bg-elevated, #444);
         }
 
         justify-button-group .justify-btn {
@@ -60,7 +60,7 @@ if (!document.getElementById(JUSTIFY_BUTTON_GROUP_STYLES_ID)) {
 
         /* Remove internal borders, only outer group has border-radius */
         justify-button-group .justify-btn:not(:last-child) {
-            border-right: 1px solid var(--hf-bg-elevated, #444);
+            border-right: var(--hf-border-width) solid var(--hf-bg-elevated, #444);
         }
 
         justify-button-group .material-symbols {

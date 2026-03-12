@@ -50,7 +50,7 @@ if (!document.getElementById(DROPDOWN_MENU_STYLES_ID)) {
             font-family: var(--hf-font-family, 'Nunito', system-ui, sans-serif);
             color: var(--hf-text-normal);
             background: var(--hf-bg-elevated);
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
             border-radius: var(--hf-radius-sm, 0.25rem);
             transition: background-color 0.15s ease, border-color 0.15s ease;
         }
@@ -82,7 +82,7 @@ if (!document.getElementById(DROPDOWN_MENU_STYLES_ID)) {
             padding: 0;
             margin-top: 2px;
             background: var(--hf-bg-surface);
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
             border-radius: var(--hf-radius-sm, 0.25rem);
             box-shadow: var(--hf-shadow-md, 0 4px 8px rgba(0, 0, 0, 0.2));
             display: none;

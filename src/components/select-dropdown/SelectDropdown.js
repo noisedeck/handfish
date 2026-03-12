@@ -48,7 +48,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
             font-family: var(--hf-font-family, Nunito, system-ui, sans-serif);
             color: var(--hf-text-normal, #d9deeb);
             background: var(--hf-bg-elevated, #1b2538);
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
             border-radius: var(--hf-radius-sm, 0.25rem);
         }
 
@@ -85,7 +85,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
                 transparent 5%
             );
             backdrop-filter: var(--hf-glass-blur, blur(12px));
-            border: 1px solid color-mix(in srgb, var(--hf-accent, #4a5568) 30%, transparent 70%);
+            border: var(--hf-border-width) solid color-mix(in srgb, var(--hf-accent, #4a5568) 30%, transparent 70%);
             border-radius: var(--hf-radius-sm, 0.25rem);
             box-shadow: var(--hf-shadow-md, 0 4px 8px rgba(0, 0, 0, 0.2));
             overflow: hidden;
@@ -216,7 +216,7 @@ if (!document.getElementById(SELECT_DROPDOWN_STYLES_ID)) {
             padding: 0.375rem 0.5rem;
             cursor: pointer;
             transition: background 0.1s ease;
-            border-bottom: 1px solid color-mix(in srgb, var(--hf-accent, #a5b8ff) 8%, transparent 92%);
+            border-bottom: var(--hf-border-width) solid color-mix(in srgb, var(--hf-accent, #a5b8ff) 8%, transparent 92%);
             font-size: var(--hf-size-base, 0.875rem);
         }
 

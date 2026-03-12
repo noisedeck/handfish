@@ -137,7 +137,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
             width: 28px;
             height: 28px;
             border-radius: var(--cw-radius);
-            border: 1px solid var(--cw-border);
+            border: var(--hf-border-width) solid var(--cw-border);
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -177,7 +177,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
             font-weight: var(--hf-weight-medium, 500);
             color: var(--cw-text);
             background: var(--cw-input-bg);
-            border: 1px solid var(--cw-border);
+            border: var(--hf-border-width) solid var(--cw-border);
             border-radius: var(--cw-radius);
             padding: 6px 8px;
             box-sizing: border-box;
@@ -315,7 +315,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
             font-size: var(--hf-size-xs, 0.625rem);
             color: var(--cw-text);
             background: var(--cw-input-bg);
-            border: 1px solid var(--cw-border);
+            border: var(--hf-border-width) solid var(--cw-border);
             border-radius: var(--cw-radius);
             padding: 4px 6px;
             width: 100%;

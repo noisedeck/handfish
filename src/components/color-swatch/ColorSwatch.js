@@ -69,7 +69,7 @@ if (!document.getElementById(STYLES_ID)) {
             transform: translateX(-50%);
             padding: 4px 8px;
             background: var(--hf-bg-base);
-            border: 1px solid var(--hf-bg-elevated);
+            border: var(--hf-border-width) solid var(--hf-bg-elevated);
             border-radius: var(--hf-radius-sm, 0.25rem);
             color: var(--hf-text-normal);
             font-family: var(--hf-font-family-mono, monospace);
@@ -116,7 +116,7 @@ if (!document.getElementById(STYLES_ID)) {
             height: 8px;
             background: var(--hf-bg-base);
             border-radius: 50%;
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
             opacity: 0;
             transition: opacity 0.15s ease;
         }

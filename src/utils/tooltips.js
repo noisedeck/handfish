@@ -22,7 +22,7 @@ if (typeof document !== 'undefined' && !document.getElementById(TOOLTIP_STYLES_I
             font-size: var(--hf-size-xs, 0.625rem);
             color: var(--hf-text-bright, #eef1f8);
             background: var(--hf-bg-surface, #1a1e2e);
-            border: 1px solid var(--hf-border, rgba(255, 255, 255, 0.08));
+            border: var(--hf-border-width) solid var(--hf-border, rgba(255, 255, 255, 0.08));
             border-radius: var(--hf-radius-sm, 0.25rem);
             pointer-events: none;
             white-space: nowrap;

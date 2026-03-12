@@ -43,7 +43,7 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
             color: var(--hf-text-normal);
             background: var(--hf-bg-elevated);
             border-radius: var(--hf-radius-sm, 0.25rem);
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
         }
 
         vector3d-picker .vector-button:hover {
@@ -379,7 +379,7 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
             font-family: var(--hf-font-family-mono, monospace);
             color: var(--hf-text-normal);
             background: var(--hf-bg-elevated);
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
             border-radius: var(--hf-radius-sm, 0.25rem);
             text-align: right;
             box-sizing: border-box;
@@ -397,7 +397,7 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
             justify-content: space-between;
             gap: 1rem;
             padding-top: 0.5rem;
-            border-top: 1px solid var(--hf-border-subtle);
+            border-top: var(--hf-border-width) solid var(--hf-border-subtle);
         }
 
         vector3d-picker .normalize-toggle {
@@ -427,7 +427,7 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
             font-size: 0.6875rem;
             color: var(--hf-text-dim);
             background: var(--hf-bg-elevated);
-            border: 1px solid var(--hf-border-subtle);
+            border: var(--hf-border-width) solid var(--hf-border-subtle);
             border-radius: var(--hf-radius-sm, 0.25rem);
             cursor: pointer;
             transition: all 0.15s ease;
