@@ -17,10 +17,10 @@
     font-weight: var(--hf-weight-medium);
     padding: 0.15rem 0.45rem;
     background: color-mix(in srgb, var(--hf-accent) 12%, transparent 88%);
-    border: 1px solid var(--hf-border);
+    border: var(--hf-border-width) solid var(--hf-border);
     border-radius: var(--hf-radius-sm);
     color: color-mix(in srgb, var(--hf-text-dim) 85%, var(--hf-accent) 15%);
-    text-transform: lowercase;
+    text-transform: var(--hf-text-transform);
     letter-spacing: 0.03em;
     white-space: nowrap;
     line-height: 1.4;
@@ -32,6 +32,13 @@ a.hf-tag,
 .hf-tag[role="button"] {
     cursor: pointer;
     transition: background var(--hf-transition), border-color var(--hf-transition);
+}
+
+button.hf-tag:focus-visible,
+a.hf-tag:focus-visible,
+.hf-tag[role="button"]:focus-visible {
+    outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+    outline-offset: var(--hf-focus-ring-offset);
 }
 
 button.hf-tag:hover,
@@ -81,7 +88,7 @@ a.hf-tag:hover,
     font-weight: var(--hf-weight-semibold);
     color: var(--hf-accent);
     background: color-mix(in srgb, var(--hf-accent) 12%, transparent 88%);
-    border: 1px solid color-mix(in srgb, var(--hf-accent) 30%, transparent 70%);
+    border: var(--hf-border-width) solid color-mix(in srgb, var(--hf-accent) 30%, transparent 70%);
     border-radius: var(--hf-radius-pill);
     padding: 0.15em 0.6em;
     white-space: nowrap;
@@ -93,6 +100,12 @@ button.hf-badge,
 a.hf-badge {
     cursor: pointer;
     transition: background var(--hf-transition), color var(--hf-transition);
+}
+
+button.hf-badge:focus-visible,
+a.hf-badge:focus-visible {
+    outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+    outline-offset: var(--hf-focus-ring-offset);
 }
 
 button.hf-badge:hover,
@@ -134,7 +147,7 @@ a.hf-badge:hover {
 .hf-tabs {
     display: flex;
     gap: 0;
-    border-bottom: 1px solid var(--hf-border);
+    border-bottom: var(--hf-border-width) solid var(--hf-border);
 }
 
 .hf-tab {
@@ -165,8 +178,8 @@ a.hf-badge:hover {
 }
 
 .hf-tab:focus-visible {
-    outline: 1px solid var(--hf-accent);
-    outline-offset: -1px;
+    outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+    outline-offset: var(--hf-focus-ring-offset);
 }
 
 /* Compact tabs (smaller padding) */

@@ -104,6 +104,11 @@ dialog::backdrop {
     transition: opacity 0.15s ease;
 }
 
+.hf-dialog-close:focus-visible {
+    outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+    outline-offset: var(--hf-focus-ring-offset);
+}
+
 .hf-dialog-close:hover {
     opacity: 1;
     color: var(--hf-text-normal);
