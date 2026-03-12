@@ -35,6 +35,11 @@ if (!document.getElementById(SLIDER_VALUE_STYLES_ID)) {
             transition: background 0.15s ease;
         }
 
+        slider-value .slider:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
+        }
+
         slider-value .slider:hover {
             background: color-mix(in srgb, var(--hf-accent, #5a7fdd) 22%, transparent 78%);
         }
@@ -96,6 +101,8 @@ if (!document.getElementById(SLIDER_VALUE_STYLES_ID)) {
 
         slider-value .value-display:focus {
             background-color: color-mix(in srgb, var(--hf-accent, #5a7fdd) 20%, transparent 80%);
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
         }
     `
     document.head.appendChild(styleEl)

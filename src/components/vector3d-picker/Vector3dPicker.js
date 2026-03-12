@@ -46,6 +46,11 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
             border: var(--hf-border-width) solid var(--hf-border-subtle);
         }
 
+        vector3d-picker .vector-button:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
+        }
+
         vector3d-picker .vector-button:hover {
             background: var(--hf-bg-muted);
         }
@@ -387,7 +392,7 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
 
         vector3d-picker .axis-input:focus {
             outline: none;
-            border-color: var(--hf-accent);
+            border-color: var(--hf-border-focus);
         }
 
         /* Options row */
@@ -431,6 +436,11 @@ if (!document.getElementById(VECTOR3D_PICKER_STYLES_ID)) {
             border-radius: var(--hf-radius-sm, 0.25rem);
             cursor: pointer;
             transition: all 0.15s ease;
+        }
+
+        vector3d-picker .reset-button:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
         }
 
         vector3d-picker .reset-button:hover {

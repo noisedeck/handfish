@@ -44,6 +44,11 @@ if (!document.getElementById(JUSTIFY_BUTTON_GROUP_STYLES_ID)) {
             color: var(--hf-text-normal, #ccc);
         }
 
+        justify-button-group .justify-btn:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
+        }
+
         justify-button-group .justify-btn.selected {
             background: var(--hf-accent, #0066cc);
             color: var(--hf-bg-base, #000);

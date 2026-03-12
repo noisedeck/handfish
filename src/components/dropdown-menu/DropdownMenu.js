@@ -61,6 +61,11 @@ if (!document.getElementById(DROPDOWN_MENU_STYLES_ID)) {
             border-color: var(--hf-border-hover);
         }
 
+        dropdown-menu .dropdown-trigger:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
+        }
+
         dropdown-menu .dropdown-trigger .material-symbols {
             font-size: 1.125rem;
         }

@@ -186,7 +186,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
 
         color-wheel .hex-input:focus {
             outline: none;
-            border-color: var(--cw-accent);
+            border-color: var(--hf-border-focus);
         }
 
         color-wheel .alpha-container {
@@ -325,7 +325,7 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
 
         color-wheel .input-field:focus {
             outline: none;
-            border-color: var(--cw-accent);
+            border-color: var(--hf-border-focus);
         }
 
         /* Hide number input spinners */
@@ -339,11 +339,11 @@ if (!document.getElementById(COLOR_WHEEL_STYLES_ID)) {
         }
 
         /* Focus ring for accessibility */
-        color-wheel .wheel-canvas:focus,
-        color-wheel .slider-canvas:focus,
-        color-wheel .alpha-slider-track:focus {
-            outline: 2px solid var(--cw-accent);
-            outline-offset: 2px;
+        color-wheel .wheel-canvas:focus-visible,
+        color-wheel .slider-canvas:focus-visible,
+        color-wheel .alpha-slider-track:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
         }
 
         color-wheel .wheel-canvas:focus {

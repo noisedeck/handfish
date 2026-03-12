@@ -57,7 +57,8 @@ function injectStyles() {
         }
 
         toggle-switch:focus-visible .ts-track {
-            box-shadow: 0 0 0 2px color-mix(in srgb, var(--hf-accent, #a5b8ff) 25%, transparent 75%);
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
         }
 
         toggle-switch .ts-track.ts-checked {

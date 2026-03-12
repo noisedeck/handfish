@@ -55,6 +55,11 @@ if (!document.getElementById(STYLES_ID)) {
             transform: scale(1.1);
         }
 
+        color-swatch:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
+        }
+
         color-swatch[selected] {
             box-shadow:
                 0 0 0 2px var(--hf-bg-base),

@@ -90,6 +90,11 @@ if (!document.getElementById(STYLES_ID)) {
             opacity: 1;
         }
 
+        .hf-toast-close:focus-visible {
+            outline: var(--hf-focus-ring-width) solid var(--hf-focus-ring-color);
+            outline-offset: var(--hf-focus-ring-offset);
+        }
+
         /* Toast types */
         .hf-toast.hf-toast-success {
             border-color: color-mix(in srgb, var(--hf-green, #58db63) 30%, transparent 70%);

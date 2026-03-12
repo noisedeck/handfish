@@ -156,7 +156,8 @@ if (!document.getElementById(CODE_EDITOR_STYLES_ID)) {
 
         /* Focus state */
         code-editor:focus-within {
-            outline: 1px solid var(--code-editor-focus-outline, transparent);
+            outline: var(--hf-focus-ring-width) solid var(--code-editor-focus-outline, var(--hf-focus-ring-color));
+            outline-offset: var(--hf-focus-ring-offset);
         }
 
         /* Syntax highlighting colors */
