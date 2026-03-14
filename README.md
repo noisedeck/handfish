@@ -466,6 +466,8 @@ These reference the base palette and auto-resolve when the theme changes:
 | `--hf-text-normal` | `--hf-color-6` | Normal text |
 | `--hf-text-bright` | `--hf-color-7` | Bright/emphasized text |
 | `--hf-border-subtle` | `--hf-color-4` | Subtle borders |
+| `--hf-titlebar-bg` | `--hf-color-3` | Title bar background |
+| `--hf-accent-bg` | `--hf-accent-1` | Accent background |
 | `--hf-accent` | `--hf-accent-3` | Primary accent |
 | `--hf-accent-hover` | `--hf-accent-4` | Accent hover state |
 | `--hf-border` | — | Semi-transparent accent border |
@@ -478,6 +480,7 @@ These reference the base palette and auto-resolve when the theme changes:
 |-------|-------|
 | `--hf-font-family` | Nunito, system-ui, sans-serif |
 | `--hf-font-family-mono` | 'Noto Sans Mono', monospace |
+| `--hf-font-family-icon` | 'Material Symbols Outlined' |
 | `--hf-size-xs` | 0.625rem (10px) |
 | `--hf-size-sm` | 0.75rem (12px) |
 | `--hf-size-base` | 0.875rem (14px) |
@@ -489,6 +492,12 @@ These reference the base palette and auto-resolve when the theme changes:
 | `--hf-weight-medium` | 500 |
 | `--hf-weight-semibold` | 600 |
 | `--hf-weight-bold` | 700 |
+| `--hf-leading-tight` | 1.2 |
+| `--hf-leading-normal` | 1.5 |
+| `--hf-leading-relaxed` | 1.75 |
+| `--hf-tracking-tight` | -0.025em |
+| `--hf-tracking-normal` | 0 |
+| `--hf-tracking-wide` | 0.05em |
 
 ### Spacing Tokens
 
@@ -509,6 +518,7 @@ These reference the base palette and auto-resolve when the theme changes:
 
 | Token | Value |
 |-------|-------|
+| `--hf-radius-none` | 0 |
 | `--hf-radius-sm` | 0.25rem (4px) |
 | `--hf-radius-md` | 0.375rem (6px) |
 | `--hf-radius` | 0.5rem (8px) |
@@ -526,6 +536,7 @@ These reference the base palette and auto-resolve when the theme changes:
 | `--hf-shadow-md` | 0 4px 8px rgba(0, 0, 0, 0.2) |
 | `--hf-shadow-lg` | 0 8px 16px rgba(0, 0, 0, 0.25) |
 | `--hf-shadow-xl` | 0 16px 32px rgba(0, 0, 0, 0.3) |
+| `--hf-glow-accent` | 0 0 12px accent glow |
 
 ### Control Tokens
 
@@ -535,6 +546,7 @@ These reference the base palette and auto-resolve when the theme changes:
 | `--hf-control-height` | 1.875rem (30px) |
 | `--hf-control-height-lg` | 2.25rem (36px) |
 | `--hf-control-padding` | 0.25rem 0.5rem |
+| `--hf-titlebar-height` | 2.25rem (36px) |
 
 ### Transition Tokens
 
@@ -543,11 +555,17 @@ These reference the base palette and auto-resolve when the theme changes:
 | `--hf-transition-fast` | 0.1s ease |
 | `--hf-transition` | 0.15s ease |
 | `--hf-transition-slow` | 0.3s ease |
+| `--hf-transition-color` | color 0.15s ease |
+| `--hf-transition-bg` | background-color 0.15s ease |
+| `--hf-transition-border` | border-color 0.15s ease |
+| `--hf-transition-opacity` | opacity 0.15s ease |
+| `--hf-transition-transform` | transform 0.15s ease |
 
 ### Z-Index Scale
 
 | Token | Value |
 |-------|-------|
+| `--hf-z-base` | 0 |
 | `--hf-z-dropdown` | 100 |
 | `--hf-z-sticky` | 200 |
 | `--hf-z-fixed` | 300 |
@@ -565,8 +583,36 @@ These reference the base palette and auto-resolve when the theme changes:
 | `--hf-glass-blur-lg` | blur(32px) |
 | `--hf-backdrop` | rgba(0, 0, 0, 0.6) |
 | `--hf-surface-opacity` | 92% |
+| `--hf-surface-transparency` | 8% |
 | `--hf-panel-opacity` | 85% |
+| `--hf-panel-transparency` | 15% |
 | `--hf-header-opacity` | 65% |
+| `--hf-header-transparency` | 35% |
+| `--hf-chrome-highlight-blend` | 86% |
+| `--hf-chrome-highlight-tint` | 14% |
+| `--hf-chrome-shadow-blend` | 72% |
+| `--hf-chrome-shadow-shade` | 28% |
+
+### Border Tokens
+
+| Token | Value |
+|-------|-------|
+| `--hf-border-width` | 1px |
+
+### Focus Ring Tokens
+
+| Token | Value |
+|-------|-------|
+| `--hf-focus-ring-width` | 1px |
+| `--hf-focus-ring-offset` | 2px |
+| `--hf-focus-ring-color` | var(--hf-accent) |
+
+### Text Transform Tokens
+
+| Token | Value |
+|-------|-------|
+| `--hf-text-transform` | lowercase |
+| `--hf-text-transform-heading` | uppercase |
 
 ## Theming
 
