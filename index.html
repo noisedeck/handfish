@@ -130,6 +130,7 @@
         .main {
             margin-left: 220px;
             flex: 1;
+            min-width: 0;
             padding: var(--hf-space-8) var(--hf-space-8);
             max-width: calc(900px + 220px + var(--hf-space-8) * 2);
         }
@@ -224,6 +225,8 @@
             border-collapse: collapse;
             margin-bottom: var(--hf-space-4);
             font-size: var(--hf-size-sm);
+            display: block;
+            overflow-x: auto;
         }
 
         th {
