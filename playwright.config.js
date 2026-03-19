@@ -9,7 +9,7 @@ export default defineConfig({
         viewport: { width: 1280, height: 720 },
     },
     webServer: {
-        command: 'npx serve -l 3000',
+        command: 'npx serve -l tcp://localhost:3000',
         port: 3000,
         reuseExistingServer: true,
     },
