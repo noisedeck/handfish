@@ -67,7 +67,19 @@ jobs:
 
   cdn-purge:
     needs: build-and-deploy
-    uses: noisedeck/scaffold/.github/workflows/cdn-purge.yml@main
-    with:
-      domain: handfish.noisefactor.io
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 2959521
+          private-key: ${{ secrets.EHSRE_APP_PRIVATE_KEY }}
+          owner: noisedeck
+
+      - name: Purge CDN cache
+        run: |
+          curl -sf -X POST https://api.github.com/repos/noisedeck/scaffold/dispatches \
+            -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"event_type":"cdn-purge","client_payload":{"domain":"handfish.noisefactor.io"}}'
