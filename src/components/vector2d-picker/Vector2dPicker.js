@@ -613,20 +613,144 @@ class Vector2dPicker extends HTMLElement {
     // Update / Display
     // ========================================================================
 
-    _updateDisplay() {}
-    _updatePad() {}
-    _updateSliders() {}
-    _updateSliderRanges() {}
-    _updateNormalizeCheckbox() {}
-    _updateDisabledState() {}
-    _updateFormValue() {}
+    _updateDisplay() {
+        const xVal = this.querySelector('.x-value')
+        const yVal = this.querySelector('.y-value')
+        const magDisplay = this.querySelector('.magnitude-display')
+
+        if (xVal) xVal.textContent = this._formatValue(this._value.x)
+        if (yVal) yVal.textContent = this._formatValue(this._value.y)
+
+        const magnitude = Math.sqrt(this._value.x ** 2 + this._value.y ** 2)
+        if (magDisplay) magDisplay.textContent = `|v| = ${magnitude.toFixed(2)}`
+    }
+
+    _updatePad() {
+        const indicator = this.querySelector('.pad-indicator')
+        const line = this.querySelector('.pad-direction-line')
+        const pad = this.querySelector('.pad-2d')
+        const circleGuide = this.querySelector('.pad-circle-guide')
+
+        if (!indicator || !pad) return
+
+        const padWidth = pad.clientWidth || 280
+        const padHeight = pad.clientHeight || 280
+
+        const range = this._max - this._min
+        const px = ((this._value.x - this._min) / range) * padWidth
+        const py = (1 - (this._value.y - this._min) / range) * padHeight
+
+        indicator.style.left = `${px}px`
+        indicator.style.top = `${py}px`
+
+        if (line) {
+            const cx = padWidth / 2
+            const cy = padHeight / 2
+            const dx = px - cx
+            const dy = py - cy
+            const length = Math.sqrt(dx * dx + dy * dy)
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI
+            line.style.width = `${length}px`
+            line.style.transform = `rotate(${angle}deg)`
+        }
+
+        if (circleGuide) {
+            if (this._normalized) {
+                const unitPixels = padWidth / range
+                const diameter = unitPixels * 2
+                circleGuide.style.width = `${diameter}px`
+                circleGuide.style.height = `${diameter}px`
+                circleGuide.style.display = 'block'
+            } else {
+                circleGuide.style.display = 'none'
+            }
+        }
+    }
+
+    _updateSliders() {
+        const sliderX = this.querySelector('.axis-slider.x')
+        const sliderY = this.querySelector('.axis-slider.y')
+        const inputX = this.querySelector('.x-input')
+        const inputY = this.querySelector('.y-input')
+
+        if (sliderX) sliderX.value = this._value.x
+        if (sliderY) sliderY.value = this._value.y
+
+        if (inputX) inputX.value = this._formatValue(this._value.x)
+        if (inputY) inputY.value = this._formatValue(this._value.y)
+    }
+
+    _updateSliderRanges() {
+        const sliders = this.querySelectorAll('.axis-slider')
+        sliders.forEach((slider) => {
+            slider.min = this._min
+            slider.max = this._max
+            slider.step = this._step
+        })
+    }
+
+    _updateNormalizeCheckbox() {
+        const checkbox = this.querySelector('.normalize-checkbox')
+        if (checkbox) {
+            checkbox.checked = this._normalized
+        }
+    }
+
+    _updateDisabledState() {
+        const button = this.querySelector('.vector-button')
+        if (button) {
+            button.disabled = this.disabled
+        }
+        if (this.disabled) {
+            this._closeDialog()
+        }
+    }
+
+    _updateFormValue() {
+        if (this._internals) {
+            const valueStr = JSON.stringify([this._value.x, this._value.y])
+            this._internals.setFormValue(valueStr)
+        }
+    }
 
     // ========================================================================
     // Value Parsing
     // ========================================================================
 
-    _setValueFromAttribute() {}
-    _normalizeValue() {}
+    _setValueFromAttribute(str) {
+        if (!str) return
+
+        try {
+            const parsed = JSON.parse(str)
+            if (Array.isArray(parsed) && parsed.length >= 2) {
+                this._value = { x: parsed[0], y: parsed[1] }
+            } else if (parsed && typeof parsed === 'object') {
+                this._value = {
+                    x: parsed.x ?? 0,
+                    y: parsed.y ?? 0
+                }
+            }
+        } catch {
+            const parts = str.split(',').map((p) => parseFloat(p.trim()))
+            if (parts.length >= 2 && parts.every((p) => !isNaN(p))) {
+                this._value = { x: parts[0], y: parts[1] }
+            }
+        }
+
+        this._clampValue()
+        this._updateDisplay()
+        this._updateFormValue()
+    }
+
+    _normalizeValue() {
+        const mag = Math.sqrt(this._value.x ** 2 + this._value.y ** 2)
+        if (mag > 0) {
+            this._value.x /= mag
+            this._value.y /= mag
+        } else {
+            this._value = { x: 1, y: 0 }
+        }
+    }
 
     // ========================================================================
     // Utility
