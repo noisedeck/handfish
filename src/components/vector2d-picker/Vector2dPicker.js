@@ -284,7 +284,7 @@ if (!document.getElementById(VECTOR2D_PICKER_STYLES_ID)) {
             font-family: var(--hf-font-family-mono);
         }
 
-        vector2d-picker .axis-indicator.x-pos { right: -2px; top: 50%; transform: translateY(-50%); color: var(--hf-red); }
+        vector2d-picker .axis-indicator.x-pos { right: 2px; top: 50%; transform: translateY(-50%); color: var(--hf-red); }
         vector2d-picker .axis-indicator.x-neg { left: 2px; top: 50%; transform: translateY(-50%); color: var(--hf-red); }
         vector2d-picker .axis-indicator.y-pos { top: 2px; left: 50%; transform: translateX(-50%); color: var(--hf-green); }
         vector2d-picker .axis-indicator.y-neg { bottom: 2px; left: 50%; transform: translateX(-50%); color: var(--hf-green); }
@@ -391,7 +391,7 @@ if (!document.getElementById(VECTOR2D_PICKER_STYLES_ID)) {
             appearance: none;
             width: 14px;
             height: 14px;
-            border: var(--hf-border-width) solid var(--hf-border-subtle);
+            border: 1px solid var(--hf-border-subtle);
             border-radius: var(--hf-radius-sm);
             background: transparent;
             cursor: pointer;
@@ -433,6 +433,7 @@ if (!document.getElementById(VECTOR2D_PICKER_STYLES_ID)) {
 
         vector2d-picker .reset-button {
             padding: 0.25rem 0.75rem;
+            font-family: var(--hf-font-family);
             font-size: 0.6875rem;
             color: var(--hf-text-dim);
             background: var(--hf-bg-elevated);
