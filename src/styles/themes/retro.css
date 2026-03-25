@@ -1,0 +1,82 @@
+/**
+ * Handfish Theme: Retro
+ *
+ * Classic operating system aesthetic inspired by 90s desktop UIs —
+ * silver/gray chrome, blue title bars, chunky borders, and system
+ * fonts. Solid surfaces with no glass effects. Apply with:
+ *
+ *   <html data-theme="retro">
+ *
+ * Or import after the base stylesheet to override defaults.
+ */
+
+[data-theme="retro"] {
+    /* Neutrals — classic silver/gray desktop chrome (hue 220°) */
+    --hf-color-1: oklch(85.0% 0.004 220);
+    --hf-color-2: oklch(80.0% 0.006 220);
+    --hf-color-3: oklch(74.0% 0.008 220);
+    --hf-color-4: oklch(65.0% 0.008 220);
+    --hf-color-5: oklch(45.0% 0.006 220);
+    --hf-color-6: oklch(25.0% 0.004 220);
+    --hf-color-7: oklch(10.0% 0.003 220);
+
+    /* Accents — classic UI blue (hue ~240°) */
+    --hf-accent-1: oklch(82.0% 0.020 240);
+    --hf-accent-2: oklch(70.0% 0.060 240);
+    --hf-accent-3: oklch(40.0% 0.150 240);
+    --hf-accent-4: oklch(30.0% 0.120 240);
+
+    /* Semantic colors — bold, classic OS palette */
+    --hf-red: oklch(50.0% 0.200 25);
+    --hf-green: oklch(48.0% 0.140 145);
+    --hf-yellow: oklch(80.0% 0.160 90);
+    --hf-blue: oklch(40.0% 0.150 240);
+
+    /* Typography — system UI font for authentic feel */
+    --hf-font-family: 'Noto Sans', system-ui;
+    --hf-size-base: 0.8125rem;
+
+    /* Square corners — no radius */
+    --hf-radius-sm: 0;
+    --hf-radius-md: 0;
+    --hf-radius: 0;
+    --hf-radius-lg: 0;
+    --hf-radius-xl: 0;
+    --hf-radius-pill: 999px;
+
+    /* Hard-edged inset/outset shadows — faking 3D bevels */
+    --hf-shadow-sm: 1px 1px 0 oklch(0% 0 0 / 0.3), -1px -1px 0 oklch(100% 0 0 / 0.5);
+    --hf-shadow: 2px 2px 0 oklch(0% 0 0 / 0.3), -1px -1px 0 oklch(100% 0 0 / 0.5);
+    --hf-shadow-md: 2px 2px 0 oklch(0% 0 0 / 0.35), -1px -1px 0 oklch(100% 0 0 / 0.5);
+    --hf-shadow-lg: 3px 3px 0 oklch(0% 0 0 / 0.35), -1px -1px 0 oklch(100% 0 0 / 0.5);
+    --hf-shadow-xl: 4px 4px 0 oklch(0% 0 0 / 0.4), -2px -2px 0 oklch(100% 0 0 / 0.5);
+    --hf-glow-accent: none;
+
+    /* No glassmorphism — fully solid, like a real OS */
+    --hf-surface-opacity: 100%;
+    --hf-surface-transparency: 0%;
+    --hf-panel-opacity: 100%;
+    --hf-panel-transparency: 0%;
+    --hf-header-opacity: 100%;
+    --hf-header-transparency: 0%;
+    --hf-glass-blur: none;
+    --hf-glass-blur-sm: none;
+    --hf-glass-blur-lg: none;
+    --hf-backdrop: oklch(0% 0 0 / 0.50);
+
+    /* Visible borders — chunky OS-style */
+    --hf-border-width: 2px;
+    --hf-border: oklch(55.0% 0.004 220);
+    --hf-border-hover: oklch(40.0% 0.150 240);
+    --hf-border-focus: oklch(40.0% 0.150 240);
+
+    /* 3D chrome highlight/shadow tuning */
+    --hf-chrome-highlight-blend: 70%;
+    --hf-chrome-highlight-tint: 30%;
+    --hf-chrome-shadow-blend: 60%;
+    --hf-chrome-shadow-shade: 40%;
+
+    /* Links — classic blue */
+    --hf-link-color: oklch(40.0% 0.150 240);
+    --hf-link-hover: oklch(30.0% 0.120 240);
+}

@@ -1,0 +1,85 @@
+/**
+ * Handfish Theme: Brutalist
+ *
+ * Raw, deliberately unpolished anti-design. No border radius, no
+ * shadows, no glass blur — just stark black and white with bold
+ * borders and a monospace font. Apply with:
+ *
+ *   <html data-theme="brutalist">
+ *
+ * Or import after the base stylesheet to override defaults.
+ */
+
+[data-theme="brutalist"] {
+    /* Neutrals — pure black and white, zero chroma */
+    --hf-color-1: oklch(100% 0 0);
+    --hf-color-2: oklch(95.0% 0 0);
+    --hf-color-3: oklch(88.0% 0 0);
+    --hf-color-4: oklch(75.0% 0 0);
+    --hf-color-5: oklch(45.0% 0 0);
+    --hf-color-6: oklch(20.0% 0 0);
+    --hf-color-7: oklch(0% 0 0);
+
+    /* Accents — pure black on white */
+    --hf-accent-1: oklch(92.0% 0 0);
+    --hf-accent-2: oklch(80.0% 0 0);
+    --hf-accent-3: oklch(0% 0 0);
+    --hf-accent-4: oklch(30.0% 0 0);
+
+    /* Semantic colors — bold, primary, unsubtle */
+    --hf-red: oklch(55.0% 0.250 25);
+    --hf-green: oklch(52.0% 0.180 145);
+    --hf-yellow: oklch(85.0% 0.180 90);
+    --hf-blue: oklch(50.0% 0.200 260);
+
+    /* Typography — monospace, raw */
+    --hf-font-family: 'Noto Sans Mono', 'Noto Sans Mono Blank';
+    --hf-text-transform: uppercase;
+    --hf-text-transform-heading: uppercase;
+    --hf-tracking-wide: 0.08em;
+
+    /* No rounded corners — ever */
+    --hf-radius-none: 0;
+    --hf-radius-sm: 0;
+    --hf-radius-md: 0;
+    --hf-radius: 0;
+    --hf-radius-lg: 0;
+    --hf-radius-xl: 0;
+    --hf-radius-pill: 0;
+    --hf-radius-full: 0;
+
+    /* No shadows — flat and raw */
+    --hf-shadow-sm: none;
+    --hf-shadow: none;
+    --hf-shadow-md: none;
+    --hf-shadow-lg: none;
+    --hf-shadow-xl: none;
+    --hf-glow-accent: none;
+
+    /* No glassmorphism — fully opaque, no blur */
+    --hf-surface-opacity: 100%;
+    --hf-surface-transparency: 0%;
+    --hf-panel-opacity: 100%;
+    --hf-panel-transparency: 0%;
+    --hf-header-opacity: 100%;
+    --hf-header-transparency: 0%;
+    --hf-glass-blur: none;
+    --hf-glass-blur-sm: none;
+    --hf-glass-blur-lg: none;
+    --hf-backdrop: oklch(0% 0 0 / 0.70);
+
+    /* Thick, stark borders */
+    --hf-border-width: 2px;
+    --hf-border: oklch(0% 0 0);
+    --hf-border-hover: oklch(0% 0 0);
+    --hf-border-focus: oklch(0% 0 0);
+
+    /* Bold focus ring */
+    --hf-focus-ring-width: 2px;
+    --hf-focus-ring-offset: 2px;
+    --hf-focus-ring-color: oklch(0% 0 0);
+
+    /* Links — plain black, underline does the work */
+    --hf-link-color: oklch(0% 0 0);
+    --hf-link-hover: oklch(30.0% 0 0);
+}
