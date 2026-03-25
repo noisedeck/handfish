@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'Crimson Pro';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('https://fonts.noisefactor.io/fonts/crimson-pro/CrimsonPro[wght].woff2') format('woff2');
+}
+
+[data-theme="newspaper"] {
+    /* Neutrals — warm cream/ivory, hue 55° */
+    --hf-color-1: oklch(97.0% 0.005 55);
+    --hf-color-2: oklch(94.0% 0.007 55);
+    --hf-color-3: oklch(89.0% 0.008 55);
+    --hf-color-4: oklch(76.0% 0.010 55);
+    --hf-color-5: oklch(55.0% 0.008 55);
+    --hf-color-6: oklch(35.0% 0.006 55);
+    --hf-color-7: oklch(17.0% 0.004 55);
+
+    /* Accents — near-black editorial with red spot color */
+    --hf-accent-1: oklch(92.0% 0.010 55);
+    --hf-accent-2: oklch(82.0% 0.020 55);
+    --hf-accent-3: oklch(30.0% 0.030 55);
+    --hf-accent-4: oklch(45.0% 0.120 15);
+
+    /* Semantic colors — muted editorial palette */
+    --hf-red: oklch(48.0% 0.160 18);
+    --hf-green: oklch(50.0% 0.100 168);
+    --hf-yellow: oklch(68.0% 0.110 80);
+    --hf-blue: oklch(48.0% 0.100 245);
+
+    /* Typography */
+    --hf-font-family: 'Crimson Pro';
+    --hf-leading-normal: 1.6;
+    --hf-text-transform: none;
+    --hf-text-transform-heading: none;
+
+    /* Link colors — classic editorial blue */
+    --hf-link-color: oklch(42.0% 0.100 245);
+    --hf-link-hover: oklch(35.0% 0.120 245);
+
+    /* Radii — minimal, print-like */
+    --hf-radius-sm: 1px; --hf-radius-md: 2px; --hf-radius: 2px;
+    --hf-radius-lg: 3px; --hf-radius-xl: 4px; --hf-radius-pill: 999px;
+
+    /* Shadows — near-flat, print feel */
+    --hf-shadow-sm: 0 1px 1px oklch(0% 0 0 / 0.03);
+    --hf-shadow: 0 1px 2px oklch(0% 0 0 / 0.04);
+    --hf-shadow-md: 0 1px 4px oklch(0% 0 0 / 0.06);
+    --hf-shadow-lg: 0 2px 8px oklch(0% 0 0 / 0.08);
+    --hf-shadow-xl: 0 4px 16px oklch(0% 0 0 / 0.08);
+    --hf-glow-accent: 0 0 8px oklch(30% 0.030 55 / 0.10);
+
+    /* Glass — near-opaque, solid/printed feel */
+    --hf-surface-opacity: 97%; --hf-surface-transparency: 3%;
+    --hf-panel-opacity: 95%; --hf-panel-transparency: 5%;
+    --hf-header-opacity: 92%; --hf-header-transparency: 8%;
+    --hf-glass-blur: blur(6px); --hf-glass-blur-sm: blur(3px); --hf-glass-blur-lg: blur(10px);
+    --hf-backdrop: oklch(0% 0 0 / 0.35);
+
+    /* Borders — subtle print-like */
+    --hf-border: color-mix(in srgb, var(--hf-color-4) 15%, transparent 85%);
+    --hf-border-hover: color-mix(in srgb, var(--hf-accent-3) 30%, transparent 70%);
+    --hf-border-focus: var(--hf-accent-3);
+}
