@@ -1,0 +1,122 @@
+/**
+ * Handfish Theme: Sepia
+ *
+ * Very desaturated warm brown tones evoking aged paper and vintage
+ * photography. Low chroma throughout with subtle amber accents for
+ * a timeless, understated feel. Apply with:
+ *
+ *   <html data-theme="sepia-dark">   (dark sepia)
+ *   <html data-theme="sepia-light">  (light sepia)
+ *
+ * Or import after the base stylesheet to override defaults.
+ */
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.noisefactor.io/fonts/ibm-plex-sans/IBMPlexSans-Regular.woff2') format('woff2');
+}
+
+[data-theme="sepia-dark"] {
+    /* Neutrals — very desaturated warm brown (hue 45°) */
+    --hf-color-1: oklch(14.0% 0.010 45);
+    --hf-color-2: oklch(20.0% 0.014 45);
+    --hf-color-3: oklch(27.0% 0.016 45);
+    --hf-color-4: oklch(35.0% 0.018 45);
+    --hf-color-5: oklch(58.0% 0.016 45);
+    --hf-color-6: oklch(78.0% 0.012 45);
+    --hf-color-7: oklch(93.0% 0.008 45);
+
+    /* Accents — subtle amber (hue ~50°), desaturated */
+    --hf-accent-1: oklch(22.0% 0.025 50);
+    --hf-accent-2: oklch(32.0% 0.040 50);
+    --hf-accent-3: oklch(68.0% 0.070 50);
+    --hf-accent-4: oklch(80.0% 0.050 50);
+
+    /* Semantic colors — muted, warm-shifted */
+    --hf-red: oklch(60.0% 0.150 22);
+    --hf-green: oklch(65.0% 0.120 155);
+    --hf-yellow: oklch(82.0% 0.120 80);
+    --hf-blue: oklch(58.0% 0.100 240);
+
+    /* Typography */
+    --hf-font-family: 'IBM Plex Sans';
+
+    /* Warm brown-tinted shadows */
+    --hf-shadow-sm: 0 1px 3px oklch(10% 0.015 45 / 0.22);
+    --hf-shadow: 0 2px 6px oklch(8% 0.012 45 / 0.26);
+    --hf-shadow-md: 0 4px 12px oklch(8% 0.012 45 / 0.28), 0 0 6px oklch(68% 0.070 50 / 0.05);
+    --hf-shadow-lg: 0 8px 24px oklch(6% 0.010 45 / 0.30), 0 0 12px oklch(68% 0.070 50 / 0.07);
+    --hf-shadow-xl: 0 16px 48px oklch(5% 0.008 45 / 0.35), 0 0 24px oklch(68% 0.070 50 / 0.09);
+    --hf-glow-accent: 0 0 16px oklch(68% 0.070 50 / 0.25);
+
+    /* Glass — high opacity, gentle blur */
+    --hf-surface-opacity: 92%;
+    --hf-surface-transparency: 8%;
+    --hf-panel-opacity: 88%;
+    --hf-panel-transparency: 12%;
+    --hf-header-opacity: 72%;
+    --hf-header-transparency: 28%;
+    --hf-glass-blur: blur(16px);
+    --hf-glass-blur-sm: blur(8px);
+    --hf-glass-blur-lg: blur(24px);
+    --hf-backdrop: oklch(10% 0.010 45 / 0.65);
+
+    /* Borders — 25%/40% accent mix */
+    --hf-border: color-mix(in srgb, var(--hf-accent-3) 25%, transparent 75%);
+    --hf-border-hover: color-mix(in srgb, var(--hf-accent-3) 40%, transparent 60%);
+    --hf-border-focus: var(--hf-accent-3);
+}
+
+[data-theme="sepia-light"] {
+    /* Neutrals — warm parchment tones (hue 45°) */
+    --hf-color-1: oklch(95.5% 0.012 45);
+    --hf-color-2: oklch(91.0% 0.016 45);
+    --hf-color-3: oklch(85.0% 0.018 45);
+    --hf-color-4: oklch(76.0% 0.016 45);
+    --hf-color-5: oklch(52.0% 0.014 45);
+    --hf-color-6: oklch(32.0% 0.012 45);
+    --hf-color-7: oklch(18.0% 0.008 45);
+
+    /* Accents — darker amber for light bg contrast */
+    --hf-accent-1: oklch(90.0% 0.025 50);
+    --hf-accent-2: oklch(80.0% 0.045 50);
+    --hf-accent-3: oklch(42.0% 0.070 50);
+    --hf-accent-4: oklch(30.0% 0.055 50);
+
+    /* Semantic colors — muted for light bg */
+    --hf-red: oklch(48.0% 0.150 22);
+    --hf-green: oklch(45.0% 0.100 155);
+    --hf-yellow: oklch(72.0% 0.130 80);
+    --hf-blue: oklch(42.0% 0.100 240);
+
+    /* Typography */
+    --hf-font-family: 'IBM Plex Sans';
+
+    /* Warm subtle shadows */
+    --hf-shadow-sm: 0 1px 2px oklch(30% 0.012 45 / 0.08);
+    --hf-shadow: 0 1px 4px oklch(28% 0.010 45 / 0.10);
+    --hf-shadow-md: 0 2px 8px oklch(25% 0.010 45 / 0.12), 0 0 4px oklch(42% 0.070 50 / 0.04);
+    --hf-shadow-lg: 0 4px 16px oklch(22% 0.008 45 / 0.14), 0 0 8px oklch(42% 0.070 50 / 0.06);
+    --hf-shadow-xl: 0 8px 32px oklch(20% 0.008 45 / 0.16), 0 0 16px oklch(42% 0.070 50 / 0.08);
+    --hf-glow-accent: 0 0 12px oklch(42% 0.070 50 / 0.20);
+
+    /* Glass — high opacity, gentle blur */
+    --hf-surface-opacity: 94%;
+    --hf-surface-transparency: 6%;
+    --hf-panel-opacity: 90%;
+    --hf-panel-transparency: 10%;
+    --hf-header-opacity: 82%;
+    --hf-header-transparency: 18%;
+    --hf-glass-blur: blur(16px);
+    --hf-glass-blur-sm: blur(8px);
+    --hf-glass-blur-lg: blur(24px);
+    --hf-backdrop: oklch(90% 0.010 45 / 0.55);
+
+    /* Borders — 25%/40% accent mix */
+    --hf-border: color-mix(in srgb, var(--hf-accent-3) 25%, transparent 75%);
+    --hf-border-hover: color-mix(in srgb, var(--hf-accent-3) 40%, transparent 60%);
+    --hf-border-focus: var(--hf-accent-3);
+}

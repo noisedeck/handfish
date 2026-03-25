@@ -19,14 +19,14 @@
 }
 
 [data-theme="sunset"] {
-    /* Neutrals — dark indigo sky (hue 270°), low chroma */
-    --hf-color-1: oklch(12.0% 0.012 270);
-    --hf-color-2: oklch(18.0% 0.016 270);
-    --hf-color-3: oklch(25.0% 0.020 270);
-    --hf-color-4: oklch(34.0% 0.022 270);
-    --hf-color-5: oklch(55.0% 0.020 270);
-    --hf-color-6: oklch(76.0% 0.015 270);
-    --hf-color-7: oklch(93.0% 0.008 270);
+    /* Neutrals — dark indigo sky (hue 270°), visible blue tint */
+    --hf-color-1: oklch(12.0% 0.025 270);
+    --hf-color-2: oklch(18.0% 0.032 270);
+    --hf-color-3: oklch(25.0% 0.038 270);
+    --hf-color-4: oklch(34.0% 0.040 270);
+    --hf-color-5: oklch(55.0% 0.035 270);
+    --hf-color-6: oklch(76.0% 0.025 270);
+    --hf-color-7: oklch(93.0% 0.012 270);
 
     /* Accents — warm pink primary (hue ~350°), orange secondary (hue ~35°) */
     --hf-accent-1: oklch(22.0% 0.045 350);
