@@ -11,14 +11,14 @@
  */
 
 [data-theme="retro"] {
-    /* Neutrals — classic silver/gray desktop chrome (hue 220°) */
-    --hf-color-1: oklch(85.0% 0.004 220);
-    --hf-color-2: oklch(80.0% 0.006 220);
-    --hf-color-3: oklch(74.0% 0.008 220);
-    --hf-color-4: oklch(65.0% 0.008 220);
-    --hf-color-5: oklch(45.0% 0.006 220);
-    --hf-color-6: oklch(25.0% 0.004 220);
-    --hf-color-7: oklch(10.0% 0.003 220);
+    /* Neutrals — pure neutral silver/gray, zero chroma */
+    --hf-color-1: oklch(84.0% 0 0);
+    --hf-color-2: oklch(78.0% 0 0);
+    --hf-color-3: oklch(72.0% 0 0);
+    --hf-color-4: oklch(62.0% 0 0);
+    --hf-color-5: oklch(42.0% 0 0);
+    --hf-color-6: oklch(22.0% 0 0);
+    --hf-color-7: oklch(8.0% 0 0);
 
     /* Accents — classic UI blue (hue ~240°) */
     --hf-accent-1: oklch(82.0% 0.020 240);
@@ -44,12 +44,12 @@
     --hf-radius-xl: 0;
     --hf-radius-pill: 999px;
 
-    /* Hard-edged inset/outset shadows — faking 3D bevels */
-    --hf-shadow-sm: 1px 1px 0 oklch(0% 0 0 / 0.3), -1px -1px 0 oklch(100% 0 0 / 0.5);
-    --hf-shadow: 2px 2px 0 oklch(0% 0 0 / 0.3), -1px -1px 0 oklch(100% 0 0 / 0.5);
-    --hf-shadow-md: 2px 2px 0 oklch(0% 0 0 / 0.35), -1px -1px 0 oklch(100% 0 0 / 0.5);
-    --hf-shadow-lg: 3px 3px 0 oklch(0% 0 0 / 0.35), -1px -1px 0 oklch(100% 0 0 / 0.5);
-    --hf-shadow-xl: 4px 4px 0 oklch(0% 0 0 / 0.4), -2px -2px 0 oklch(100% 0 0 / 0.5);
+    /* Hard-edged 3D bevel shadows — raised UI chrome effect */
+    --hf-shadow-sm: inset -1px -1px 0 oklch(0% 0 0 / 0.4), inset 1px 1px 0 oklch(100% 0 0 / 0.6);
+    --hf-shadow: inset -2px -2px 0 oklch(0% 0 0 / 0.4), inset 2px 2px 0 oklch(100% 0 0 / 0.6);
+    --hf-shadow-md: inset -2px -2px 0 oklch(0% 0 0 / 0.45), inset 2px 2px 0 oklch(100% 0 0 / 0.65);
+    --hf-shadow-lg: inset -3px -3px 0 oklch(0% 0 0 / 0.45), inset 3px 3px 0 oklch(100% 0 0 / 0.65);
+    --hf-shadow-xl: inset -4px -4px 0 oklch(0% 0 0 / 0.5), inset 4px 4px 0 oklch(100% 0 0 / 0.7);
     --hf-glow-accent: none;
 
     /* No glassmorphism — fully solid, like a real OS */
@@ -66,15 +66,15 @@
 
     /* Visible borders — chunky OS-style */
     --hf-border-width: 2px;
-    --hf-border: oklch(55.0% 0.004 220);
+    --hf-border: oklch(50.0% 0 0);
     --hf-border-hover: oklch(40.0% 0.150 240);
     --hf-border-focus: oklch(40.0% 0.150 240);
 
-    /* 3D chrome highlight/shadow tuning */
-    --hf-chrome-highlight-blend: 70%;
-    --hf-chrome-highlight-tint: 30%;
-    --hf-chrome-shadow-blend: 60%;
-    --hf-chrome-shadow-shade: 40%;
+    /* Exaggerated 3D chrome highlight/shadow */
+    --hf-chrome-highlight-blend: 55%;
+    --hf-chrome-highlight-tint: 45%;
+    --hf-chrome-shadow-blend: 50%;
+    --hf-chrome-shadow-shade: 50%;
 
     /* Links — classic blue */
     --hf-link-color: oklch(40.0% 0.150 240);
