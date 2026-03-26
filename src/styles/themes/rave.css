@@ -42,8 +42,8 @@
     /* Typography — futuristic, dense */
     --hf-font-family: 'Comfortaa';
     --hf-size-base: 0.8125rem;
-    --hf-text-transform: uppercase;
-    --hf-text-transform-heading: uppercase;
+    --hf-text-transform: lowercase;
+    --hf-text-transform-heading: lowercase;
     --hf-tracking-wide: 0.10em;
 
     /* Sharp corners */
