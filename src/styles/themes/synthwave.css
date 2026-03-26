@@ -9,11 +9,12 @@
  * Or import after the base stylesheet to override defaults.
  */
 
+
 @font-face {
-    font-family: 'Orbitron';
-    src: url('https://fonts.noisefactor.io/fonts/orbitron/Orbitron[wght].woff2') format('woff2');
-    font-weight: 100 900;
-    font-display: swap;
+  font-family: 'Tomorrow';
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://fonts.noisefactor.io/fonts/tomorrow/Tomorrow-Regular.woff2') format('woff2');
 }
 
 [data-theme="synthwave"] {
@@ -38,8 +39,8 @@
     --hf-yellow: oklch(90.0% 0.180 95);
     --hf-blue: oklch(70.0% 0.200 250);
 
-    /* Typography — Orbitron variable font */
-    --hf-font-family: 'Orbitron';
+    /* Typography */
+    --hf-font-family: 'Tomorrow';
     --hf-text-transform-heading: uppercase;
     --hf-tracking-wide: 0.08em;
 

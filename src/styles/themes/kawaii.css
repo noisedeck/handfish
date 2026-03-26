@@ -10,11 +10,11 @@
  */
 
 @font-face {
-    font-family: 'Karla';
+    font-family: 'Baloo 2';
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url('https://fonts.noisefactor.io/fonts/karla/Karla[wght].woff2') format('woff2');
+    src: url('https://fonts.noisefactor.io/fonts/baloo-2/Baloo2[wght].woff2') format('woff2');
 }
 
 [data-theme="kawaii"] {
@@ -40,7 +40,7 @@
     --hf-blue: oklch(58.0% 0.120 260);
 
     /* Typography — friendly rounded sans */
-    --hf-font-family: 'Karla';
+    --hf-font-family: 'Baloo 2';
 
     /* Extra-rounded, bubbly corners */
     --hf-radius-sm: 10px;
