@@ -154,6 +154,7 @@ export class AboutDialog {
             copyright: config.copyright || String(new Date().getFullYear()),
             repo: config.repo || null,
             ecosystem: config.ecosystem || null,
+            titleFont: config.titleFont || null,
         }
 
         this._dialog = null
@@ -214,7 +215,7 @@ export class AboutDialog {
             <div class="hf-about-content">
                 ${c.logo ? `<div class="hf-about-graphic" role="presentation">${c.logo}</div>` : ''}
                 <div class="hf-about-details" tabindex="-1">
-                    <div class="hf-about-name">${c.name}</div>
+                    <div class="hf-about-name"${c.titleFont ? ` style="font-family: ${c.titleFont}"` : ''}>${c.name}</div>
                     ${els.join('\n                    ')}
                 </div>
             </div>
