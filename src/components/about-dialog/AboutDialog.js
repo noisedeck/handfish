@@ -8,16 +8,22 @@
 const STYLES_ID = 'hf-about-styles'
 
 /**
- * Normalize any date-ish input to YYYY-MM-DD in the viewer's local timezone.
- * Accepts a Date, number (ms since epoch), or parseable string. Returns null
- * for nullish or unparseable input so the caller can fall back to a default.
+ * Normalize any date-ish input to "YYYY-MM-DD HH:MM <TZ>" in the viewer's
+ * local timezone (24h, short timezone name). Accepts a Date, number (ms since
+ * epoch), or parseable string. Returns null for nullish or unparseable input
+ * so the caller can fall back to a default.
  */
-function formatLocalDate(input) {
+function formatLocalDateTime(input) {
     if (input == null) return null
     const d = input instanceof Date ? input : new Date(input)
     if (Number.isNaN(d.getTime())) return null
     const pad = (n) => String(n).padStart(2, '0')
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+    const date = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+    const time = `${pad(d.getHours())}:${pad(d.getMinutes())}`
+    const tz = new Intl.DateTimeFormat(undefined, { timeZoneName: 'short' })
+        .formatToParts(d)
+        .find((p) => p.type === 'timeZoneName')?.value
+    return tz ? `${date} ${time} ${tz}` : `${date} ${time}`
 }
 
 function injectStyles() {
@@ -225,7 +231,7 @@ export class AboutDialog {
     setBuild({ hash, deployed } = {}) {
         this._build = {
             hash: hash || null,
-            deployed: formatLocalDate(deployed),
+            deployed: formatLocalDateTime(deployed),
         }
         this._renderBuild()
     }
@@ -234,7 +240,7 @@ export class AboutDialog {
         this._noisemaker = {
             version: version || null,
             hash: hash || null,
-            deployed: formatLocalDate(deployed),
+            deployed: formatLocalDateTime(deployed),
         }
         this._renderNoisemaker()
     }
