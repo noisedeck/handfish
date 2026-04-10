@@ -245,6 +245,40 @@ export class AboutDialog {
         this._renderNoisemaker()
     }
 
+    /**
+     * Fetch noisemaker build metadata from a deployment-meta.json URL
+     * and populate the noisemaker section. Expected JSON shape:
+     *
+     *   { "git_hash": "<sha>", "date": <unix-seconds>, "version": "X.Y.Z" }
+     *
+     * Fails silently on network or parse errors — the noisemaker
+     * section is decorative, and the caller's own build info should
+     * still render even if this fetch is unavailable.
+     *
+     * Typical usage from a platform product:
+     *
+     *   aboutDialog.setNoisemakerFromUrl(
+     *       'https://shaders.noisedeck.app/0/deployment-meta.json'
+     *   )
+     *
+     * @param {string} metaUrl - URL to a deployment-meta.json file.
+     * @returns {Promise<void>}
+     */
+    async setNoisemakerFromUrl(metaUrl) {
+        try {
+            const response = await fetch(metaUrl, { cache: 'no-store' })
+            if (!response.ok) return
+            const data = await response.json()
+            this.setNoisemaker({
+                version: data.version || null,
+                hash: data.git_hash ? data.git_hash.slice(0, 8) : null,
+                deployed: data.date ? new Date(data.date * 1000) : null,
+            })
+        } catch {
+            // Fail silently — noisemaker metadata is decorative.
+        }
+    }
+
     setEcosystem(html) {
         this._config.ecosystem = html
         this._renderEcosystem()
@@ -256,8 +290,17 @@ export class AboutDialog {
         this._dialog = document.createElement('dialog')
         this._dialog.className = 'hf-dialog hf-about'
 
-        const versionHtml = c.version
-            ? `<div class="hf-about-version">Version ${c.version.replace(/-.*$/, '')}</div>`
+        // Products get a MAJOR.MINOR display only — the dialog never
+        // shows a patch segment for the deployed product. Accepts any
+        // tool-friendly form (`1.9`, `1.9.0`, `1.9.0-SNAPSHOT`, etc.)
+        // and extracts the first two numeric segments. Non-numeric
+        // input falls back to the raw string so the display never
+        // silently disappears.
+        const productVersion = c.version
+            ? (c.version.match(/^(\d+\.\d+)/)?.[1] || c.version)
+            : null
+        const versionHtml = productVersion
+            ? `<div class="hf-about-version">Version ${productVersion}</div>`
             : ''
 
         this._dialog.innerHTML = `

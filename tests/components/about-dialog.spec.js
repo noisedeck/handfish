@@ -40,7 +40,9 @@ test.describe('AboutDialog', () => {
         await expect(dialog).toBeVisible()
         await expect(dialog.locator('.hf-about-name')).toHaveText('Noisedeck')
         await expect(dialog.locator('.hf-about-tagline')).toHaveText('GPU Video Synth')
-        await expect(dialog.locator('.hf-about-version')).toHaveText('Version 1.9.0')
+        // Dialog strips product version to MAJOR.MINOR. Demo passes
+        // `version: '1.9.0'` at construction, which renders as "Version 1.9".
+        await expect(dialog.locator('.hf-about-version')).toHaveText('Version 1.9')
         await expect(dialog.locator('.hf-about-copyright')).toContainText('2020-2026')
     })
 
