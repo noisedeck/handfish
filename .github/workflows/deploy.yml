@@ -62,7 +62,11 @@ jobs:
 
     - name: Deploy site
       run: |
-        rsync -avz \
+        # --exclude='.*' keeps source-repo dotfiles (.github, .gitignore, etc)
+        # out of the deploy regardless of what ends up in dist/site/.
+        # Do NOT add --delete here: the destination holds other artifacts
+        # this workflow does not own.
+        rsync -avz --exclude='.*' \
           dist/site/ \
           deploy@${{ secrets.SCAFFOLD_SERVER_IP }}:~/sites/handfish.noisefactor.io/content/
 
