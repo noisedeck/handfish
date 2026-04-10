@@ -459,25 +459,34 @@
         <h2>Usage</h2>
         <p>Handfish is served as a versioned ESM bundle from <code>handfish.noisefactor.io</code>. No npm install needed. We respect privacy: we do not track users, and we don't log beyond what is necessary for server operations.</p>
 
+        <h3>Pinning Levels</h3>
+        <p>The CDN exposes three URL shapes for every release. Pick the one that matches how much drift between deploys your application can tolerate:</p>
+        <ul>
+            <li><code>handfish.noisefactor.io/0</code> &mdash; Rolling latest within <strong>major 0</strong>. Auto-tracks every minor and patch release (e.g. <code>0.10.0</code> &rarr; <code>0.10.1</code> &rarr; <code>0.11.0</code>) until a <code>1.0</code> ships, at which point this URL freezes and consumers explicitly migrate to <code>/1</code>. <strong>Recommended default</strong> for most integrations.</li>
+            <li><code>handfish.noisefactor.io/0.10</code> &mdash; Rolling latest within the <strong>0.10 minor series</strong>. Stays on <code>0.10.x</code> even if <code>0.11</code> or <code>1.0</code> ships. Use when you want patch-level updates with explicit control over minor upgrades.</li>
+            <li><code>handfish.noisefactor.io/0.10.1</code> &mdash; <strong>Exact pin</strong>, immutable. Contents never change once published. Use for reproducible builds and frozen historical versions.</li>
+        </ul>
+        <p>The examples below use <code>/0</code> (the recommended default). Substitute <code>/0.10</code> or <code>/0.10.1</code> if you want a stricter pin.</p>
+
         <h3>Import Styles</h3>
-<pre><code>&lt;link rel="stylesheet" href="https://handfish.noisefactor.io/0.9.0/styles/tokens.css"&gt;
-&lt;link rel="stylesheet" href="https://handfish.noisefactor.io/0.9.0/styles/themes/neutral.css"&gt;</code></pre>
+<pre><code>&lt;link rel="stylesheet" href="https://handfish.noisefactor.io/0/styles/tokens.css"&gt;
+&lt;link rel="stylesheet" href="https://handfish.noisefactor.io/0/styles/themes/neutral.css"&gt;</code></pre>
         <p>Or load all styles (tokens + forms + menus + tags):</p>
-<pre><code>&lt;link rel="stylesheet" href="https://handfish.noisefactor.io/0.9.0/styles/index.css"&gt;</code></pre>
+<pre><code>&lt;link rel="stylesheet" href="https://handfish.noisefactor.io/0/styles/index.css"&gt;</code></pre>
 
         <h3>Import Components</h3>
         <p>Using an import map (recommended):</p>
 <pre><code>&lt;script type="importmap"&gt;
 {
     "imports": {
-        "handfish": "https://handfish.noisefactor.io/0.9.0/handfish.esm.min.js"
+        "handfish": "https://handfish.noisefactor.io/0/handfish.esm.min.js"
     }
 }
 &lt;/script&gt;</code></pre>
 <pre><code>// Then import by name
 import { ToggleSwitch, SliderValue, ColorPicker } from 'handfish'</code></pre>
         <p>Or import directly:</p>
-<pre><code>import { ToggleSwitch, SliderValue, ColorPicker } from 'https://handfish.noisefactor.io/0.9.0/handfish.esm.min.js'</code></pre>
+<pre><code>import { ToggleSwitch, SliderValue, ColorPicker } from 'https://handfish.noisefactor.io/0/handfish.esm.min.js'</code></pre>
 
         <h3>Use Components</h3>
 <pre><code>&lt;toggle-switch label="Enable feature"&gt;&lt;/toggle-switch&gt;
