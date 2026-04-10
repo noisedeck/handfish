@@ -1,5 +1,14 @@
 name: Deploy
 
+# Under the tag-on-commit scheme, scaffold is the sole authority for
+# handfish releases. This workflow just fires the workflow_dispatch at
+# scaffold, which clones handfish, computes next patch from existing
+# tags, builds, deploys library bundles and the site page to the CDN
+# origin, atomically updates the rolling MAJOR.MINOR symlink, creates
+# the vMAJOR.MINOR.PATCH git tag on this repo, and purges the CDN.
+#
+# See the policy document in scaffold for the full contract.
+
 on:
   workflow_dispatch:
   push:
@@ -9,82 +18,37 @@ on:
       - 'examples/**'
       - 'scripts/**'
       - 'package.json'
+      - 'package-lock.json'
       - 'index.html'
       - '.github/workflows/deploy.yml'
 
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  build-and-deploy:
-    name: Build and deploy
+  trigger-scaffold-release:
+    name: Dispatch scaffold library-release
     runs-on: ubuntu-latest
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-
-    - name: Install dependencies
-      run: npm install --include=dev
-
-    - name: Build bundles
-      run: npm run build
-
-    - name: Resolve version
-      id: version
-      run: |
-        VERSION=$(node -e "const pkg=require('./package.json'); console.log(pkg.version.replace(/-SNAPSHOT$/, ''))")
-        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-        echo "Deploying version: $VERSION"
-
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        chmod 700 ~/.ssh
-        echo "${{ secrets.SCAFFOLD_SSH_KEY }}" | base64 -d > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan ${{ secrets.SCAFFOLD_SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
-
-    - name: Deploy versioned bundle
-      run: |
-        VERSION=${{ steps.version.outputs.version }}
-        ssh deploy@${{ secrets.SCAFFOLD_SERVER_IP }} "mkdir -p ~/sites/handfish.noisefactor.io/content/${VERSION}"
-        rsync -avz \
-          dist/handfish.esm.js \
-          dist/handfish.esm.min.js \
-          deploy@${{ secrets.SCAFFOLD_SERVER_IP }}:~/sites/handfish.noisefactor.io/content/${VERSION}/
-        rsync -avz \
-          dist/styles/ \
-          deploy@${{ secrets.SCAFFOLD_SERVER_IP }}:~/sites/handfish.noisefactor.io/content/${VERSION}/styles/
-
-    - name: Deploy site
-      run: |
-        # --exclude='.*' keeps source-repo dotfiles (.github, .gitignore, etc)
-        # out of the deploy regardless of what ends up in dist/site/.
-        # Do NOT add --delete here: the destination holds other artifacts
-        # this workflow does not own.
-        rsync -avz --exclude='.*' \
-          dist/site/ \
-          deploy@${{ secrets.SCAFFOLD_SERVER_IP }}:~/sites/handfish.noisefactor.io/content/
-
-  cdn-purge:
-    needs: build-and-deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate app token
+      - name: Mint scaffold GitHub App token
         id: app-token
         uses: actions/create-github-app-token@v1
         with:
           app-id: 2959521
           private-key: ${{ secrets.EHSRE_APP_PRIVATE_KEY }}
           owner: noisefactorllc
+          repositories: scaffold
 
-      - name: Purge CDN cache
+      - name: Dispatch scaffold library-release for handfish
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          curl -sf -X POST https://api.github.com/repos/noisefactorllc/scaffold/dispatches \
-            -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            -d '{"event_type":"cdn-purge","client_payload":{"domain":"handfish.noisefactor.io"}}'
+          gh workflow run library-release.yml \
+            --repo noisefactorllc/scaffold \
+            --ref main \
+            -f library=handfish \
+            -f sha=${{ github.sha }}
+          echo "Dispatched scaffold library-release for handfish @ ${{ github.sha }}"
