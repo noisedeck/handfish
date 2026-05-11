@@ -1,0 +1,70 @@
+name: API check
+
+# Catches drift in docs/component-api.json. Whenever a component, utility,
+# theme, or the generator script itself changes, the regenerated JSON must
+# match what's committed. If they differ, the contributor needs to run
+# `node scripts/generate-component-api.js` and commit the updated JSON.
+#
+# This protects downstream consumers (notably the handfish-design Claude
+# Code plugin) that regenerate their docs from this JSON. Without this
+# check, an attribute rename could land here and silently invalidate
+# downstream documentation until the next manual audit.
+
+on:
+  pull_request:
+    paths:
+      - 'src/components/**'
+      - 'src/utils/**'
+      - 'src/styles/themes/**'
+      - 'src/index.js'
+      - 'scripts/generate-component-api.js'
+      - 'docs/component-api.json'
+      - '.github/workflows/api-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/**'
+      - 'src/utils/**'
+      - 'src/styles/themes/**'
+      - 'src/index.js'
+      - 'scripts/generate-component-api.js'
+      - 'docs/component-api.json'
+      - '.github/workflows/api-check.yml'
+
+jobs:
+  verify-component-api-json:
+    name: Verify docs/component-api.json matches source
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Regenerate component API JSON from source
+        run: node scripts/generate-component-api.js
+
+      - name: Verify the committed JSON matches the regenerated output
+        run: |
+          # `git status --porcelain` catches both "modified" and "untracked"
+          # states, so this works on the first run (when the JSON hasn't
+          # been committed yet) as well as on subsequent drift.
+          if [ -n "$(git status --porcelain docs/component-api.json)" ]; then
+            echo "::error::docs/component-api.json is out of date with source."
+            echo ""
+            echo "A change to src/components/, src/utils/, or src/styles/themes/ wasn't"
+            echo "accompanied by a regeneration of docs/component-api.json. Run:"
+            echo ""
+            echo "  node scripts/generate-component-api.js"
+            echo ""
+            echo "Then commit the result. The diff that triggered this failure:"
+            echo ""
+            git --no-pager diff docs/component-api.json || true
+            git --no-pager status docs/component-api.json
+            exit 1
+          fi
+          echo "✓ docs/component-api.json matches source"
