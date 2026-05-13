@@ -34,8 +34,8 @@
     "url": "https://github.com/noisefactorllc/handfish.git"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
-    "esbuild": "^0.27.3",
+    "@playwright/test": "^1.60.0",
+    "esbuild": "^0.28.0",
     "serve": "^14.0.0"
   }
 }
